@@ -1,0 +1,155 @@
+﻿* {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    text-decoration: none;
+    font-family: sans-serif;
+    box-sizing: border-box; /*Esto asegura que el relleno y el borde cubra ese 100%*/
+}
+
+.contenedor {
+    position: relative;
+    margin: auto;
+    width: 100%;
+    height: auto;
+}
+
+.fila {
+    position: relative;
+    margin: auto;
+    width: 100%;
+    height: auto;
+    /*Super importante para poder respetar las filas y asi editar los mismos*/
+    clear: both;
+    display: table;
+}
+
+[class*="col-"] {
+    float: left;
+    border: 1px solid black;
+    padding: 20px;
+}
+
+/*=====================================================
+		PANTALLA DE ESCROTORIO GRANDE - LARGE 
+=====================================================*/
+
+@media (min-width: 1200px) {
+    /*12 COLUMNAS*/
+    .col-lg-12 {width: 100%;}
+    /*11 COLUMNAS*/
+    .col-lg-11 {width: 91.66666667%;}
+    /*10 COLUMNAS*/
+    .col-lg-10 {width: 83.33333333%;}
+    /*9 COLUMNAS*/
+    .col-lg-9 {width: 75%;}
+    /*8 COLUMNAS*/
+    .col-lg-8 {width: 66.66666667%;}
+    /*7 COLUMNAS*/
+    .col-lg-7 {width: 58.33333333%;}
+    /*6 COLUMNAS*/
+    .col-lg-6 {width: 50%;}
+    /*5 COLUMNAS*/
+    .col-lg-5 {width: 41.66666667%;}
+    /*4 COLUMNAS*/
+    .col-lg-4 {width: 33.33333333%;}
+    /*3 COLUMNAS*/
+    .col-lg-3 {width: 25%;}
+    /*2 COLUMNAS*/
+    .col-lg-2 {width: 16.66666667%;}
+    /*1 COLUMNAS*/
+    .col-lg-1 {width: 8.33333333%;}
+}
+
+/*=====================================================
+		PANTALLA DE ESCROTORIO MEDIANO - MEDIUM 
+=====================================================*/
+
+@media (max-width: 1199px) and (min-width: 992px) {
+    /*12 COLUMNAS*/
+    .col-md-12 {width: 100%;}
+    /*11 COLUMNAS*/
+    .col-md-11 {width: 91.66666667%;}
+    /*10 COLUMNAS*/
+    .col-md-10 {width: 83.33333333%;}
+    /*9 COLUMNAS*/
+    .col-md-9 {width: 75%;}
+    /*8 COLUMNAS*/
+    .col-md-8 {width: 66.66666667%;}
+    /*7 COLUMNAS*/
+    .col-md-7 {width: 58.33333333%;}
+    /*6 COLUMNAS*/
+    .col-md-6 {width: 50%;}
+    /*5 COLUMNAS*/
+    .col-md-5 {width: 41.66666667%;}
+    /*4 COLUMNAS*/
+    .col-md-4 {width: 33.33333333%;}
+    /*3 COLUMNAS*/
+    .col-md-3 {width: 25%;}
+    /*2 COLUMNAS*/
+    .col-md-2 {width: 16.66666667%;}
+    /*1 COLUMNAS*/
+    .col-md-1 {width: 8.33333333%;}
+}
+
+/*=====================================================
+		PANTALLA DE TABLES - SMALL 
+=====================================================*/
+
+@media (max-width: 991px) and (min-width: 768px) {
+    /*12 COLUMNAS*/
+    .col-sm-12 {width: 100%;}
+    /*11 COLUMNAS*/
+    .col-sm-11 {width: 91.66666667%;}
+    /*10 COLUMNAS*/
+    .col-sm-10 {width: 83.33333333%;}
+    /*9 COLUMNAS*/
+    .col-sm-9 {width: 75%;}
+    /*8 COLUMNAS*/
+    .col-sm-8 {width: 66.66666667%;}
+    /*7 COLUMNAS*/
+    .col-sm-7 {width: 58.33333333%;}
+    /*6 COLUMNAS*/
+    .col-sm-6 {width: 50%;}
+    /*5 COLUMNAS*/
+    .col-sm-5 {width: 41.66666667%;}
+    /*4 COLUMNAS*/
+    .col-sm-4 {width: 33.33333333%;}
+    /*3 COLUMNAS*/
+    .col-sm-3 {width: 25%;}
+    /*2 COLUMNAS*/
+    .col-sm-2 {width: 16.66666667%;}
+    /*1 COLUMNAS*/
+    .col-sm-1 {width: 8.33333333%;}
+}
+
+/*=====================================================
+		PANTALLA DE SMARTPHONES - XS 
+=====================================================*/
+
+@media (max-width: 767px) {
+    /*12 COLUMNAS*/
+    .col-xs-12 {width: 100%;}
+    /*11 COLUMNAS*/
+    .col-xs-11 {width: 91.66666667%;}
+    /*10 COLUMNAS*/
+    .col-xs-10 {width: 83.33333333%;}
+    /*9 COLUMNAS*/
+    .col-xs-9 {width: 75%;}
+    /*8 COLUMNAS*/
+    .col-xs-8 {width: 66.66666667%;}
+    /*7 COLUMNAS*/
+    .col-xs-7 {width: 58.33333333%;}
+    /*6 COLUMNAS*/
+    .col-xs-6 {width: 50%;}
+    /*5 COLUMNAS*/
+    .col-xs-5 {width: 41.66666667%;}
+    /*4 COLUMNAS*/
+    .col-xs-4 {width: 33.33333333%;}
+    /*3 COLUMNAS*/
+    .col-xs-3 {width: 25%;}
+    /*2 COLUMNAS*/
+    .col-xs-2 {width: 16.66666667%;}
+    /*1 COLUMNAS*/
+    .col-xs-1 {width: 8.33333333%;}
+}
