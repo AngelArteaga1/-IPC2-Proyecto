@@ -1,0 +1,56 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="WebApplication1.Login" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="ColumnasBoostrap.css"/>
+    <link rel="stylesheet" href="StyleLogin.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <title></title>
+</head>
+<body>
+    <div class="contenedor">
+        <header class="fila">
+            <div class="col-3 fila">
+                <img src="img/pngwing.com.png" class="col-4"/>
+                <div id="logo" class="col-8">iGameGT</div>
+            </div>
+            <div class="col-9"></div>
+        </header>
+
+        <form id="form1" runat="server">
+        <div class="fila">
+            <div class="col-12"></div>
+        </div>
+        <section class="fila">
+            <div class="col-3"></div>
+            <div class="col-6">
+                <div id="centro">
+                    <p>Registro de Usuario</p>
+                    <asp:Image ID="Image1" runat="server" Height="227px" Width="218px" ImageUrl="img/pngocean.com.png" />
+                    <br />
+                    <asp:Label ID="Label1" runat="server" Text="Ingrese su nombre de Usuario"></asp:Label>
+                    <br />
+                    <asp:TextBox ID="TxtUsuario" runat="server"></asp:TextBox>
+                    <br />
+                    <asp:Label ID="Label2" runat="server" Text="Ingrese su Contraseña"></asp:Label>
+                    <br />
+                    <asp:TextBox ID="TxtPass" runat="server"></asp:TextBox>
+                    <br />
+                </div>
+            </div>
+            <div class="col-3"></div>
+        </section>
+
+            <div>
+            </div>
+        </form>
+
+        <footer>
+        </footer>
+    </div>
+</body>
+</html>

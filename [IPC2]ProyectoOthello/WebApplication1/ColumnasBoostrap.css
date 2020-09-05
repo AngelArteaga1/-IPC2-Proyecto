@@ -1,0 +1,79 @@
+﻿* {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    text-decoration: none;
+    font-family: sans-serif;
+    box-sizing: border-box; /*Esto asegura que el relleno y el borde cubra ese 100%*/
+}
+
+.contenedor {
+    position: relative;
+    margin: 0px;
+    width: 100%;
+    height: auto;
+}
+
+.fila {
+    position: relative;
+    margin: 0px;
+    width: 100%;
+    height: auto;
+    /*Super importante para poder respetar las filas y asi editar los mismos*/
+    clear: both;
+    display: table;
+}
+
+[class*="col-"] {
+    float: left;
+    padding: 10px;
+    border: 1px solid black;
+}
+/*12 COLUMNAS*/
+.col-12 {
+    width: 100%;
+}
+/*11 COLUMNAS*/
+.col-11 {
+    width: 91.66666667%;
+}
+/*10 COLUMNAS*/
+.col-10 {
+    width: 83.33333333%;
+}
+/*9 COLUMNAS*/
+.col-9 {
+    width: 75%;
+}
+/*8 COLUMNAS*/
+.col-8 {
+    width: 66.66666667%;
+}
+/*7 COLUMNAS*/
+.col-7 {
+    width: 58.33333333%;
+}
+/*6 COLUMNAS*/
+.col-6 {
+    width: 50%;
+}
+/*5 COLUMNAS*/
+.col-5 {
+    width: 41.66666667%;
+}
+/*4 COLUMNAS*/
+.col-4 {
+    width: 33.33333333%;
+}
+/*3 COLUMNAS*/
+.col-3 {
+    width: 25%;
+}
+/*2 COLUMNAS*/
+.col-2 {
+    width: 16.66666667%;
+}
+/*1 COLUMNAS*/
+.col-1 {
+    width: 8.33333333%;
+}

@@ -1,0 +1,29 @@
+﻿* {
+    font-family: 'Bungee Shade', cursive;
+}
+header {
+    height: 500px;
+    background: #107E74;
+}
+header img{
+    position:relative;
+    padding: 0px;
+    margin: 0px;
+    height: 150px;
+    width: 150px;
+    line-height:500px;
+}
+#logo {
+    padding: 0px;
+    margin: 0px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 40px;
+    height: 150px;
+    line-height: 150px;
+}
+#centro{
+    text-align: center;
+}
+div div p{
+    font-size: 30px;
+}
