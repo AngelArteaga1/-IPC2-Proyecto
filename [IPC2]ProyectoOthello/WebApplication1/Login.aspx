@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="ColumnasBoostrap.css"/>
-    <link rel="stylesheet" href="StyleLogin.css"/>
+    <link rel="stylesheet" href="css/StyleLogin.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"/>
     <title>Login</title>
 </head>
@@ -37,11 +37,11 @@
                     <br />
                     <asp:Label ID="Label1" runat="server" Text="Ingrese su nombre de Usuario" class="label"></asp:Label>
                     <br />
-                    <asp:TextBox ID="TxtUsuario" runat="server" Class="txtbox"></asp:TextBox>
+                    <asp:TextBox ID="TxtUsuario" runat="server" Class="txtbox" placeHolder="Nombre Usuario"></asp:TextBox>
                     <br />
                     <asp:Label ID="Label2" runat="server" Text="Ingrese su Contraseña" class="label"></asp:Label>
                     <br />
-                    <asp:TextBox ID="TxtPass" runat="server" TextMode="Password" Class="txtbox"></asp:TextBox>
+                    <asp:TextBox ID="TxtPass" runat="server" TextMode="Password" Class="txtbox" placeHolder="Contraseña"></asp:TextBox>
                     <br />
                     <asp:Button ID="btnSesion" runat="server" Text="Iniciar Sesión" OnClick="Button1_Click" class="btn" />
                     <br />
@@ -53,12 +53,10 @@
             <div class="col-3"></div>
         </section>
 
-            <div>
-            </div>
         </form>
 
         <footer class="fila">
-            <div class="col-12"><div id="m1"></div></div>
+            <div class="col-12"><div id="m1">&copy; Todos los derechos reservados.</div></div>
         </footer>
     </div>
 </body>
