@@ -1,0 +1,99 @@
+﻿* {
+    font-family: 'Press Start 2P', cursive;
+}
+
+header {
+    height: 500px;
+    background: #1e5f74;
+    background: red;
+}
+
+#img1 {
+    position: relative;
+    padding: 0px;
+    margin: 0px;
+    height: 100px;
+    width: 100px;
+    line-height: 500px;
+}
+
+#logo {
+    padding: 0px;
+    margin: 0px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 35px;
+    height: 100px;
+    line-height: 100px;
+}
+
+nav {
+    background: #107E74;
+}
+
+#a1 {
+    height: 15px;
+}
+
+#a2 {
+    background: #3B4244;
+}
+
+section {
+    background: #38373E;
+}
+
+#izq {
+    text-align: center;
+    color: #C1C0C4;
+    font-family: 'Grandstander', cursive;
+}
+
+#centro {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    padding-top: 35px;
+    padding-bottom: 35px;
+    text-align: center;
+    background: #1d2d50;
+    border-top-left-radius: 100px;
+    border-bottom-right-radius: 100px;
+    color: #C1C0C4;
+}
+
+div div p {
+    margin-bottom: 10px;
+    font-size: 30px;
+}
+
+#Image1 {
+    margin-bottom: 10px;
+}
+
+.label {
+    font-size: 20px;
+}
+
+.btn {
+    width: 275px;
+    height: 40px;
+    margin-bottom: 10px;
+    background: #fcdab7;
+    color: black;
+    font-weight: bold;
+    border: none;
+    font-size: 15px;
+}
+
+#btnRegistrarse {
+    margin-top: 10px;
+}
+
+footer {
+    background: #107E74;
+}
+
+#m1 {
+    text-align: center;
+    line-height: 50px;
+    height: 50px;
+}

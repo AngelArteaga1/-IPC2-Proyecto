@@ -38,7 +38,7 @@
                     <br />
                     <p id="relleno">Es gratis... como siempre debería de serlo.</p>
                     <br />
-                    <asp:TextBox ID="TxtNombre" runat="server" CssClass="txtnombres" placeHolder="Nombres" OnTextChanged="TxtNombre_TextChanged"></asp:TextBox>
+                    <asp:TextBox ID="TxtNombre" runat="server" CssClass="txtnombres" placeHolder="Nombres"></asp:TextBox>
                     <asp:TextBox ID="TxtApellido" runat="server" CssClass="txtnombres" placeHolder="Apellidos"></asp:TextBox>
                     <br />
                     <asp:TextBox ID="TxtUsuario" runat="server" CssClass="txtbox" placeHolder="Nombre de Usuario"></asp:TextBox>
@@ -89,7 +89,7 @@
                     </asp:DropDownList>
                     <asp:TextBox ID="TxtFecha" runat="server" TextMode="Date" CssClass="pais"></asp:TextBox>
                     <br />
-                    <asp:Button ID="BtnRegistrarse" runat="server" Text="Registrarse" class="btn"/>
+                    <asp:Button ID="BtnRegistrarse" runat="server" Text="Registrarse" class="btn" OnClick="BtnRegistrarse_Click"/>
                 </div>
             </div>
             <div class="col-2"></div>
