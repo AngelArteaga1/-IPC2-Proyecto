@@ -22,7 +22,7 @@
             </div>
             <div class="col-8"></div>
             <div class="col-1">
-                <asp:Label ID="Label1" runat="server" Text="Usuario"></asp:Label>
+                <asp:Label ID="Label1" runat="server" Text="Usuario" CssClass="usuario"></asp:Label>
             </div>
         </header>
 
@@ -54,8 +54,21 @@
                 </div>
             </div>
             <div class="col-7">
-                <div id="centro">
-                    
+                <div id="der">
+                    <h1>Othello</h1>
+                    <br />
+                    <asp:Button ID="BtnJugar" runat="server" Text="JUGAR" />
+                    <asp:Button ID="BtnTorneos" runat="server" Text="TORNEO" />
+                    <br />
+                    <p>Disfruta de nuestros maravillosos modos de juego...</p>
+                    <br />
+                    <div>X</div>
+                    <div>X</div>
+                    <div>X</div>
+                    <br />
+                    <h2>Juega y aprende othello en el sitio web número 1</h2>
+                    <br />
+                    <asp:Button ID="BtnEstadisticas" runat="server" Text="ESTADÍSTICAS" />
                 </div>
             </div>
         </section>

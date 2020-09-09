@@ -48,6 +48,8 @@
                     <asp:Label ID="Label3" runat="server" Text="No eres miembro?"></asp:Label>
                     <br />
                     <asp:Button ID="btnRegistrarse" runat="server" Text="Registrarse" OnClick="Button2_Click" class="btn"/>
+                    <br />
+                    <asp:Label ID="LabelError" runat="server" Text="Label" Visible="False" CssClass="labelE"></asp:Label>
                 </div>
             </div>
             <div class="col-3"></div>

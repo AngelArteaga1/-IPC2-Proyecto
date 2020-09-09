@@ -89,6 +89,8 @@
                     </asp:DropDownList>
                     <asp:TextBox ID="TxtFecha" runat="server" TextMode="Date" CssClass="pais"></asp:TextBox>
                     <br />
+                    <asp:Label ID="LabelError" runat="server" Text="Label" Visible="False" CssClass="labelE"></asp:Label>
+                    <br />
                     <asp:Button ID="BtnRegistrarse" runat="server" Text="Registrarse" class="btn" OnClick="BtnRegistrarse_Click"/>
                 </div>
             </div>

@@ -1,11 +1,10 @@
 ﻿* {
-    font-family: 'Press Start 2P', cursive;
+    font-family: 'Grandstander', cursive;
 }
 
 header {
     height: 500px;
     background: #1e5f74;
-    background: red;
 }
 
 #img1 {
@@ -26,6 +25,11 @@ header {
     line-height: 100px;
 }
 
+#usuario {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 15px;
+}
+
 nav {
     background: #107E74;
 }
@@ -43,9 +47,9 @@ section {
 }
 
 #izq {
-    text-align: center;
     color: #C1C0C4;
-    font-family: 'Grandstander', cursive;
+    text-align: justify;
+    font-size: 2px;
 }
 
 #centro {

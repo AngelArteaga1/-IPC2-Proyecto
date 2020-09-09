@@ -94,6 +94,10 @@ div div h1 {
     width: 200px;
 }
 
+.labelE{
+    color: red;
+}
+
 .btn {
     width: 275px;
     height: 50px;
