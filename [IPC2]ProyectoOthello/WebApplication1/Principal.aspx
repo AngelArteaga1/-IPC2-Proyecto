@@ -20,8 +20,8 @@
                 <img src="img/pngwing.com.png" class="col-4" id="img1"/>
                 <div id="logo" class="col-8">iGameGT</div>
             </div>
-            <div class="col-8"></div>
-            <div class="col-1">
+            <div class="col-7"></div>
+            <div class="col-2">
                 <asp:Label ID="Label1" runat="server" Text="Usuario" CssClass="usuario"></asp:Label>
             </div>
         </header>
@@ -33,7 +33,7 @@
         <section class="fila">
             <div class="col-5">
                 <div id="izq">
-                    <img src="img/Othello.png" id="imagenOthello" align="center"/>
+                    <img src="img/Othello.png" id="imagenOthello"/>
                     <br />
                     <p>El objetivo del juego es tener más fichas del propio color sobre el tablero al final de la partida.</p>
                     <p>
@@ -57,15 +57,27 @@
                 <div id="der">
                     <h1>Othello</h1>
                     <br />
-                    <asp:Button ID="BtnJugar" runat="server" Text="JUGAR" cssClass="btn"/>
+                    <asp:Button ID="BtnJugar" runat="server" Text="JUGAR" cssClass="btn" OnClick="BtnJugar_Click1"/>
                     <asp:Button ID="BtnTorneos" runat="server" Text="TORNEO" cssClass="btn" />
                     <br />
                     <p>Disfruta de nuestros maravillosos modos de juego...</p>
                     <br />
                     <div class="fila">
-                        <div class="col-4">Contra Ordenador<br />X</div>
-                        <div class="col-4">Dos Jugadores<br />X</div>
-                        <div class="col-4">Torneos<br />X</div>
+                        <div class="col-4">
+                            <img src="img/CPU.png" class="icono1"/>
+                            <br />
+                            Contra Ordenador
+                        </div>
+                        <div class="col-4">
+                            <img src="img/DosJugadores.png" class="iconos"/>
+                            <br />
+                            Dos Jugadores
+                        </div>
+                        <div class="col-4">
+                            <img src="img/Torneo.png" class="iconos"/>
+                            <br />
+                            Torneos
+                        </div>
                     </div>
                     <br />
                     <h2>Juega y aprende othello en el sitio web número 1</h2>

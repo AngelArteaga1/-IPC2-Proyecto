@@ -1,0 +1,77 @@
+﻿* {
+    font-family: 'Grandstander', cursive;
+}
+
+header {
+    height: 500px;
+    background: #1e5f74;
+}
+
+#img1 {
+    position: relative;
+    padding: 0px;
+    margin: 0px;
+    height: 100px;
+    width: 100px;
+    line-height: 500px;
+}
+
+#logo {
+    padding: 0px;
+    margin: 0px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 35px;
+    height: 100px;
+    line-height: 100px;
+}
+
+nav {
+    background: #107E74;
+}
+
+#a1 {
+    height: 15px;
+}
+
+#a2 {
+    background: #3B4244;
+}
+
+section {
+    background: #38373E;
+}
+
+#Tablero {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 50px;
+    text-align: center;
+    background: #2b3595;
+    border-radius: 80px;
+}
+
+[class*="btn"] {
+    height: 100px;
+    border: none;
+}
+
+.btn1 {
+    background: #69779b;
+}
+
+.btn2 {
+    background: #9692af;
+}
+
+
+
+
+footer {
+    background: #107E74;
+}
+
+#m1 {
+    text-align: center;
+    line-height: 50px;
+    height: 50px;
+}

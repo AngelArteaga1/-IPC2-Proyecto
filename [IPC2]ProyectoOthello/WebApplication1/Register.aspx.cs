@@ -109,6 +109,7 @@ namespace WebApplication1
                     cmd.ExecuteNonQuery();
                     SqlCon.Close();
                 }
+                Session["Usuario"] = usuario;
                 Response.Redirect("Principal.aspx");
             }
         }

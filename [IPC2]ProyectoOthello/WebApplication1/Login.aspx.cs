@@ -47,6 +47,7 @@ namespace WebApplication1
                     SqlCon.Close();
                     if (leido == true)
                     {
+                        Session["Usuario"] = Usuario;
                         Response.Redirect("Principal.aspx");
                     }
                     else

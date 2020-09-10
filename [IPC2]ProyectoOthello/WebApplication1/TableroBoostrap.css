@@ -1,0 +1,33 @@
+﻿
+/*8 COLUMNAS*/
+.col-8-t {
+    width: 100%;
+}
+/*7 COLUMNAS*/
+.col-7-t {
+    width: 87.5%;
+}
+/*6 COLUMNAS*/
+.col-6-t {
+    width: 75%;
+}
+/*5 COLUMNAS*/
+.col-5-t {
+    width: 62.5%;
+}
+/*4 COLUMNAS*/
+.col-4 {
+    width: 50%;
+}
+/*3 COLUMNAS*/
+.col-3-t {
+    width: 37.5%;
+}
+/*2 COLUMNAS*/
+.col-2-t {
+    width: 25%;
+}
+/*1 COLUMNAS*/
+.col-1-t {
+    width: 12.5%;
+}

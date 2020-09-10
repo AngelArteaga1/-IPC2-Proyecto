@@ -11,7 +11,12 @@ namespace WebApplication1
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            Label1.Text = (String)Session["Usuario"];
+        }
 
+        protected void BtnJugar_Click1(object sender, EventArgs e)
+        {
+            Response.Redirect("Tablero.aspx");
         }
     }
 }
