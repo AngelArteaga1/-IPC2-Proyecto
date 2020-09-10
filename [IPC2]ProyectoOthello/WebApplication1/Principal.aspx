@@ -33,7 +33,7 @@
         <section class="fila">
             <div class="col-5">
                 <div id="izq">
-                    <img src="img/OthelloImg.jpg"/>
+                    <img src="img/Othello.png" id="imagenOthello" align="center"/>
                     <br />
                     <p>El objetivo del juego es tener más fichas del propio color sobre el tablero al final de la partida.</p>
                     <p>
@@ -57,18 +57,20 @@
                 <div id="der">
                     <h1>Othello</h1>
                     <br />
-                    <asp:Button ID="BtnJugar" runat="server" Text="JUGAR" />
-                    <asp:Button ID="BtnTorneos" runat="server" Text="TORNEO" />
+                    <asp:Button ID="BtnJugar" runat="server" Text="JUGAR" cssClass="btn"/>
+                    <asp:Button ID="BtnTorneos" runat="server" Text="TORNEO" cssClass="btn" />
                     <br />
                     <p>Disfruta de nuestros maravillosos modos de juego...</p>
                     <br />
-                    <div>X</div>
-                    <div>X</div>
-                    <div>X</div>
+                    <div class="fila">
+                        <div class="col-4">Contra Ordenador<br />X</div>
+                        <div class="col-4">Dos Jugadores<br />X</div>
+                        <div class="col-4">Torneos<br />X</div>
+                    </div>
                     <br />
                     <h2>Juega y aprende othello en el sitio web número 1</h2>
                     <br />
-                    <asp:Button ID="BtnEstadisticas" runat="server" Text="ESTADÍSTICAS" />
+                    <asp:Button ID="BtnEstadisticas" runat="server" Text="CARGAR PARTIDA" CssClass="btn est"/>
                 </div>
             </div>
         </section>

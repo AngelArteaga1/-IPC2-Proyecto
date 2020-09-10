@@ -25,7 +25,7 @@ header {
     line-height: 100px;
 }
 
-#usuario {
+.usuario {
     font-family: 'Press Start 2P', cursive;
     font-size: 15px;
 }
@@ -49,10 +49,18 @@ section {
 #izq {
     color: #C1C0C4;
     text-align: justify;
-    font-size: 2px;
+    font-size: 15px;
+    padding-left: 35px;
+    padding-right:35px;
 }
 
-#centro {
+#imagenOthello{
+    width: 60%;
+    display:block;
+    margin: auto;
+}
+
+#der {
     margin-top: 40px;
     margin-bottom: 40px;
     padding-top: 35px;
@@ -64,23 +72,16 @@ section {
     color: #C1C0C4;
 }
 
-div div p {
-    margin-bottom: 10px;
-    font-size: 30px;
-}
-
-#Image1 {
-    margin-bottom: 10px;
-}
-
-.label {
-    font-size: 20px;
+div div h1 {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 55px;
 }
 
 .btn {
-    width: 275px;
-    height: 40px;
+    width: 375px;
+    height: 60px;
     margin-bottom: 10px;
+    margin-right: 30px;
     background: #fcdab7;
     color: black;
     font-weight: bold;
@@ -88,8 +89,8 @@ div div p {
     font-size: 15px;
 }
 
-#btnRegistrarse {
-    margin-top: 10px;
+.est{
+    margin-top: 100px;
 }
 
 footer {
