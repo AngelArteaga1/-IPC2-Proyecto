@@ -82,7 +82,11 @@
                     <br />
                     <h2>Juega y aprende othello en el sitio web número 1</h2>
                     <br />
-                    <asp:Button ID="BtnEstadisticas" runat="server" Text="CARGAR PARTIDA" CssClass="btn est"/>
+                    <asp:Button ID="BtnEstadisticas" runat="server" Text="CARGAR PARTIDA" CssClass="btn est" OnClick="BtnEstadisticas_Click"/>
+                    <br />
+                    <asp:Label ID="LblError" runat="server" Text="No ha seleccionado ningun archivo" CssClass="error" Visible="False"></asp:Label>
+                    <br />
+                    <asp:FileUpload ID="FileUpload1" runat="server" cssClass="file"/>
                 </div>
             </div>
         </section>
