@@ -32,15 +32,18 @@ namespace WebApplication1
             //Boolean[,] Tablero = new Boolean[8, 8];
             String position = columna + fila;
             ImageButton Casilla = FindControl(position) as ImageButton;
-            if (color == "blanco")
+            if(Casilla.Enabled == true)
             {
-                Casilla.ImageUrl = "img/FichaB.png";
-                Casilla.Enabled = false;
-            }
-            if (color == "negro")
-            {
-                Casilla.ImageUrl = "img/FichaN.png";
-                Casilla.Enabled = false;
+                if (color == "blanco")
+                {
+                    Casilla.ImageUrl = "img/FichaB.png";
+                    Casilla.Enabled = false;
+                }
+                if (color == "negro")
+                {
+                    Casilla.ImageUrl = "img/FichaN.png";
+                    Casilla.Enabled = false;
+                }
             }
             //Tablero[FILA, COLUMNA] = COLOR;
         }
