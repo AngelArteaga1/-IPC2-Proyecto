@@ -39,46 +39,6 @@
 		<columna>H</columna>
 		<fila>1</fila>
 	</ficha>
-	<ficha>
-		<color>blanco</color>
-		<columna>A</columna>
-		<fila>1</fila>
-	</ficha>
-	<ficha>
-		<color>blanco</color>
-		<columna>B</columna>
-		<fila>1</fila>
-	</ficha>
-	<ficha>
-		<color>blanco</color>
-		<columna>C</columna>
-		<fila>1</fila>
-	</ficha>
-	<ficha>
-		<color>blanco</color>
-		<columna>D</columna>
-		<fila>1</fila>
-	</ficha>
-	<ficha>
-		<color>blanco</color>
-		<columna>E</columna>
-		<fila>1</fila>
-	</ficha>
-	<ficha>
-		<color>blanco</color>
-		<columna>F</columna>
-		<fila>1</fila>
-	</ficha>
-	<ficha>
-		<color>blanco</color>
-		<columna>G</columna>
-		<fila>1</fila>
-	</ficha>
-	<ficha>
-		<color>blanco</color>
-		<columna>H</columna>
-		<fila>1</fila>
-	</ficha>
 	<siguienteTiro>
 		<color>negro</color>
 	</siguienteTiro>
