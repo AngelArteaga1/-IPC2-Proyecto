@@ -26,12 +26,23 @@
                 <div class="fila col-12" id="down">
                     <div class="col-12"><h1>Partida</h1></div>
                     <p class="col-12" id="turno">TURNO:</p>
-                    <asp:Label ID="LblTurno" runat="server" Text="LABEL" CssClass="col-12 jugador"></asp:Label>
-                    <div id="relleno" class="col-12"></div>
+                    <asp:Label ID="LblTurno" runat="server" Text="JUGADOR1" CssClass="col-12 jugador"></asp:Label>
+                    <p class="col-12" id="espera">ESPERA:</p>
+                    <asp:Label ID="LblEspera" runat="server" Text="JUGADOR2" CssClass="col-12 jugador2"></asp:Label>
+                    <div id="relleno" class="col-12">
+                        <asp:Label ID="LblMov1" runat="server" Text="MOVIMIENTOS DE JUGADOR1: 0" class="movimientos"></asp:Label>
+                        <br />
+                        <br />
+                        <asp:Label ID="LblMov2" runat="server" Text="MOVIMIENTOS DE JUGADOR2: 0" class="movimientos"></asp:Label>
+                        <br />
+                        <asp:Image ID="ImgSad" runat="server" ImageUrl="img/sad.png" cssClass="sadimg" Visible="False"/>
+                        <br />
+                        <asp:Label ID="LblInv1" runat="server" Text="!TIRO INVALIDO!" CssClass="tiroinvalido" Visible="False"></asp:Label>
+                        <br />
+                        <asp:Label ID="LblInv2" runat="server" Text="PORFAVOR REPITA SU JUGADA" CssClass="tiroinvalido" Visible="False"></asp:Label>
+                    </div>
                     <asp:Label ID="LblSucc" runat="server" Text="¡La partida ha sido guardada exitosamente!" CssClass="Succ" Visible="False" class="col-12 Succ"></asp:Label>
-                    <br />
                     <asp:Button ID="Button1" runat="server" Text="GUARDAR PARTIDA" CssClass="botones" OnClick="Button1_Click" class="col-12"/>
-                    <br />
                     <asp:Button ID="Button2" runat="server" Text="ABANDONAR PARTIDA" CssClass="botones" OnClick="Button2_Click" class="col-12"/>
                 </div>
             </div>

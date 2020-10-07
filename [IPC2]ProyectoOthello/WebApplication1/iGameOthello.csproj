@@ -212,6 +212,7 @@
     <Compile Include="ModoDeJuego.aspx.designer.cs">
       <DependentUpon>ModoDeJuego.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Nodo.cs" />
     <Compile Include="Principal.aspx.cs">
       <DependentUpon>Principal.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -241,6 +242,7 @@
     <Compile Include="Site.Mobile.Master.designer.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
+    <Compile Include="Stack.cs" />
     <Compile Include="Tablero.aspx.cs">
       <DependentUpon>Tablero.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

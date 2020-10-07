@@ -2,6 +2,16 @@
 <tablero>
   <ficha>
     <color>blanco</color>
+    <columna>A</columna>
+    <fila>1</fila>
+  </ficha>
+  <ficha>
+    <color>negro</color>
+    <columna>H</columna>
+    <fila>1</fila>
+  </ficha>
+  <ficha>
+    <color>blanco</color>
     <columna>D</columna>
     <fila>4</fila>
   </ficha>
@@ -19,8 +29,23 @@
     <color>blanco</color>
     <columna>E</columna>
     <fila>5</fila>
+  </ficha>
+  <ficha>
+    <color>blanco</color>
+    <columna>A</columna>
+    <fila>8</fila>
+  </ficha>
+  <ficha>
+    <color>blanco</color>
+    <columna>E</columna>
+    <fila>8</fila>
+  </ficha>
+  <ficha>
+    <color>negro</color>
+    <columna>H</columna>
+    <fila>8</fila>
   </ficha>
   <siguienteTiro>
-    <color>blanco</color>
+    <color>negro</color>
   </siguienteTiro>
 </tablero>

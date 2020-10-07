@@ -24,6 +24,12 @@ header {
     line-height: 100px;
 }
 
+.return {
+    height: 100px;
+    width: 100px;
+    background: #fcdab7;
+}
+
 nav {
     background: #107E74;
 }
@@ -71,6 +77,13 @@ section {
 .icono1 {
     width: 80px;
     height: 80px;
+}
+
+.blancas{
+    margin-top: 20px;
+    height: 35px;
+    width: 390px;
+    text-align: center;
 }
 
 .invitado {

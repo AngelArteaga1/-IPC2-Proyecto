@@ -2,40 +2,55 @@
 <tablero>
   <ficha>
     <color>negro</color>
-    <columna>C</columna>
-    <fila>4</fila>
-  </ficha>
-  <ficha>
-    <color>blanco</color>
-    <columna>D</columna>
-    <fila>4</fila>
+    <columna>A</columna>
+    <fila>1</fila>
   </ficha>
   <ficha>
     <color>negro</color>
-    <columna>E</columna>
-    <fila>4</fila>
+    <columna>F</columna>
+    <fila>1</fila>
   </ficha>
   <ficha>
     <color>blanco</color>
     <columna>B</columna>
-    <fila>5</fila>
+    <fila>2</fila>
   </ficha>
   <ficha>
     <color>negro</color>
     <columna>D</columna>
-    <fila>5</fila>
+    <fila>3</fila>
+  </ficha>
+  <ficha>
+    <color>negro</color>
+    <columna>B</columna>
+    <fila>4</fila>
+  </ficha>
+  <ficha>
+    <color>blanco</color>
+    <columna>F</columna>
+    <fila>4</fila>
+  </ficha>
+  <ficha>
+    <color>blanco</color>
+    <columna>H</columna>
+    <fila>4</fila>
+  </ficha>
+  <ficha>
+    <color>negro</color>
+    <columna>H</columna>
+    <fila>6</fila>
+  </ficha>
+  <ficha>
+    <color>negro</color>
+    <columna>D</columna>
+    <fila>8</fila>
   </ficha>
   <ficha>
     <color>blanco</color>
     <columna>E</columna>
-    <fila>5</fila>
-  </ficha>
-  <ficha>
-    <color>blanco</color>
-    <columna>D</columna>
-    <fila>6</fila>
+    <fila>8</fila>
   </ficha>
   <siguienteTiro>
-    <color>negro</color>
+    <color>blanco</color>
   </siguienteTiro>
 </tablero>

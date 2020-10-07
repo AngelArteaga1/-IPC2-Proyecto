@@ -13,16 +13,17 @@
 </head>
 <body>
     <div class="contenedor">
-
+        <form id="form1" runat="server">
         <header class="fila">
             <div class="col-3 fila">
                 <img src="img/pngwing.com.png" class="col-4" id="img1"/>
                 <div id="logo" class="col-8">iGameGT</div>
             </div>
-            <div class="col-9"></div>
+            <div class="col-8"></div>
+            <div class="col-1">
+                <asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="img/return.png" Cssclass="return" OnClick="ImageButton1_Click"/>
+            </div>
         </header>
-
-        <form id="form1" runat="server">
 
         <nav class="fila">
             <div class="col-12"><div id="a1"></div></div>
@@ -46,6 +47,14 @@
                         <asp:ListItem class="col-6" Selected>Partida Individual</asp:ListItem>
                         <asp:ListItem class="col-6">Partida VS un Jugador</asp:ListItem>
                     </asp:RadioButtonList>
+                    <div class="col-12 select">
+                        <p>Jugador que llevará fichas blancas:</p>
+                        <asp:DropDownList ID="DropDownList1" runat="server" CssClass="blancas">
+                            <asp:ListItem>Aleatorio</asp:ListItem>
+                            <asp:ListItem>Usuario</asp:ListItem>
+                            <asp:ListItem>Invitado/Máquina</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
                     <div class="col-12">
                         <div class="invitado">
                             <asp:Label ID="LblInvitado" runat="server" Text="Invitado: " Visible="false"></asp:Label>

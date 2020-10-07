@@ -10,42 +10,132 @@ namespace WebApplication1
 {
     public partial class Tablero : System.Web.UI.Page
     {
-
-        public void ColocarFicha(ImageButton Casilla)
+        protected void Page_Load(object sender, EventArgs e)
         {
-            Boolean turno = (Boolean)Application["Turno"];
-            if (turno == true)
+            LblSucc.Visible = false;
+            if (!IsPostBack)
             {
-                Casilla.ImageUrl = "img/FichaB.png";
-                Casilla.Enabled = false;
-                Application["Turno"] = false;
-            }
-            if(turno == false)
-            {
-                Casilla.ImageUrl = "img/FichaN.png";
-                Casilla.Enabled = false;
-                Application["Turno"] = true;
+                Boolean[,] Tablero = new Boolean[10,10];
+                Boolean Cargada = (Boolean)Session["Cargada"];
+                if (Cargada == false)
+                {
+                    Boolean turno = true;
+                    Application["Turno"] = turno;
+                    if ((Boolean)Application["Turno"] == true)
+                    {
+                        LblTurno.Text = (string)Session["Blancas"];
+                        LblEspera.Text = (string)Session["Negras"];
+                    }
+                    else if ((Boolean)Application["Turno"] == false)
+                    {
+                        LblTurno.Text = (string)Session["Negras"];
+                        LblEspera.Text = (string)Session["Blancas"];
+                    }
+                    D4.ImageUrl = "img/FichaB.png";
+                    D4.Enabled = false;
+                    Tablero[3, 3] = true;
+                    E4.ImageUrl = "img/FichaN.png";
+                    E4.Enabled = false;
+                    Tablero[3, 4] = false;
+                    D5.ImageUrl = "img/FichaN.png";
+                    D5.Enabled = false;
+                    Tablero[4, 3] = false;
+                    E5.ImageUrl = "img/FichaB.png";
+                    E5.Enabled = false;
+                    Tablero[4, 4] = true;
+                    Session["Tablero"] = Tablero;
+                }
+                if (Cargada == true)
+                {
+                    int nFicha = 0;
+                    String color ="";
+                    String columna = "";
+                    String fila = "";
+                    string ruta = @"C:\Users\admin\Documents\GitHub\-IPC2-Proyecto\[IPC2]ProyectoOthello\WebApplication1\FolderXML\" + (String)Session["Archivo"];
+                    XmlReader reader = XmlReader.Create(ruta);
+                    while (reader.Read())
+                    {
+                        if (reader.IsStartElement())
+                        {
+                            switch (reader.Name.ToString())
+                            {
+                                case "ficha":
+                                    if(nFicha != 0)
+                                    {
+                                        ColocarPartida(color, columna, fila);
+                                    }
+                                    nFicha++;
+                                    break;
+                                case "color":
+                                    color = reader.ReadString();
+                                    break;
+                                case "columna":
+                                    columna = reader.ReadString();
+                                    break;
+                                case "fila":
+                                    fila = reader.ReadString();
+                                    break;
+                                case "siguienteTiro":
+                                    if (reader.ReadString() == "blanco")
+                                    {
+                                        Application["Turno"] = true;
+                                    }
+                                    if (reader.ReadString() == "negro")
+                                    {
+                                        Application["Turno"] = false;
+                                    }
+                                    break;
+                            }
+                        }
+                    }
+                    ColocarPartida(color, columna, fila);
+                    if (Application["Turno"] == null)
+                    {
+                        Application["Turno"] = true;
+                    }
+                    reader.Close();
+                    if ((Boolean)Application["Turno"] == true)
+                    {
+                        LblTurno.Text = (string)Session["Blancas"];
+                        LblEspera.Text = (string)Session["Negras"];
+                    }
+                    else if((Boolean)Application["Turno"] == false)
+                    {
+                        LblTurno.Text = (string)Session["Negras"];
+                        LblEspera.Text = (string)Session["Blancas"];
+                    }
+                }
+                LblMov1.Text = "MOVIMIENTOS DE " + (string)Session["Blancas"] + ": 0";
+                LblMov2.Text = "MOVIMIENTOS DE " + (string)Session["Negras"] + ": 0";
             }
         }
+
         public void ColocarPartida(String color, String columna, String fila)
         {
-            //Boolean[,] Tablero = new Boolean[8, 8];
+            Boolean[,] Tablero = (Boolean[,])Session["Tablero"];
             String position = columna + fila;
-            ImageButton Casilla = FindControl(position) as ImageButton;
-            if(Casilla.Enabled == true)
+            ImageButton Casilla = null;
+            try
             {
-                if (color == "blanco")
+                Casilla = FindControl(position) as ImageButton;
+            }
+            catch { }
+            if (Casilla != null)
+            {
+                if (Casilla.Enabled == true)
                 {
-                    Casilla.ImageUrl = "img/FichaB.png";
-                    Casilla.Enabled = false;
-                }
-                if (color == "negro")
-                {
-                    Casilla.ImageUrl = "img/FichaN.png";
-                    Casilla.Enabled = false;
+                    if (color == "blanco")
+                    {
+                        Casilla.ImageUrl = "img/FichaB.png";
+                        Casilla.Enabled = false;
+                    }
+                    if (color == "negro")
+                    {
+                        Casilla.ImageUrl = "img/FichaN.png";
+                        Casilla.Enabled = false;
+                    }
                 }
             }
-            //Tablero[FILA, COLUMNA] = COLOR;
         }
 
         public void GuardarPartida()
@@ -61,10 +151,10 @@ namespace WebApplication1
             XmlWriter writer = XmlWriter.Create(Ruta, Confi);
             writer.WriteStartDocument();
             writer.WriteStartElement("tablero");
-            for (int i = 1; i<= 8; i++)
+            for (int i = 1; i <= 8; i++)
             {
                 fila = i.ToString();
-                for(int j = 1; j<=8; j++)
+                for (int j = 1; j <= 8; j++)
                 {
                     if (j == 1)
                         columna = "A";
@@ -120,77 +210,216 @@ namespace WebApplication1
             writer.Close();
         }
 
-        protected void Page_Load(object sender, EventArgs e)
+        public int EncontrarColumna(String StrCasilla)
         {
-            LblSucc.Visible = false;
-            if (!IsPostBack)
+            int Columna = -1;
+            string columna = StrCasilla.Substring(0,1);
+            if (columna == "A")
             {
-                Boolean[,] Tablero = new Boolean[8,8];
-                Boolean Cargada = (Boolean)Session["Cargada"];
-                if (Cargada == false)
+                Columna = 0;
+            }
+            else if (columna == "B")
+            {
+                Columna = 1;
+            }
+            else if (columna == "C")
+            {
+                Columna = 2;
+            }
+            else if (columna == "D")
+            {
+                Columna = 3;
+            }
+            else if (columna == "E")
+            {
+                Columna = 4;
+            }
+            else if (columna == "F")
+            {
+                Columna = 5;
+            }
+            else if (columna == "G")
+            {
+                Columna = 6;
+            }
+            else if (columna == "H")
+            {
+                Columna = 7;
+            }
+            return Columna;
+        }
+
+        public int EncontrarFila(String StrCasilla)
+        {
+            string fila = StrCasilla.Substring(1,1);
+            return int.Parse(fila) - 1;
+        }
+
+        public string ConvertirColumna(int columna)
+        {
+            String Columna = "";
+            if (columna == 0)
+            {
+                Columna = "A";
+            }
+            if (columna == 1)
+            {
+                Columna = "B";
+            }
+            if (columna == 2)
+            {
+                Columna = "C";
+            }
+            if (columna == 3)
+            {
+                Columna = "D";
+            }
+            if (columna == 4)
+            {
+                Columna = "E";
+            }
+            if (columna == 5)
+            {
+                Columna = "F";
+            }
+            if (columna == 6)
+            {
+                Columna = "G";
+            }
+            if (columna == 7)
+            {
+                Columna = "H";
+            }
+            return Columna;
+        }
+
+        public Boolean Vertical_Arriba(int Fila, int Columna)
+        {
+            Boolean[,] Tablero = (Boolean[,])Session["Tablero"];
+            Boolean Turno = (Boolean)Application["Turno"];
+            Boolean Encontrado = false;
+            Boolean Error = false;
+            int Contador = 0;
+            Stack pila = new Stack();
+            Stack pilaM = new Stack();
+            for (int i = Fila + 1; i < 8; i++)
+            {
+                if (Encontrado == false && Error == false)
                 {
-                    Boolean turno = true;
-                    Application["Turno"] = turno;
-                    D4.ImageUrl = "img/FichaB.png";
-                    D4.Enabled = false;
-                    E4.ImageUrl = "img/FichaN.png";
-                    E4.Enabled = false;
-                    D5.ImageUrl = "img/FichaN.png";
-                    D5.Enabled = false;
-                    E5.ImageUrl = "img/FichaB.png";
-                    E5.Enabled = false;
-                }
-                if (Cargada == true)
-                {
-                    int nFicha = 0;
-                    String color ="";
-                    String columna = "";
-                    String fila = "";
-                    string ruta = @"C:\Users\admin\Documents\GitHub\-IPC2-Proyecto\[IPC2]ProyectoOthello\WebApplication1\FolderXML\" + (String)Session["Archivo"];
-                    XmlReader reader = XmlReader.Create(ruta);
-                    while (reader.Read())
+                    if (Tablero[i, Columna] != Turno) //Es diferente
                     {
-                        if (reader.IsStartElement())
-                        {
-                            switch (reader.Name.ToString())
-                            {
-                                case "ficha":
-                                    if(nFicha != 0)
-                                    {
-                                        ColocarPartida(color, columna, fila);
-                                    }
-                                    nFicha++;
-                                    break;
-                                case "color":
-                                    color = reader.ReadString();
-                                    break;
-                                case "columna":
-                                    columna = reader.ReadString();
-                                    break;
-                                case "fila":
-                                    fila = reader.ReadString();
-                                    break;
-                                case "siguienteTiro":
-                                    if (reader.ReadString() == "blanco")
-                                    {
-                                        Application["Turno"] = true;
-                                    }
-                                    if (reader.ReadString() == "negro")
-                                    {
-                                        Application["Turno"] = false;
-                                    }
-                                    break;
-                            }
-                        }
+                        string col = ConvertirColumna(Columna);
+                        string fil = i.ToString();
+                        string StrCasilla = col + fil;
+                        string Position = (i+1).ToString() + Columna.ToString();
+                        pilaM.Push(Position);
+                        pila.Push(StrCasilla);
+                        Session["ContadorPila"] = (int)Session["ContadorPila"] + 1;
+                        Contador++;
                     }
-                    ColocarPartida(color, columna, fila);
-                    if (Application["Turno"] == null)
+                    if (Tablero[i, Columna] == Turno)
                     {
-                        Application["Turno"] = true;
+                        Encontrado = true;
                     }
-                    reader.Close();
+                    if (Tablero[i, Columna] == null)
+                    {
+                        Error = true;
+                    }
                 }
             }
+            if (Contador == 0)
+            {
+                Encontrado = false;
+            }
+            if (Encontrado == true)
+            {
+                for (int i = 1; i <= (int)Session["ContadorPila"]; i++)
+                {
+                    string position = pilaM.Pop();
+                    int fil = int.Parse(position.Substring(0,1));
+                    int col = int.Parse(position.Substring(1,1));
+                    Tablero[fil, col] = Turno;
+                }
+            }
+            Session["Pila"] = pila;
+            return Encontrado;
+        }
+
+        public void ColocarFicha(ImageButton Casilla)
+        {
+            Boolean[,] Tablero = (Boolean[,])Session["Tablero"];
+            string StrCasilla = Casilla.ID;
+            int Fila = EncontrarFila(StrCasilla);
+            int Columna = EncontrarColumna(StrCasilla);
+            Session["ContadorPila"] = 0;
+            Boolean VerticalArriba = Vertical_Arriba(Fila, Columna);
+            Boolean Turno = (Boolean)Application["Turno"];
+
+            if (VerticalArriba == true)
+            {
+                Stack pila = (Stack)Session["Pila"];
+                for (int i = 1; i <= (int)Session["ContadorPila"]; i++)
+                {
+                    string position = pila.Pop();
+                    ImageButton Casillas = FindControl(position) as ImageButton;
+                    if (Turno == true)
+                    {
+                        Casillas.ImageUrl = "img/FichaB.png";
+                    }
+                    else
+                    {
+                        Casillas.ImageUrl = "img/FichaB.png";
+                    }
+                }
+            }
+
+
+            if (VerticalArriba == true)
+            {
+                if (Turno == true)
+                {
+                    Casilla.ImageUrl = "img/FichaB.png";
+                    int fil = EncontrarFila(Casilla.ID);
+                    int col = EncontrarColumna(Casilla.ID);
+                    Tablero[fil, col] = Turno;
+                    LblInv1.Visible = false;
+                    LblInv2.Visible = false;
+                    ImgSad.Visible = false;
+                    Application["Turno"] = false;
+                }
+                else
+                {
+                    Casilla.ImageUrl = "img/FichaN.png";
+                    int fil = EncontrarFila(Casilla.ID);
+                    int col = EncontrarColumna(Casilla.ID);
+                    Tablero[fil, col] = Turno;
+                    LblInv1.Visible = false;
+                    LblInv2.Visible = false;
+                    ImgSad.Visible = false;
+                    Application["Turno"] = true;
+                }
+            }
+            else
+            {
+                LblInv1.Visible = true;
+                LblInv2.Visible = true;
+                ImgSad.Visible = true;
+            }
+            /*
+            Boolean turno = (Boolean)Application["Turno"];
+            if (turno == true)
+            {
+                Casilla.ImageUrl = "img/FichaB.png";
+                Casilla.Enabled = false;
+                Application["Turno"] = false;
+            }
+            if (turno == false)
+            {
+                Casilla.ImageUrl = "img/FichaN.png";
+                Casilla.Enabled = false;
+                Application["Turno"] = true;
+            }
+            */
         }
 
         protected void A1_Click(object sender, ImageClickEventArgs e){  ColocarFicha(A1);   }
