@@ -302,7 +302,7 @@ namespace WebApplication1
             int Contador = 0;
             Stack pila = new Stack();
             Stack pilaM = new Stack();
-            for (int i = Fila + 1; i < 8; i++)
+            for (int i = Fila + 1; i >= 0; i--)
             {
                 if (Encontrado == false && Error == false)
                 {
