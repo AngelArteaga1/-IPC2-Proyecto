@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
+using System.Globalization;
+using System.Threading;
 
 namespace WebApplication1
 {
@@ -15,7 +17,12 @@ namespace WebApplication1
             LblSucc.Visible = false;
             if (!IsPostBack)
             {
-                Boolean[,] Tablero = new Boolean[10,10];
+                int ContadorBlancas = 0;
+                int ContadorNegras = 0;
+                Session["ContadorBlancas"] = ContadorBlancas;
+                Session["ContadorNegras"] = ContadorNegras;
+                int[,] Tablero = new int[8,8];
+                //ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + Tablero[5, 5].ToString() + "');", true);
                 Boolean Cargada = (Boolean)Session["Cargada"];
                 if (Cargada == false)
                 {
@@ -33,20 +40,21 @@ namespace WebApplication1
                     }
                     D4.ImageUrl = "img/FichaB.png";
                     D4.Enabled = false;
-                    Tablero[3, 3] = true;
+                    Tablero[3, 3] = 1;
                     E4.ImageUrl = "img/FichaN.png";
                     E4.Enabled = false;
-                    Tablero[3, 4] = false;
+                    Tablero[3, 4] = 2;
                     D5.ImageUrl = "img/FichaN.png";
                     D5.Enabled = false;
-                    Tablero[4, 3] = false;
+                    Tablero[4, 3] = 2;
                     E5.ImageUrl = "img/FichaB.png";
                     E5.Enabled = false;
-                    Tablero[4, 4] = true;
+                    Tablero[4, 4] = 1;
                     Session["Tablero"] = Tablero;
                 }
                 if (Cargada == true)
                 {
+                    Session["Tablero"] = Tablero;
                     int nFicha = 0;
                     String color ="";
                     String columna = "";
@@ -105,15 +113,17 @@ namespace WebApplication1
                         LblEspera.Text = (string)Session["Blancas"];
                     }
                 }
-                LblMov1.Text = "MOVIMIENTOS DE " + (string)Session["Blancas"] + ": 0";
-                LblMov2.Text = "MOVIMIENTOS DE " + (string)Session["Negras"] + ": 0";
+                LblMov1.Text = "MOVIMIENTOS DE " + (string)Session["Blancas"] + ": " + (int)Session["ContadorBlancas"];
+                LblMov2.Text = "MOVIMIENTOS DE " + (string)Session["Negras"] + ": " + (int)Session["ContadorNegras"];
             }
         }
 
         public void ColocarPartida(String color, String columna, String fila)
         {
-            Boolean[,] Tablero = (Boolean[,])Session["Tablero"];
+            int[,] Tablero = (int[,])Session["Tablero"];
             String position = columna + fila;
+            int col = EncontrarColumna(position);
+            int fil = EncontrarFila(position);
             ImageButton Casilla = null;
             try
             {
@@ -126,16 +136,19 @@ namespace WebApplication1
                 {
                     if (color == "blanco")
                     {
+                        Tablero[fil, col] = 1;
                         Casilla.ImageUrl = "img/FichaB.png";
                         Casilla.Enabled = false;
                     }
                     if (color == "negro")
                     {
+                        Tablero[fil, col] = 2;
                         Casilla.ImageUrl = "img/FichaN.png";
                         Casilla.Enabled = false;
                     }
                 }
             }
+            Session["Tablero"] = Tablero;
         }
 
         public void GuardarPartida()
@@ -293,37 +306,123 @@ namespace WebApplication1
             return Columna;
         }
 
-        public Boolean Vertical_Arriba(int Fila, int Columna)
+        //****************************************************************************************************************************
+        //****************************************************************************************************************************
+        //****************************************************************************************************************************
+        public Boolean Vertical_Arriba(int Fila, int Columna, Boolean Verificar)
         {
-            Boolean[,] Tablero = (Boolean[,])Session["Tablero"];
+            int[,] Tablero = (int[,])Session["Tablero"];
             Boolean Turno = (Boolean)Application["Turno"];
             Boolean Encontrado = false;
             Boolean Error = false;
             int Contador = 0;
             Stack pila = new Stack();
             Stack pilaM = new Stack();
-            for (int i = Fila + 1; i >= 0; i--)
+            int id = 10;
+            if (Turno == true)
+            {
+                id = 1;
+            }
+            else if (Turno == false)
+            {
+                id = 2;
+            }
+
+            for (int i = Fila - 1; i >= 0; i--)
             {
                 if (Encontrado == false && Error == false)
                 {
-                    if (Tablero[i, Columna] != Turno) //Es diferente
+                    if (Tablero[i, Columna] == 0)
+                    {
+                        Error = true;
+                    }
+                    else if (id == 1 && Tablero[i, Columna] == 2 || id == 2 && Tablero[i, Columna] == 1) //Es diferente
                     {
                         string col = ConvertirColumna(Columna);
-                        string fil = i.ToString();
+                        string fil = (i+1).ToString();
                         string StrCasilla = col + fil;
-                        string Position = (i+1).ToString() + Columna.ToString();
+                        string Position = (i).ToString() + Columna.ToString();
+
                         pilaM.Push(Position);
                         pila.Push(StrCasilla);
                         Session["ContadorPila"] = (int)Session["ContadorPila"] + 1;
                         Contador++;
                     }
-                    if (Tablero[i, Columna] == Turno)
+                    else if (Tablero[i, Columna] == id)
                     {
                         Encontrado = true;
                     }
-                    if (Tablero[i, Columna] == null)
+                }
+            }
+
+            if (Contador == 0)
+            {
+                Encontrado = false;
+            }
+
+            if (Encontrado == true && Verificar == true)
+            {
+                for (int i = 1; i <= (int)Session["ContadorPila"]; i++)
+                {
+                    string position = pilaM.Pop();
+                    int fil = int.Parse(position.Substring(0,1));
+                    int col = int.Parse(position.Substring(1,1));
+                    Tablero[fil, col] = id;
+                }
+            }
+            Session["Pila"] = pila;
+            return Encontrado;
+        }
+        //****************************************************************************************************************************
+        //****************************************************************************************************************************
+        //****************************************************************************************************************************
+
+
+        //****************************************************************************************************************************
+        //****************************************************************************************************************************
+        //****************************************************************************************************************************
+        public Boolean Vertical_Abajo(int Fila, int Columna, Boolean Verificar)
+        {
+            int[,] Tablero = (int[,])Session["Tablero"];
+            Boolean Turno = (Boolean)Application["Turno"];
+            Boolean Encontrado = false;
+            Boolean Error = false;
+            int Contador = 0;
+            Stack pila = new Stack();
+            Stack pilaM = new Stack();
+            int id = 0;
+            if (Turno == true)
+            {
+                id = 1;
+            }
+            else if (Turno == false)
+            {
+                id = 2;
+            }
+
+            for (int i = Fila + 1; i < Tablero.GetLength(0); i++)
+            {
+                if (Encontrado == false && Error == false)
+                {
+                    if (Tablero[i, Columna] == 0)
                     {
                         Error = true;
+                    }
+                    else if (id == 1 && Tablero[i, Columna] == 2 || id == 2 && Tablero[i, Columna] == 1) //Es diferente
+                    {
+                        string col = ConvertirColumna(Columna);
+                        string fil = (i + 1).ToString();
+                        string StrCasilla = col + fil;
+                        string Position = (i).ToString() + Columna.ToString();
+
+                        pilaM.Push(Position);
+                        pila.Push(StrCasilla);
+                        Session["ContadorPila"] = (int)Session["ContadorPila"] + 1;
+                        Contador++;
+                    }
+                    else if (Tablero[i, Columna] == id)
+                    {
+                        Encontrado = true;
                     }
                 }
             }
@@ -331,31 +430,463 @@ namespace WebApplication1
             {
                 Encontrado = false;
             }
-            if (Encontrado == true)
+
+            if (Encontrado == true && Verificar == true)
             {
                 for (int i = 1; i <= (int)Session["ContadorPila"]; i++)
                 {
                     string position = pilaM.Pop();
-                    int fil = int.Parse(position.Substring(0,1));
-                    int col = int.Parse(position.Substring(1,1));
-                    Tablero[fil, col] = Turno;
+                    int fil = int.Parse(position.Substring(0, 1));
+                    int col = int.Parse(position.Substring(1, 1));
+                    Tablero[fil, col] = id;
                 }
             }
             Session["Pila"] = pila;
             return Encontrado;
         }
+        //****************************************************************************************************************************
+        //****************************************************************************************************************************
+        //****************************************************************************************************************************
 
-        public void ColocarFicha(ImageButton Casilla)
+
+        //****************************************************************************************************************************
+        //******************************************HORIZONTAL PARA LA IZQUIERDA******************************************************
+        //****************************************************************************************************************************
+        public Boolean Horizontal_Izquierda(int Fila, int Columna, Boolean Verificar)
         {
-            Boolean[,] Tablero = (Boolean[,])Session["Tablero"];
-            string StrCasilla = Casilla.ID;
-            int Fila = EncontrarFila(StrCasilla);
-            int Columna = EncontrarColumna(StrCasilla);
-            Session["ContadorPila"] = 0;
-            Boolean VerticalArriba = Vertical_Arriba(Fila, Columna);
+            int[,] Tablero = (int[,])Session["Tablero"];
             Boolean Turno = (Boolean)Application["Turno"];
+            Boolean Encontrado = false;
+            Boolean Error = false;
+            int Contador = 0;
+            Stack pila = new Stack();
+            Stack pilaM = new Stack();
+            int id = 0;
+            if (Turno == true)
+            {
+                id = 1;
+            }
+            else if (Turno == false)
+            {
+                id = 2;
+            }
 
-            if (VerticalArriba == true)
+            for (int i = Columna - 1; i >= 0; i--)
+            {
+                if (Encontrado == false && Error == false)
+                {
+                    if (Tablero[Fila, i] == 0)
+                    {
+                        Error = true;
+                    }
+                    else if (id == 1 && Tablero[Fila, i] == 2 || id == 2 && Tablero[Fila, i] == 1) //Es diferente
+                    {
+                        string col = ConvertirColumna(i);
+                        string fil = (Fila+1).ToString();
+                        string StrCasilla = col + fil;
+                        string Position = (Fila).ToString() + i.ToString();
+
+                        pilaM.Push(Position);
+                        pila.Push(StrCasilla);
+                        Session["ContadorPila"] = (int)Session["ContadorPila"] + 1;
+                        Contador++;
+                    }
+                    else if (Tablero[Fila, i] == id)
+                    {
+                        Encontrado = true;
+                    }
+                }
+            }
+
+            if (Contador == 0)
+            {
+                Encontrado = false;
+            }
+
+            if (Encontrado == true && Verificar == true)
+            {
+                for (int i = 1; i <= (int)Session["ContadorPila"]; i++)
+                {
+                    string position = pilaM.Pop();
+                    int fil = int.Parse(position.Substring(0, 1));
+                    int col = int.Parse(position.Substring(1, 1));
+                    Tablero[fil, col] = id;
+                }
+            }
+            Session["Pila"] = pila;
+            return Encontrado;
+        }
+        //****************************************************************************************************************************
+        //****************************************************************************************************************************
+        //****************************************************************************************************************************
+
+        //****************************************************************************************************************************
+        //******************************************HORIZONTAL PARA LA IZQUIERDA******************************************************
+        //****************************************************************************************************************************
+        public Boolean Horizontal_Derecha(int Fila, int Columna, Boolean Verificar)
+        {
+            int[,] Tablero = (int[,])Session["Tablero"];
+            Boolean Turno = (Boolean)Application["Turno"];
+            Boolean Encontrado = false;
+            Boolean Error = false;
+            int Contador = 0;
+            Stack pila = new Stack();
+            Stack pilaM = new Stack();
+            int id = 0;
+            if (Turno == true)
+            {
+                id = 1;
+            }
+            else if (Turno == false)
+            {
+                id = 2;
+            }
+
+            for (int i = Columna + 1; i < Tablero.GetLength(1); i++)
+            {
+                if (Encontrado == false && Error == false)
+                {
+                    if (Tablero[Fila, i] == 0)
+                    {
+                        Error = true;
+                    }
+                    else if (id == 1 && Tablero[Fila, i] == 2 || id == 2 && Tablero[Fila, i] == 1) //Es diferente
+                    {
+                        string col = ConvertirColumna(i);
+                        string fil = (Fila + 1).ToString();
+                        string StrCasilla = col + fil;
+                        string Position = (Fila).ToString() + i.ToString();
+
+                        pilaM.Push(Position);
+                        pila.Push(StrCasilla);
+                        Session["ContadorPila"] = (int)Session["ContadorPila"] + 1;
+                        Contador++;
+                    }
+                    else if (Tablero[Fila, i] == id)
+                    {
+                        Encontrado = true;
+                    }
+                }
+            }
+
+            if (Contador == 0)
+            {
+                Encontrado = false;
+            }
+
+            if (Encontrado == true && Verificar == true)
+            {
+                for (int i = 1; i <= (int)Session["ContadorPila"]; i++)
+                {
+                    string position = pilaM.Pop();
+                    int fil = int.Parse(position.Substring(0, 1));
+                    int col = int.Parse(position.Substring(1, 1));
+                    Tablero[fil, col] = id;
+                }
+            }
+            Session["Pila"] = pila;
+            return Encontrado;
+        }
+        //****************************************************************************************************************************
+        //****************************************************************************************************************************
+        //****************************************************************************************************************************
+
+        //****************************************************************************************************************************
+        //******************************************HORIZONTAL PARA LA IZQUIERDA******************************************************
+        //****************************************************************************************************************************
+        public Boolean Diagonal_Izquierda_Arriba(int Fila, int Columna, Boolean Verificar)
+        {
+            int[,] Tablero = (int[,])Session["Tablero"];
+            Boolean Turno = (Boolean)Application["Turno"];
+            Boolean Encontrado = false;
+            Boolean Error = false;
+            int Contador = 0;
+            Stack pila = new Stack();
+            Stack pilaM = new Stack();
+            int id = 0;
+            if (Turno == true)
+            {
+                id = 1;
+            }
+            else if (Turno == false)
+            {
+                id = 2;
+            }
+
+            Fila--;
+            for (int i = Columna - 1; i >= 0; i--)
+            {
+                if (Encontrado == false && Error == false && Fila >= 0)
+                {
+                    if (Tablero[Fila, i] == 0)
+                    {
+                        Error = true;
+                    }
+                    else if (id == 1 && Tablero[Fila, i] == 2 || id == 2 && Tablero[Fila, i] == 1) //Es diferente
+                    {
+                        string col = ConvertirColumna(i);
+                        string fil = (Fila + 1).ToString();
+                        string StrCasilla = col + fil;
+                        string Position = Fila.ToString() + i.ToString();
+
+                        pilaM.Push(Position);
+                        pila.Push(StrCasilla);
+                        Session["ContadorPila"] = (int)Session["ContadorPila"] + 1;
+                        Contador++;
+                    }
+                    else if (Tablero[Fila, i] == id)
+                    {
+                        Encontrado = true;
+                    }
+                }
+                Fila--;
+            }
+
+            if (Contador == 0)
+            {
+                Encontrado = false;
+            }
+
+            if (Encontrado == true && Verificar == true)
+            {
+                for (int i = 1; i <= (int)Session["ContadorPila"]; i++)
+                {
+                    string position = pilaM.Pop();
+                    int fil = int.Parse(position.Substring(0, 1));
+                    int col = int.Parse(position.Substring(1, 1));
+                    Tablero[fil, col] = id;
+                }
+            }
+            Session["Pila"] = pila;
+            return Encontrado;
+        }
+        //****************************************************************************************************************************
+        //****************************************************************************************************************************
+        //****************************************************************************************************************************
+
+        //****************************************************************************************************************************
+        //******************************************HORIZONTAL PARA LA IZQUIERDA******************************************************
+        //****************************************************************************************************************************
+        public Boolean Diagonal_Derecha_Arriba(int Fila, int Columna, Boolean Verificar)
+        {
+            int[,] Tablero = (int[,])Session["Tablero"];
+            Boolean Turno = (Boolean)Application["Turno"];
+            Boolean Encontrado = false;
+            Boolean Error = false;
+            int Contador = 0;
+            Stack pila = new Stack();
+            Stack pilaM = new Stack();
+            int id = 0;
+            if (Turno == true)
+            {
+                id = 1;
+            }
+            else if (Turno == false)
+            {
+                id = 2;
+            }
+
+            Fila--;
+            for (int i = Columna + 1; i < Tablero.GetLength(1); i++)
+            {
+                if (Encontrado == false && Error == false && Fila >= 0)
+                {
+                    if (Tablero[Fila, i] == 0)
+                    {
+                        Error = true;
+                    }
+                    else if (id == 1 && Tablero[Fila, i] == 2 || id == 2 && Tablero[Fila, i] == 1) //Es diferente
+                    {
+                        string col = ConvertirColumna(i);
+                        string fil = (Fila + 1).ToString();
+                        string StrCasilla = col + fil;
+                        string Position = Fila.ToString() + i.ToString();
+
+                        pilaM.Push(Position);
+                        pila.Push(StrCasilla);
+                        Session["ContadorPila"] = (int)Session["ContadorPila"] + 1;
+                        Contador++;
+                    }
+                    else if (Tablero[Fila, i] == id)
+                    {
+                        Encontrado = true;
+                    }
+                }
+                Fila--;
+            }
+
+            if (Contador == 0)
+            {
+                Encontrado = false;
+            }
+
+            if (Encontrado == true && Verificar == true)
+            {
+                for (int i = 1; i <= (int)Session["ContadorPila"]; i++)
+                {
+                    string position = pilaM.Pop();
+                    int fil = int.Parse(position.Substring(0, 1));
+                    int col = int.Parse(position.Substring(1, 1));
+                    Tablero[fil, col] = id;
+                }
+            }
+            Session["Pila"] = pila;
+            return Encontrado;
+        }
+        //****************************************************************************************************************************
+        //****************************************************************************************************************************
+        //****************************************************************************************************************************
+
+        //****************************************************************************************************************************
+        //******************************************HORIZONTAL PARA LA IZQUIERDA******************************************************
+        //****************************************************************************************************************************
+        public Boolean Diagonal_Izquierda_Abajo(int Fila, int Columna, Boolean Verificar)
+        {
+            int[,] Tablero = (int[,])Session["Tablero"];
+            Boolean Turno = (Boolean)Application["Turno"];
+            Boolean Encontrado = false;
+            Boolean Error = false;
+            int Contador = 0;
+            Stack pila = new Stack();
+            Stack pilaM = new Stack();
+            int id = 0;
+            if (Turno == true)
+            {
+                id = 1;
+            }
+            else if (Turno == false)
+            {
+                id = 2;
+            }
+
+            Fila++;
+            for (int i = Columna - 1; i >= 0; i--)
+            {
+                if (Encontrado == false && Error == false && Fila <= 7)
+                {
+                    if (Tablero[Fila, i] == 0)
+                    {
+                        Error = true;
+                    }
+                    else if (id == 1 && Tablero[Fila, i] == 2 || id == 2 && Tablero[Fila, i] == 1) //Es diferente
+                    {
+                        string col = ConvertirColumna(i);
+                        string fil = (Fila + 1).ToString();
+                        string StrCasilla = col + fil;
+                        string Position = Fila.ToString() + i.ToString();
+
+                        pilaM.Push(Position);
+                        pila.Push(StrCasilla);
+                        Session["ContadorPila"] = (int)Session["ContadorPila"] + 1;
+                        Contador++;
+                    }
+                    else if (Tablero[Fila, i] == id)
+                    {
+                        Encontrado = true;
+                    }
+                }
+                Fila++;
+            }
+
+            if (Contador == 0)
+            {
+                Encontrado = false;
+            }
+
+            if (Encontrado == true && Verificar == true)
+            {
+                for (int i = 1; i <= (int)Session["ContadorPila"]; i++)
+                {
+                    string position = pilaM.Pop();
+                    int fil = int.Parse(position.Substring(0, 1));
+                    int col = int.Parse(position.Substring(1, 1));
+                    Tablero[fil, col] = id;
+                }
+            }
+            Session["Pila"] = pila;
+            return Encontrado;
+        }
+        //****************************************************************************************************************************
+        //****************************************************************************************************************************
+        //****************************************************************************************************************************
+
+        //****************************************************************************************************************************
+        //******************************************HORIZONTAL PARA LA IZQUIERDA******************************************************
+        //****************************************************************************************************************************
+        public Boolean Diagonal_Derecha_Abajo(int Fila, int Columna, Boolean Verificar)
+        {
+            int[,] Tablero = (int[,])Session["Tablero"];
+            Boolean Turno = (Boolean)Application["Turno"];
+            Boolean Encontrado = false;
+            Boolean Error = false;
+            int Contador = 0;
+            Stack pila = new Stack();
+            Stack pilaM = new Stack();
+            int id = 0;
+            if (Turno == true)
+            {
+                id = 1;
+            }
+            else if (Turno == false)
+            {
+                id = 2;
+            }
+
+            Fila++;
+            for (int i = Columna + 1; i < Tablero.GetLength(1); i++)
+            {
+                if (Encontrado == false && Error == false && Fila <= 7)
+                {
+                    if (Tablero[Fila, i] == 0)
+                    {
+                        Error = true;
+                    }
+                    else if (id == 1 && Tablero[Fila, i] == 2 || id == 2 && Tablero[Fila, i] == 1) //Es diferente
+                    {
+                        string col = ConvertirColumna(i);
+                        string fil = (Fila + 1).ToString();
+                        string StrCasilla = col + fil;
+                        string Position = Fila.ToString() + i.ToString();
+
+                        pilaM.Push(Position);
+                        pila.Push(StrCasilla);
+                        Session["ContadorPila"] = (int)Session["ContadorPila"] + 1;
+                        Contador++;
+                    }
+                    else if (Tablero[Fila, i] == id)
+                    {
+                        Encontrado = true;
+                    }
+                }
+                Fila++;
+            }
+
+            if (Contador == 0)
+            {
+                Encontrado = false;
+            }
+
+            if (Encontrado == true && Verificar == true)
+            {
+                for (int i = 1; i <= (int)Session["ContadorPila"]; i++)
+                {
+                    string position = pilaM.Pop();
+                    int fil = int.Parse(position.Substring(0, 1));
+                    int col = int.Parse(position.Substring(1, 1));
+                    Tablero[fil, col] = id;
+                }
+            }
+            Session["Pila"] = pila;
+            return Encontrado;
+        }
+        //****************************************************************************************************************************
+        //****************************************************************************************************************************
+        //****************************************************************************************************************************
+
+        public void VoltearFichas(Boolean Argumento)
+        {
+            Boolean Turno = (Boolean)Application["Turno"];
+            if (Argumento == true)
             {
                 Stack pila = (Stack)Session["Pila"];
                 for (int i = 1; i <= (int)Session["ContadorPila"]; i++)
@@ -368,35 +899,111 @@ namespace WebApplication1
                     }
                     else
                     {
-                        Casillas.ImageUrl = "img/FichaB.png";
+                        Casillas.ImageUrl = "img/FichaN.png";
                     }
                 }
             }
+        }
 
+        public void ColocarFicha(ImageButton Casilla)
+        {
+            int[,] Tablero = (int[,])Session["Tablero"];
+            string StrCasilla = Casilla.ID;
+            int Fila = EncontrarFila(StrCasilla);
+            int Columna = EncontrarColumna(StrCasilla);
 
-            if (VerticalArriba == true)
+            Boolean Turno = (Boolean)Application["Turno"];
+
+            Session["ContadorPila"] = 0;
+            Boolean VerticalArriba = Vertical_Arriba(Fila, Columna, true);
+            VoltearFichas(VerticalArriba);
+
+            Session["ContadorPila"] = 0;
+            Boolean VerticalAbajo = Vertical_Abajo(Fila, Columna, true);
+            VoltearFichas(VerticalAbajo);
+
+            Session["ContadorPila"] = 0;
+            Boolean HorizontalIzquierda = Horizontal_Izquierda(Fila, Columna, true);
+            VoltearFichas(HorizontalIzquierda);
+
+            Session["ContadorPila"] = 0;
+            Boolean HorizontalDerecha = Horizontal_Derecha(Fila, Columna, true);
+            VoltearFichas(HorizontalDerecha);
+
+            Session["ContadorPila"] = 0;
+            Boolean DiagonalIzquierdaArriba = Diagonal_Izquierda_Arriba(Fila, Columna, true);
+            VoltearFichas(DiagonalIzquierdaArriba);
+
+            Session["ContadorPila"] = 0;
+            Boolean DiagonalDerechaArriba = Diagonal_Derecha_Arriba(Fila, Columna, true);
+            VoltearFichas(DiagonalDerechaArriba);
+
+            Session["ContadorPila"] = 0;
+            Boolean DiagonalIzquierdaAbajo = Diagonal_Izquierda_Abajo(Fila, Columna, true);
+            VoltearFichas(DiagonalIzquierdaAbajo);
+
+            Session["ContadorPila"] = 0;
+            Boolean DiagonalDerechaAbajo = Diagonal_Derecha_Abajo(Fila, Columna, true);
+            VoltearFichas(DiagonalDerechaAbajo);
+
+            int id = 0;
+            if (Turno == true)
+            {
+                id = 1;
+            }
+            else if (Turno == false)
+            {
+                id = 2;
+            }
+
+            if (VerticalArriba == true || VerticalAbajo == true 
+                || HorizontalIzquierda == true || HorizontalDerecha == true 
+                || DiagonalIzquierdaArriba == true || DiagonalDerechaArriba == true 
+                || DiagonalIzquierdaAbajo == true || DiagonalDerechaAbajo == true)
             {
                 if (Turno == true)
                 {
                     Casilla.ImageUrl = "img/FichaB.png";
+                    Casilla.Enabled = false;
                     int fil = EncontrarFila(Casilla.ID);
                     int col = EncontrarColumna(Casilla.ID);
-                    Tablero[fil, col] = Turno;
+                    Tablero[fil, col] = id;
                     LblInv1.Visible = false;
                     LblInv2.Visible = false;
                     ImgSad.Visible = false;
+                    LblTurno.Text = (String)Session["Negras"];
+                    LblEspera.Text = (String)Session["Blancas"];
+                    Session["ContadorBlancas"] = (int)Session["ContadorBlancas"] + 1;
+                    LblMov1.Text = "MOVIMIENTOS DE " + (string)Session["Blancas"] + ": " + (int)Session["ContadorBlancas"];
+                    LblMov2.Text = "MOVIMIENTOS DE " + (string)Session["Negras"] + ": " + (int)Session["ContadorNegras"];
                     Application["Turno"] = false;
+                    PartidaContinua();
+                    if ((Boolean)Session["Modo"] == true)
+                    {
+                        TiroMaquina();
+                    }
                 }
                 else
                 {
                     Casilla.ImageUrl = "img/FichaN.png";
+                    Casilla.Enabled = false;
                     int fil = EncontrarFila(Casilla.ID);
                     int col = EncontrarColumna(Casilla.ID);
-                    Tablero[fil, col] = Turno;
+                    Tablero[fil, col] = id;
                     LblInv1.Visible = false;
                     LblInv2.Visible = false;
                     ImgSad.Visible = false;
+                    LblTurno.Text = (String)Session["Blancas"];
+                    LblEspera.Text = (String)Session["Negras"];
+                    Session["ContadorNegras"] = (int)Session["ContadorNegras"] + 1;
+                    LblMov1.Text = "MOVIMIENTOS DE " + (string)Session["Blancas"] + ": " + (int)Session["ContadorBlancas"];
+                    LblMov2.Text = "MOVIMIENTOS DE " + (string)Session["Negras"] + ": " + (int)Session["ContadorNegras"];
                     Application["Turno"] = true;
+                    PartidaContinua();
+                    if ((Boolean)Session["Modo"] == true)
+                    {
+                        TiroMaquina();
+                    }
                 }
             }
             else
@@ -405,21 +1012,239 @@ namespace WebApplication1
                 LblInv2.Visible = true;
                 ImgSad.Visible = true;
             }
-            /*
-            Boolean turno = (Boolean)Application["Turno"];
-            if (turno == true)
+        }
+
+        public void TiroMaquina()
+        {
+            Thread.Sleep(1000);
+            //ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + "holi" + "');", true);
+            int[,] Tablero = (int[,])Session["Tablero"];
+            Boolean Turno = (Boolean)Application["Turno"];
+            Boolean Encontrado = false;
+            for (int i = 0; i < Tablero.GetLength(0); i++)
             {
-                Casilla.ImageUrl = "img/FichaB.png";
-                Casilla.Enabled = false;
-                Application["Turno"] = false;
+                for (int j = 0; j < Tablero.GetLength(1); j++)
+                {
+                    if (Encontrado == false)
+                    {
+                        Boolean VerticalArriba = Vertical_Arriba(i, j, false);
+                        Boolean VerticalAbajo = Vertical_Abajo(i, j, false);
+                        Boolean HorizontalIzquierda = Horizontal_Izquierda(i, j, false);
+                        Boolean HorizontalDerecha = Horizontal_Derecha(i, j, false);
+                        Boolean DiagonalIzquierdaArriba = Diagonal_Izquierda_Arriba(i, j, false);
+                        Boolean DiagonalDerechaArriba = Diagonal_Derecha_Arriba(i, j, false);
+                        Boolean DiagonalIzquierdaAbajo = Diagonal_Izquierda_Abajo(i, j, false);
+                        Boolean DiagonalDerechaAbajo = Diagonal_Derecha_Abajo(i, j, false);
+                        //string Resultados = "Fila: " + i.ToString() + "Columna: " + j.ToString();
+                        //ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + Resultados + "');", true);
+                        if (VerticalArriba == true || VerticalAbajo == true
+                        || HorizontalIzquierda == true || HorizontalDerecha == true
+                        || DiagonalIzquierdaArriba == true || DiagonalDerechaArriba == true
+                        || DiagonalIzquierdaAbajo == true || DiagonalDerechaAbajo == true)
+                        {
+                            //Resultados = "Fila: " + i + "Columna: " + j;
+                            //ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + Resultados + "');", true);
+                            Encontrado = true;
+                            Session["ContadorPila"] = 0;
+                            Boolean VerticalArriba1 = Vertical_Arriba(i, j, true);
+                            VoltearFichas(VerticalArriba1);
+
+                            Session["ContadorPila"] = 0;
+                            Boolean VerticalAbajo1 = Vertical_Abajo(i, j, true);
+                            VoltearFichas(VerticalAbajo1);
+
+                            Session["ContadorPila"] = 0;
+                            Boolean HorizontalIzquierda1 = Horizontal_Izquierda(i, j, true);
+                            VoltearFichas(HorizontalIzquierda1);
+
+                            Session["ContadorPila"] = 0;
+                            Boolean HorizontalDerecha1 = Horizontal_Derecha(i, j, true);
+                            VoltearFichas(HorizontalDerecha1);
+
+                            Session["ContadorPila"] = 0;
+                            Boolean DiagonalIzquierdaArriba1 = Diagonal_Izquierda_Arriba(i, j, true);
+                            VoltearFichas(DiagonalIzquierdaArriba1);
+
+                            Session["ContadorPila"] = 0;
+                            Boolean DiagonalDerechaArriba1 = Diagonal_Derecha_Arriba(i, j, true);
+                            VoltearFichas(DiagonalDerechaArriba1);
+
+                            Session["ContadorPila"] = 0;
+                            Boolean DiagonalIzquierdaAbajo1 = Diagonal_Izquierda_Abajo(i, j, true);
+                            VoltearFichas(DiagonalIzquierdaAbajo1);
+
+                            Session["ContadorPila"] = 0;
+                            Boolean DiagonalDerechaAbajo1 = Diagonal_Derecha_Abajo(i, j, true);
+                            VoltearFichas(DiagonalDerechaAbajo1);
+
+                            String Fila = (i + 1).ToString();
+                            String Columna = ConvertirColumna(j);
+                            String position = Columna + Fila;
+
+                            ImageButton Casilla = FindControl(position) as ImageButton;
+
+                            int id = 0;
+                            if (Turno == true)
+                            {
+                                id = 1;
+                            }
+                            else if (Turno == false)
+                            {
+                                id = 2;
+                            }
+
+                            if (Turno == true)
+                            {
+                                Casilla.ImageUrl = "img/FichaB.png";
+                                Casilla.Enabled = false;
+                                int fil = EncontrarFila(Casilla.ID);
+                                int col = EncontrarColumna(Casilla.ID);
+                                Tablero[fil, col] = id;
+                                LblInv1.Visible = false;
+                                LblInv2.Visible = false;
+                                ImgSad.Visible = false;
+                                LblTurno.Text = (String)Session["Negras"];
+                                LblEspera.Text = (String)Session["Blancas"];
+                                Session["ContadorBlancas"] = (int)Session["ContadorBlancas"] + 1;
+                                LblMov1.Text = "MOVIMIENTOS DE " + (string)Session["Blancas"] + ": " + (int)Session["ContadorBlancas"];
+                                LblMov2.Text = "MOVIMIENTOS DE " + (string)Session["Negras"] + ": " + (int)Session["ContadorNegras"];
+                                Application["Turno"] = false;
+                                PartidaContinua();
+                            }
+                            else
+                            {
+                                Casilla.ImageUrl = "img/FichaN.png";
+                                Casilla.Enabled = false;
+                                int fil = EncontrarFila(Casilla.ID);
+                                int col = EncontrarColumna(Casilla.ID);
+                                Tablero[fil, col] = id;
+                                LblInv1.Visible = false;
+                                LblInv2.Visible = false;
+                                ImgSad.Visible = false;
+                                LblTurno.Text = (String)Session["Blancas"];
+                                LblEspera.Text = (String)Session["Negras"];
+                                Session["ContadorNegras"] = (int)Session["ContadorNegras"] + 1;
+                                LblMov1.Text = "MOVIMIENTOS DE " + (string)Session["Blancas"] + ": " + (int)Session["ContadorBlancas"];
+                                LblMov2.Text = "MOVIMIENTOS DE " + (string)Session["Negras"] + ": " + (int)Session["ContadorNegras"];
+                                Application["Turno"] = true;
+                                PartidaContinua();
+                            }
+                        }
+                    }
+                }
             }
-            if (turno == false)
+        }
+
+        public void PartidaContinua()
+        {
+            int[,] Tablero = (int[,])Session["Tablero"];
+            Boolean Continua = false;
+            Boolean Llena = false;
+            //Si esta llena
+            int contador = 0;
+            for (int i = 0; i < Tablero.GetLength(0); i++)
             {
-                Casilla.ImageUrl = "img/FichaN.png";
-                Casilla.Enabled = false;
-                Application["Turno"] = true;
+                for (int j = 0; j < Tablero.GetLength(1); j++)
+                {
+                    if (Tablero[i,j] == 0)
+                    {
+                        contador++;
+                    }
+                }
             }
-            */
+            if (contador == 0)
+            {
+                Llena = true;
+            }
+            //Si no esta llena
+            for (int i = 0; i < Tablero.GetLength(0); i++)
+            {
+                for (int j = 0; j < Tablero.GetLength(1); j++)
+                {
+                    if (Continua == false && Tablero[i,j] == 0)
+                    {
+                        Boolean VerticalArriba = Vertical_Arriba(i, j, false);
+                        Boolean VerticalAbajo = Vertical_Abajo(i, j, false);
+                        Boolean HorizontalIzquierda = Horizontal_Izquierda(i, j, false);
+                        Boolean HorizontalDerecha = Horizontal_Derecha(i, j, false);
+                        Boolean DiagonalIzquierdaArriba = Diagonal_Izquierda_Arriba(i, j, false);
+                        Boolean DiagonalDerechaArriba = Diagonal_Derecha_Arriba(i, j, false);
+                        Boolean DiagonalIzquierdaAbajo = Diagonal_Izquierda_Abajo(i, j, false);
+                        Boolean DiagonalDerechaAbajo = Diagonal_Derecha_Abajo(i, j, false);
+                        if (VerticalArriba == true || VerticalAbajo == true
+                        || HorizontalIzquierda == true || HorizontalDerecha == true
+                        || DiagonalIzquierdaArriba == true || DiagonalDerechaArriba == true
+                        || DiagonalIzquierdaAbajo == true || DiagonalDerechaAbajo == true)
+                        {
+                            Continua = true;
+                        }
+                    }
+                }
+            }
+
+            if (Continua == false || Llena == true)
+            {
+                int Blancas = 0;
+                int Negras = 0;
+                for (int i = 0; i < Tablero.GetLength(0); i++)
+                {
+                    for (int j = 0; j < Tablero.GetLength(1); j++)
+                    {
+                        if (Tablero[i,j] == 1)
+                        {
+                            Blancas++;
+                        }
+                        else if(Tablero[i,j] == 2)
+                        {
+                            Negras++;
+                        }
+                    }
+                }
+                String Resultados = "";
+                if ((string)Session["Usuario"] == (string)Session["Blancas"])
+                {
+                    if (Blancas > Negras)
+                    {
+                        Resultados = "¡" + ((string)Session["Usuario"]).ToUpper() + " HAS GANADO LA PARTIDA! :) | " 
+                            + ((string)Session["Blancas"]).ToUpper() + ": " + Blancas + " fichas | "
+                            + ((string)Session["Negras"]).ToUpper() + ": " + Negras + " fichas";
+                    }
+                    else if (Negras > Blancas)
+                    {
+                        Resultados = ((string)Session["Usuario"]).ToUpper() + " HAS PERDIDO LA PARTIDA... :( | "
+                            + ((string)Session["Blancas"]).ToUpper() + ": " + Blancas + " fichas | "
+                            + ((string)Session["Negras"]).ToUpper() + ": " + Negras + " fichas";
+                    }
+                    else if(Negras == Blancas)
+                    {
+                        Resultados = ((string)Session["Usuario"]).ToUpper() + " HAS EMPATADO LA PARTIDA :O | "
+                            + ((string)Session["Blancas"]).ToUpper() + ": " + Blancas + " fichas | "
+                            + ((string)Session["Negras"]).ToUpper() + ": " + Negras + " fichas";
+                    }
+                } else if ((string)Session["Usuario"] == (string)Session["Negras"])
+                {
+                    if (Blancas < Negras)
+                    {
+                        Resultados = "¡" + ((string)Session["Usuario"]).ToUpper() + " HAS GANADO LA PARTIDA! :) | "
+                            + ((string)Session["Blancas"]).ToUpper() + ": " + Blancas + " fichas | "
+                            + ((string)Session["Negras"]).ToUpper() + ": " + Negras + " fichas";
+                    }
+                    else if (Negras < Blancas)
+                    {
+                        Resultados = ((string)Session["Usuario"]).ToUpper() + " HAS PERDIDO LA PARTIDA... :( | "
+                            + ((string)Session["Blancas"]).ToUpper() + ": " + Blancas + " fichas | "
+                            + ((string)Session["Negras"]).ToUpper() + ": " + Negras + " fichas";
+                    }
+                    else if (Negras == Blancas)
+                    {
+                        Resultados = ((string)Session["Usuario"]).ToUpper() + " HAS EMPATADO LA PARTIDA :O | "
+                            + ((string)Session["Blancas"]).ToUpper() + ": " + Blancas + " fichas | "
+                            + ((string)Session["Negras"]).ToUpper() + ": " + Negras + " fichas";
+                    }
+                }
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + Resultados + "');", true);
+            }
+
         }
 
         protected void A1_Click(object sender, ImageClickEventArgs e){  ColocarFicha(A1);   }

@@ -37,7 +37,7 @@
                         <br />
                         <asp:Image ID="ImgSad" runat="server" ImageUrl="img/sad.png" cssClass="sadimg" Visible="False"/>
                         <br />
-                        <asp:Label ID="LblInv1" runat="server" Text="!TIRO INVALIDO!" CssClass="tiroinvalido" Visible="False"></asp:Label>
+                        <asp:Label ID="LblInv1" runat="server" Text="!TIRO INVALIDO!" CssClass="tiroinvalido1" Visible="False"></asp:Label>
                         <br />
                         <asp:Label ID="LblInv2" runat="server" Text="PORFAVOR REPITA SU JUGADA" CssClass="tiroinvalido" Visible="False"></asp:Label>
                     </div>

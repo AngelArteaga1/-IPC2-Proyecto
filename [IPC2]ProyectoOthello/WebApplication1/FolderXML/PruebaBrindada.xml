@@ -49,11 +49,6 @@
  		<columna>H</columna>
  		<fila>8</fila>
  	</ficha>
-	<ficha>
- 		<color>negro</color>
- 		<columna>H</columna>
- 		<fila>8</fila>
- 	</ficha>
 	<siguienteTiro>
 		<color>negro</color>
 	</siguienteTiro>
