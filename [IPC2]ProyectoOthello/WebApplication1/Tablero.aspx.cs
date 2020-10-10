@@ -22,7 +22,6 @@ namespace WebApplication1
                 Session["ContadorBlancas"] = ContadorBlancas;
                 Session["ContadorNegras"] = ContadorNegras;
                 int[,] Tablero = new int[8,8];
-                //ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + Tablero[5, 5].ToString() + "');", true);
                 Boolean Cargada = (Boolean)Session["Cargada"];
                 if (Cargada == false)
                 {
@@ -51,6 +50,11 @@ namespace WebApplication1
                     E5.Enabled = false;
                     Tablero[4, 4] = 1;
                     Session["Tablero"] = Tablero;
+                    if ((string)Session["Blancas"] == "CPU")
+                    {
+                        Session["ContadorPila"] = 0;
+                        TiroMaquina();
+                    }
                 }
                 if (Cargada == true)
                 {
@@ -115,6 +119,17 @@ namespace WebApplication1
                 }
                 LblMov1.Text = "MOVIMIENTOS DE " + (string)Session["Blancas"] + ": " + (int)Session["ContadorBlancas"];
                 LblMov2.Text = "MOVIMIENTOS DE " + (string)Session["Negras"] + ": " + (int)Session["ContadorNegras"];
+                //TIRO DE LA MAQUINA
+                if ((Boolean)Application["Turno"] == true && (string)Session["Blancas"] == "CPU")
+                {
+                    Session["ContadorPila"] = 0;
+                    TiroMaquina();
+                }
+                if ((Boolean)Application["Turno"] == false && (string)Session["Negras"] == "CPU")
+                {
+                    Session["ContadorPila"] = 0;
+                    TiroMaquina();
+                }
             }
         }
 
@@ -307,7 +322,7 @@ namespace WebApplication1
         }
 
         //****************************************************************************************************************************
-        //****************************************************************************************************************************
+        //************************************************VERTICAL PARA ARRIBA********************************************************
         //****************************************************************************************************************************
         public Boolean Vertical_Arriba(int Fila, int Columna, Boolean Verificar)
         {
@@ -373,13 +388,9 @@ namespace WebApplication1
             Session["Pila"] = pila;
             return Encontrado;
         }
-        //****************************************************************************************************************************
-        //****************************************************************************************************************************
-        //****************************************************************************************************************************
-
 
         //****************************************************************************************************************************
-        //****************************************************************************************************************************
+        //***************************************************VERTICAL PARA ABAJO******************************************************
         //****************************************************************************************************************************
         public Boolean Vertical_Abajo(int Fila, int Columna, Boolean Verificar)
         {
@@ -444,10 +455,6 @@ namespace WebApplication1
             Session["Pila"] = pila;
             return Encontrado;
         }
-        //****************************************************************************************************************************
-        //****************************************************************************************************************************
-        //****************************************************************************************************************************
-
 
         //****************************************************************************************************************************
         //******************************************HORIZONTAL PARA LA IZQUIERDA******************************************************
@@ -516,12 +523,9 @@ namespace WebApplication1
             Session["Pila"] = pila;
             return Encontrado;
         }
-        //****************************************************************************************************************************
-        //****************************************************************************************************************************
-        //****************************************************************************************************************************
 
         //****************************************************************************************************************************
-        //******************************************HORIZONTAL PARA LA IZQUIERDA******************************************************
+        //********************************************HORIZONTAL PARA LA DERECHA******************************************************
         //****************************************************************************************************************************
         public Boolean Horizontal_Derecha(int Fila, int Columna, Boolean Verificar)
         {
@@ -587,12 +591,9 @@ namespace WebApplication1
             Session["Pila"] = pila;
             return Encontrado;
         }
-        //****************************************************************************************************************************
-        //****************************************************************************************************************************
-        //****************************************************************************************************************************
 
         //****************************************************************************************************************************
-        //******************************************HORIZONTAL PARA LA IZQUIERDA******************************************************
+        //*****************************************DIAGONAL PARA IZQUIERDA-ARRIBA*****************************************************
         //****************************************************************************************************************************
         public Boolean Diagonal_Izquierda_Arriba(int Fila, int Columna, Boolean Verificar)
         {
@@ -660,12 +661,9 @@ namespace WebApplication1
             Session["Pila"] = pila;
             return Encontrado;
         }
-        //****************************************************************************************************************************
-        //****************************************************************************************************************************
-        //****************************************************************************************************************************
 
         //****************************************************************************************************************************
-        //******************************************HORIZONTAL PARA LA IZQUIERDA******************************************************
+        //******************************************DIAGONAL PARA DERECHA-ARRIBA******************************************************
         //****************************************************************************************************************************
         public Boolean Diagonal_Derecha_Arriba(int Fila, int Columna, Boolean Verificar)
         {
@@ -733,12 +731,9 @@ namespace WebApplication1
             Session["Pila"] = pila;
             return Encontrado;
         }
-        //****************************************************************************************************************************
-        //****************************************************************************************************************************
-        //****************************************************************************************************************************
 
         //****************************************************************************************************************************
-        //******************************************HORIZONTAL PARA LA IZQUIERDA******************************************************
+        //******************************************DIAGONAL PARA IZQUIERDA-ABAJO*****************************************************
         //****************************************************************************************************************************
         public Boolean Diagonal_Izquierda_Abajo(int Fila, int Columna, Boolean Verificar)
         {
@@ -806,12 +801,9 @@ namespace WebApplication1
             Session["Pila"] = pila;
             return Encontrado;
         }
-        //****************************************************************************************************************************
-        //****************************************************************************************************************************
-        //****************************************************************************************************************************
 
         //****************************************************************************************************************************
-        //******************************************HORIZONTAL PARA LA IZQUIERDA******************************************************
+        //*******************************************DIAGONAL PARA DERECHA-ABAJO******************************************************
         //****************************************************************************************************************************
         public Boolean Diagonal_Derecha_Abajo(int Fila, int Columna, Boolean Verificar)
         {
@@ -1016,16 +1008,17 @@ namespace WebApplication1
 
         public void TiroMaquina()
         {
-            Thread.Sleep(1000);
-            //ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + "holi" + "');", true);
+            Thread.Sleep(500);
             int[,] Tablero = (int[,])Session["Tablero"];
             Boolean Turno = (Boolean)Application["Turno"];
             Boolean Encontrado = false;
+            Stack pila = new Stack();
+            int ContadorPila = 0;
             for (int i = 0; i < Tablero.GetLength(0); i++)
             {
                 for (int j = 0; j < Tablero.GetLength(1); j++)
                 {
-                    if (Encontrado == false && Tablero[i,j] == 0)
+                    if (Tablero[i, j] == 0)
                     {
                         Boolean VerticalArriba = Vertical_Arriba(i, j, false);
                         Boolean VerticalAbajo = Vertical_Abajo(i, j, false);
@@ -1035,104 +1028,120 @@ namespace WebApplication1
                         Boolean DiagonalDerechaArriba = Diagonal_Derecha_Arriba(i, j, false);
                         Boolean DiagonalIzquierdaAbajo = Diagonal_Izquierda_Abajo(i, j, false);
                         Boolean DiagonalDerechaAbajo = Diagonal_Derecha_Abajo(i, j, false);
-                        //string Resultados = "Fila: " + i.ToString() + "Columna: " + j.ToString();
-                        //ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + Resultados + "');", true);
                         if (VerticalArriba == true || VerticalAbajo == true
                         || HorizontalIzquierda == true || HorizontalDerecha == true
                         || DiagonalIzquierdaArriba == true || DiagonalDerechaArriba == true
                         || DiagonalIzquierdaAbajo == true || DiagonalDerechaAbajo == true)
                         {
-                            //Resultados = "Fila: " + i + "Columna: " + j;
-                            //ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + Resultados + "');", true);
                             Encontrado = true;
-                            Session["ContadorPila"] = 0;
-                            Boolean VerticalArriba1 = Vertical_Arriba(i, j, true);
-                            VoltearFichas(VerticalArriba1);
-
-                            Session["ContadorPila"] = 0;
-                            Boolean VerticalAbajo1 = Vertical_Abajo(i, j, true);
-                            VoltearFichas(VerticalAbajo1);
-
-                            Session["ContadorPila"] = 0;
-                            Boolean HorizontalIzquierda1 = Horizontal_Izquierda(i, j, true);
-                            VoltearFichas(HorizontalIzquierda1);
-
-                            Session["ContadorPila"] = 0;
-                            Boolean HorizontalDerecha1 = Horizontal_Derecha(i, j, true);
-                            VoltearFichas(HorizontalDerecha1);
-
-                            Session["ContadorPila"] = 0;
-                            Boolean DiagonalIzquierdaArriba1 = Diagonal_Izquierda_Arriba(i, j, true);
-                            VoltearFichas(DiagonalIzquierdaArriba1);
-
-                            Session["ContadorPila"] = 0;
-                            Boolean DiagonalDerechaArriba1 = Diagonal_Derecha_Arriba(i, j, true);
-                            VoltearFichas(DiagonalDerechaArriba1);
-
-                            Session["ContadorPila"] = 0;
-                            Boolean DiagonalIzquierdaAbajo1 = Diagonal_Izquierda_Abajo(i, j, true);
-                            VoltearFichas(DiagonalIzquierdaAbajo1);
-
-                            Session["ContadorPila"] = 0;
-                            Boolean DiagonalDerechaAbajo1 = Diagonal_Derecha_Abajo(i, j, true);
-                            VoltearFichas(DiagonalDerechaAbajo1);
-
-                            String Fila = (i + 1).ToString();
-                            String Columna = ConvertirColumna(j);
-                            String position = Columna + Fila;
-
-                            ImageButton Casilla = FindControl(position) as ImageButton;
-
-                            int id = 0;
-                            if (Turno == true)
-                            {
-                                id = 1;
-                            }
-                            else if (Turno == false)
-                            {
-                                id = 2;
-                            }
-
-                            if (Turno == true)
-                            {
-                                Casilla.ImageUrl = "img/FichaB.png";
-                                Casilla.Enabled = false;
-                                int fil = EncontrarFila(Casilla.ID);
-                                int col = EncontrarColumna(Casilla.ID);
-                                Tablero[fil, col] = id;
-                                LblInv1.Visible = false;
-                                LblInv2.Visible = false;
-                                ImgSad.Visible = false;
-                                LblTurno.Text = (String)Session["Negras"];
-                                LblEspera.Text = (String)Session["Blancas"];
-                                Session["ContadorBlancas"] = (int)Session["ContadorBlancas"] + 1;
-                                LblMov1.Text = "MOVIMIENTOS DE " + (string)Session["Blancas"] + ": " + (int)Session["ContadorBlancas"];
-                                LblMov2.Text = "MOVIMIENTOS DE " + (string)Session["Negras"] + ": " + (int)Session["ContadorNegras"];
-                                Application["Turno"] = false;
-                                PartidaContinua();
-                            }
-                            else
-                            {
-                                Casilla.ImageUrl = "img/FichaN.png";
-                                Casilla.Enabled = false;
-                                int fil = EncontrarFila(Casilla.ID);
-                                int col = EncontrarColumna(Casilla.ID);
-                                Tablero[fil, col] = id;
-                                LblInv1.Visible = false;
-                                LblInv2.Visible = false;
-                                ImgSad.Visible = false;
-                                LblTurno.Text = (String)Session["Blancas"];
-                                LblEspera.Text = (String)Session["Negras"];
-                                Session["ContadorNegras"] = (int)Session["ContadorNegras"] + 1;
-                                LblMov1.Text = "MOVIMIENTOS DE " + (string)Session["Blancas"] + ": " + (int)Session["ContadorBlancas"];
-                                LblMov2.Text = "MOVIMIENTOS DE " + (string)Session["Negras"] + ": " + (int)Session["ContadorNegras"];
-                                Application["Turno"] = true;
-                                PartidaContinua();
-                            }
+                            pila.Push(i.ToString() + j.ToString());
+                            ContadorPila++;
                         }
                     }
                 }
             }
+
+            if (Encontrado == true)
+            {
+                //ESCOGIENDO CASILLA ALEATORIA
+                Random aletario = new Random();
+                int CasillaAleatoria;
+                CasillaAleatoria = aletario.Next(1, ContadorPila + 1);
+                string casilla = "";
+                for (int m = 1; m <= CasillaAleatoria; m++)
+                {
+                    casilla = pila.Pop();
+                }
+                int i = Int32.Parse(casilla.Substring(0, 1));
+                int j = Int32.Parse(casilla.Substring(1, 1));
+
+                //AHORA YA, A TIRAR :V
+                Session["ContadorPila"] = 0;
+                Boolean VerticalArriba1 = Vertical_Arriba(i, j, true);
+                VoltearFichas(VerticalArriba1);
+
+                Session["ContadorPila"] = 0;
+                Boolean VerticalAbajo1 = Vertical_Abajo(i, j, true);
+                VoltearFichas(VerticalAbajo1);
+
+                Session["ContadorPila"] = 0;
+                Boolean HorizontalIzquierda1 = Horizontal_Izquierda(i, j, true);
+                VoltearFichas(HorizontalIzquierda1);
+
+                Session["ContadorPila"] = 0;
+                Boolean HorizontalDerecha1 = Horizontal_Derecha(i, j, true);
+                VoltearFichas(HorizontalDerecha1);
+
+                Session["ContadorPila"] = 0;
+                Boolean DiagonalIzquierdaArriba1 = Diagonal_Izquierda_Arriba(i, j, true);
+                VoltearFichas(DiagonalIzquierdaArriba1);
+
+                Session["ContadorPila"] = 0;
+                Boolean DiagonalDerechaArriba1 = Diagonal_Derecha_Arriba(i, j, true);
+                VoltearFichas(DiagonalDerechaArriba1);
+
+                Session["ContadorPila"] = 0;
+                Boolean DiagonalIzquierdaAbajo1 = Diagonal_Izquierda_Abajo(i, j, true);
+                VoltearFichas(DiagonalIzquierdaAbajo1);
+
+                Session["ContadorPila"] = 0;
+                Boolean DiagonalDerechaAbajo1 = Diagonal_Derecha_Abajo(i, j, true);
+                VoltearFichas(DiagonalDerechaAbajo1);
+
+                String Fila = (i + 1).ToString();
+                String Columna = ConvertirColumna(j);
+                String position = Columna + Fila;
+
+                ImageButton Casilla = FindControl(position) as ImageButton;
+
+                int id = 0;
+                if (Turno == true)
+                {
+                    id = 1;
+                }
+                else if (Turno == false)
+                {
+                    id = 2;
+                }
+
+                if (Turno == true)
+                {
+                    Casilla.ImageUrl = "img/FichaB.png";
+                    Casilla.Enabled = false;
+                    int fil = EncontrarFila(Casilla.ID);
+                    int col = EncontrarColumna(Casilla.ID);
+                    Tablero[fil, col] = id;
+                    LblInv1.Visible = false;
+                    LblInv2.Visible = false;
+                    ImgSad.Visible = false;
+                    LblTurno.Text = (String)Session["Negras"];
+                    LblEspera.Text = (String)Session["Blancas"];
+                    Session["ContadorBlancas"] = (int)Session["ContadorBlancas"] + 1;
+                    LblMov1.Text = "MOVIMIENTOS DE " + (string)Session["Blancas"] + ": " + (int)Session["ContadorBlancas"];
+                    LblMov2.Text = "MOVIMIENTOS DE " + (string)Session["Negras"] + ": " + (int)Session["ContadorNegras"];
+                    Application["Turno"] = false;
+                    PartidaContinua();
+                }
+                else
+                {
+                    Casilla.ImageUrl = "img/FichaN.png";
+                    Casilla.Enabled = false;
+                    int fil = EncontrarFila(Casilla.ID);
+                    int col = EncontrarColumna(Casilla.ID);
+                    Tablero[fil, col] = id;
+                    LblInv1.Visible = false;
+                    LblInv2.Visible = false;
+                    ImgSad.Visible = false;
+                    LblTurno.Text = (String)Session["Blancas"];
+                    LblEspera.Text = (String)Session["Negras"];
+                    Session["ContadorNegras"] = (int)Session["ContadorNegras"] + 1;
+                    LblMov1.Text = "MOVIMIENTOS DE " + (string)Session["Blancas"] + ": " + (int)Session["ContadorBlancas"];
+                    LblMov2.Text = "MOVIMIENTOS DE " + (string)Session["Negras"] + ": " + (int)Session["ContadorNegras"];
+                    Application["Turno"] = true;
+                    PartidaContinua();
+                }
+            }
+
         }
 
         public void PartidaContinua()

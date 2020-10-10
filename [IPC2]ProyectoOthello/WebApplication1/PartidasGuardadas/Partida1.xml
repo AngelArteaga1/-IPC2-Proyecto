@@ -1,97 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <tablero>
   <ficha>
-    <color>blanco</color>
-    <columna>A</columna>
-    <fila>1</fila>
-  </ficha>
-  <ficha>
-    <color>blanco</color>
-    <columna>B</columna>
-    <fila>1</fila>
-  </ficha>
-  <ficha>
-    <color>blanco</color>
-    <columna>C</columna>
-    <fila>1</fila>
-  </ficha>
-  <ficha>
-    <color>blanco</color>
-    <columna>D</columna>
-    <fila>1</fila>
-  </ficha>
-  <ficha>
-    <color>blanco</color>
-    <columna>E</columna>
-    <fila>1</fila>
-  </ficha>
-  <ficha>
-    <color>blanco</color>
-    <columna>F</columna>
-    <fila>1</fila>
-  </ficha>
-  <ficha>
-    <color>blanco</color>
-    <columna>G</columna>
-    <fila>1</fila>
-  </ficha>
-  <ficha>
-    <color>blanco</color>
-    <columna>A</columna>
-    <fila>2</fila>
-  </ficha>
-  <ficha>
-    <color>blanco</color>
-    <columna>B</columna>
-    <fila>2</fila>
-  </ficha>
-  <ficha>
-    <color>negro</color>
-    <columna>C</columna>
-    <fila>2</fila>
-  </ficha>
-  <ficha>
-    <color>blanco</color>
-    <columna>D</columna>
-    <fila>2</fila>
-  </ficha>
-  <ficha>
-    <color>negro</color>
-    <columna>E</columna>
-    <fila>2</fila>
-  </ficha>
-  <ficha>
-    <color>blanco</color>
-    <columna>F</columna>
-    <fila>2</fila>
-  </ficha>
-  <ficha>
-    <color>blanco</color>
-    <columna>G</columna>
-    <fila>2</fila>
-  </ficha>
-  <ficha>
-    <color>blanco</color>
-    <columna>A</columna>
-    <fila>3</fila>
-  </ficha>
-  <ficha>
-    <color>negro</color>
-    <columna>B</columna>
-    <fila>3</fila>
-  </ficha>
-  <ficha>
-    <color>blanco</color>
-    <columna>C</columna>
-    <fila>3</fila>
-  </ficha>
-  <ficha>
     <color>negro</color>
     <columna>D</columna>
     <fila>3</fila>
   </ficha>
   <ficha>
-    <color>blanco</color>
+    <color>negro</color>
     <columna>E</columna>
     <fila>3</fila>
   </ficha>
@@ -101,59 +16,19 @@
     <fila>3</fila>
   </ficha>
   <ficha>
-    <color>blanco</color>
-    <columna>G</columna>
-    <fila>3</fila>
-  </ficha>
-  <ficha>
-    <color>blanco</color>
-    <columna>A</columna>
-    <fila>4</fila>
-  </ficha>
-  <ficha>
-    <color>negro</color>
-    <columna>B</columna>
-    <fila>4</fila>
-  </ficha>
-  <ficha>
-    <color>negro</color>
-    <columna>C</columna>
-    <fila>4</fila>
-  </ficha>
-  <ficha>
     <color>negro</color>
     <columna>D</columna>
     <fila>4</fila>
   </ficha>
   <ficha>
-    <color>blanco</color>
+    <color>negro</color>
     <columna>E</columna>
     <fila>4</fila>
   </ficha>
   <ficha>
-    <color>negro</color>
+    <color>blanco</color>
     <columna>F</columna>
     <fila>4</fila>
-  </ficha>
-  <ficha>
-    <color>blanco</color>
-    <columna>G</columna>
-    <fila>4</fila>
-  </ficha>
-  <ficha>
-    <color>blanco</color>
-    <columna>A</columna>
-    <fila>5</fila>
-  </ficha>
-  <ficha>
-    <color>negro</color>
-    <columna>B</columna>
-    <fila>5</fila>
-  </ficha>
-  <ficha>
-    <color>blanco</color>
-    <columna>C</columna>
-    <fila>5</fila>
   </ficha>
   <ficha>
     <color>negro</color>
@@ -171,21 +46,6 @@
     <fila>5</fila>
   </ficha>
   <ficha>
-    <color>negro</color>
-    <columna>G</columna>
-    <fila>5</fila>
-  </ficha>
-  <ficha>
-    <color>blanco</color>
-    <columna>A</columna>
-    <fila>6</fila>
-  </ficha>
-  <ficha>
-    <color>negro</color>
-    <columna>B</columna>
-    <fila>6</fila>
-  </ficha>
-  <ficha>
     <color>blanco</color>
     <columna>C</columna>
     <fila>6</fila>
@@ -196,13 +56,8 @@
     <fila>6</fila>
   </ficha>
   <ficha>
-    <color>blanco</color>
-    <columna>E</columna>
-    <fila>6</fila>
-  </ficha>
-  <ficha>
     <color>negro</color>
-    <columna>F</columna>
+    <columna>E</columna>
     <fila>6</fila>
   </ficha>
   <ficha>
@@ -212,16 +67,11 @@
   </ficha>
   <ficha>
     <color>blanco</color>
-    <columna>A</columna>
-    <fila>7</fila>
-  </ficha>
-  <ficha>
-    <color>negro</color>
     <columna>B</columna>
     <fila>7</fila>
   </ficha>
   <ficha>
-    <color>negro</color>
+    <color>blanco</color>
     <columna>C</columna>
     <fila>7</fila>
   </ficha>
@@ -229,53 +79,8 @@
     <color>blanco</color>
     <columna>D</columna>
     <fila>7</fila>
-  </ficha>
-  <ficha>
-    <color>negro</color>
-    <columna>E</columna>
-    <fila>7</fila>
-  </ficha>
-  <ficha>
-    <color>negro</color>
-    <columna>F</columna>
-    <fila>7</fila>
-  </ficha>
-  <ficha>
-    <color>negro</color>
-    <columna>G</columna>
-    <fila>7</fila>
-  </ficha>
-  <ficha>
-    <color>negro</color>
-    <columna>B</columna>
-    <fila>8</fila>
-  </ficha>
-  <ficha>
-    <color>negro</color>
-    <columna>C</columna>
-    <fila>8</fila>
-  </ficha>
-  <ficha>
-    <color>negro</color>
-    <columna>D</columna>
-    <fila>8</fila>
-  </ficha>
-  <ficha>
-    <color>negro</color>
-    <columna>E</columna>
-    <fila>8</fila>
-  </ficha>
-  <ficha>
-    <color>negro</color>
-    <columna>F</columna>
-    <fila>8</fila>
-  </ficha>
-  <ficha>
-    <color>negro</color>
-    <columna>G</columna>
-    <fila>8</fila>
   </ficha>
   <siguienteTiro>
-    <color>negro</color>
+    <color>blanco</color>
   </siguienteTiro>
 </tablero>
