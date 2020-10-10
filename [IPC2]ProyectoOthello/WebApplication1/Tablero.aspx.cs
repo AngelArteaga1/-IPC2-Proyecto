@@ -1025,7 +1025,7 @@ namespace WebApplication1
             {
                 for (int j = 0; j < Tablero.GetLength(1); j++)
                 {
-                    if (Encontrado == false)
+                    if (Encontrado == false && Tablero[i,j] == 0)
                     {
                         Boolean VerticalArriba = Vertical_Arriba(i, j, false);
                         Boolean VerticalAbajo = Vertical_Abajo(i, j, false);
