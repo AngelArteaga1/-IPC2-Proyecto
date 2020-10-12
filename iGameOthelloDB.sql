@@ -19,7 +19,6 @@ CREATE TABLE Torneo
 	idTorneo int IDENTITY(1,1) PRIMARY KEY,
 	Tipo nvarchar(50),
 	Estado nvarchar(50),
-	Ganador nvarchar(50),
 	)
 
 	CREATE TABLE UsuarioTorneo
@@ -45,20 +44,11 @@ CREATE TABLE Partida
 	idRonda int FOREIGN KEY REFERENCES Ronda(idRonda) ON UPDATE CASCADE ON DELETE CASCADE
 	)
 
-CREATE TABLE ResultadoPartida
-	(
-	idResultado int IDENTITY(1,1) PRIMARY KEY,
-	Ganador nvarchar(50),
-	Perdedor nvarchar(50),
-	Apellido nvarchar(50),
-	Empate nvarchar(50),
-	idPartida int FOREIGN KEY REFERENCES Partida(idPartida) ON UPDATE CASCADE ON DELETE CASCADE
-	)
-
 CREATE TABLE UsuarioPartida
 	(
 	idUsuarioPartida int IDENTITY(1,1) PRIMARY KEY,
+	ColorFicha nvarchar(50),
+	Resultado nvarchar(50),
 	idUsuario int FOREIGN KEY REFERENCES Usuarios(idUsuario) ON UPDATE CASCADE ON DELETE CASCADE,
-	idPartida int FOREIGN KEY REFERENCES Partida(idPartida) ON UPDATE CASCADE ON DELETE CASCADE,
-	ColorFicha nvarchar(50)
+	idPartida int FOREIGN KEY REFERENCES Partida(idPartida) ON UPDATE CASCADE ON DELETE CASCADE
 	)

@@ -47,8 +47,7 @@ namespace WebApplication1
                     SqlCon.Close();
                     if (leido == true)
                     {
-                        int partidas = 0;
-                        Session["Partidas"] = partidas;
+                        Session["Partidas"] = 0;
                         Session["Usuario"] = Usuario;
                         Response.Redirect("Principal.aspx");
                     }

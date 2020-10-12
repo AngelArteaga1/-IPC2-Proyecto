@@ -7,6 +7,10 @@ using System.Web.UI.WebControls;
 using System.Xml;
 using System.Globalization;
 using System.Threading;
+using System.Data.SqlClient;
+using System.Data;
+using System.IO;
+using System.Text;
 
 namespace WebApplication1
 {
@@ -166,14 +170,22 @@ namespace WebApplication1
             Session["Tablero"] = Tablero;
         }
 
-        public void GuardarPartida()
+        public void GuardarPartida(Boolean temporal)
         {
             Boolean turno = (Boolean)Application["Turno"];
             string columna = "";
             string fila = "";
             string color = "";
             int n = (int)Session["Partidas"];
-            string Ruta = @"C:\Users\admin\Documents\GitHub\-IPC2-Proyecto\[IPC2]ProyectoOthello\WebApplication1\PartidasGuardadas\Partida" + n.ToString() + ".xml";
+            string Ruta = "";
+            if (temporal == true)
+            {
+                Ruta = @"C:\Users\admin\Documents\GitHub\-IPC2-Proyecto\[IPC2]ProyectoOthello\WebApplication1\PartidasGuardadas\PartidaTemporal.xml";
+            }
+            else
+            {
+                Ruta = @"C:\Users\admin\Documents\GitHub\-IPC2-Proyecto\[IPC2]ProyectoOthello\WebApplication1\PartidasGuardadas\Partida" + n.ToString() + ".xml";
+            }
             XmlWriterSettings Confi = new XmlWriterSettings();
             Confi.Indent = true;
             XmlWriter writer = XmlWriter.Create(Ruta, Confi);
@@ -1210,6 +1222,7 @@ namespace WebApplication1
                     }
                 }
                 String Resultados = "";
+                string connectionString = @"Data Source=DESKTOP-4LJMEBM;Initial Catalog=iGameOthelloDB;Integrated Security=True";
                 if ((string)Session["Usuario"] == (string)Session["Blancas"])
                 {
                     if (Blancas > Negras)
@@ -1217,18 +1230,114 @@ namespace WebApplication1
                         Resultados = "¡" + ((string)Session["Usuario"]).ToUpper() + " HAS GANADO LA PARTIDA! :) | " 
                             + ((string)Session["Blancas"]).ToUpper() + ": " + Blancas + " fichas | "
                             + ((string)Session["Negras"]).ToUpper() + ": " + Negras + " fichas";
+
+                        using (SqlConnection SqlCon = new SqlConnection(connectionString))
+                        {
+
+                            //Obteniendo el modo de la partida
+                            string Modo = GetModo();
+                            //Obteninedo los movimientos xml
+                            string Movimientos = GetMovimientos();
+
+                            //Ingresando los datos de la partida
+                            SqlCon.Open();
+                            SqlCommand cmd1 = SqlCon.CreateCommand();
+                            cmd1.CommandType = CommandType.Text;
+                            cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos) " +
+                                "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "')";
+                            cmd1.ExecuteNonQuery();
+
+                            //Obteniendo el id de la ultima partida
+                            string idPartida = GetidPartida();
+
+                            //Obteninedo el id del usuario
+                            string idUsuario = GetidUsuario();
+
+                            //Colocando los resultados de la partida
+                            SqlCommand cmd3 = SqlCon.CreateCommand();
+                            cmd3.CommandType = CommandType.Text;
+                            cmd3.CommandText = "INSERT INTO UsuarioPartida (ColorFicha, Resultado, idUsuario, " +
+                                "idPartida) VALUES ('BLANCAS', 'GANADOR', '" + idUsuario +
+                                "', '" + idPartida + "')";
+                            cmd3.ExecuteNonQuery();
+                            SqlCon.Close();
+                        }
                     }
                     else if (Negras > Blancas)
                     {
                         Resultados = ((string)Session["Usuario"]).ToUpper() + " HAS PERDIDO LA PARTIDA... :( | "
                             + ((string)Session["Blancas"]).ToUpper() + ": " + Blancas + " fichas | "
                             + ((string)Session["Negras"]).ToUpper() + ": " + Negras + " fichas";
+
+                        using (SqlConnection SqlCon = new SqlConnection(connectionString))
+                        {
+
+                            //Obteniendo el modo de la partida
+                            string Modo = GetModo();
+                            //Obteninedo los movimientos xml
+                            string Movimientos = GetMovimientos();
+
+                            //Ingresando los datos de la partida
+                            SqlCon.Open();
+                            SqlCommand cmd1 = SqlCon.CreateCommand();
+                            cmd1.CommandType = CommandType.Text;
+                            cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos) " +
+                                "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "')";
+                            cmd1.ExecuteNonQuery();
+
+                            //Obteniendo el id de la ultima partida
+                            string idPartida = GetidPartida();
+
+                            //Obteninedo el id del usuario
+                            string idUsuario = GetidUsuario();
+
+                            //Colocando los resultados de la partida
+                            SqlCommand cmd3 = SqlCon.CreateCommand();
+                            cmd3.CommandType = CommandType.Text;
+                            cmd3.CommandText = "INSERT INTO UsuarioPartida (ColorFicha, Resultado, idUsuario, " +
+                                "idPartida) VALUES ('BLANCAS', 'PERDEDOR', '" + idUsuario +
+                                "', '" + idPartida + "')";
+                            cmd3.ExecuteNonQuery();
+                            SqlCon.Close();
+                        }
                     }
                     else if(Negras == Blancas)
                     {
                         Resultados = ((string)Session["Usuario"]).ToUpper() + " HAS EMPATADO LA PARTIDA :O | "
                             + ((string)Session["Blancas"]).ToUpper() + ": " + Blancas + " fichas | "
                             + ((string)Session["Negras"]).ToUpper() + ": " + Negras + " fichas";
+
+                        using (SqlConnection SqlCon = new SqlConnection(connectionString))
+                        {
+
+                            //Obteniendo el modo de la partida
+                            string Modo = GetModo();
+                            //Obteninedo los movimientos xml
+                            string Movimientos = GetMovimientos();
+
+                            //Ingresando los datos de la partida
+                            SqlCon.Open();
+                            SqlCommand cmd1 = SqlCon.CreateCommand();
+                            cmd1.CommandType = CommandType.Text;
+                            cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos) " +
+                                "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "')";
+                            cmd1.ExecuteNonQuery();
+
+                            //Obteniendo el id de la ultima partida
+                            string idPartida = GetidPartida();
+
+                            //Obteninedo el id del usuario
+                            string idUsuario = GetidUsuario();
+
+                            //Colocando los resultados de la partida
+                            SqlCommand cmd3 = SqlCon.CreateCommand();
+                            cmd3.CommandType = CommandType.Text;
+                            cmd3.CommandText = "INSERT INTO UsuarioPartida (ColorFicha, Resultado, idUsuario, " +
+                                "idPartida) VALUES ('BLANCAS', 'EMPATE', '" + idUsuario +
+                                "', '" + idPartida + "')";
+                            cmd3.ExecuteNonQuery();
+                            SqlCon.Close();
+                        }
                     }
                 } else if ((string)Session["Usuario"] == (string)Session["Negras"])
                 {
@@ -1237,23 +1346,171 @@ namespace WebApplication1
                         Resultados = "¡" + ((string)Session["Usuario"]).ToUpper() + " HAS GANADO LA PARTIDA! :) | "
                             + ((string)Session["Blancas"]).ToUpper() + ": " + Blancas + " fichas | "
                             + ((string)Session["Negras"]).ToUpper() + ": " + Negras + " fichas";
+
+                        using (SqlConnection SqlCon = new SqlConnection(connectionString))
+                        {
+
+                            //Obteniendo el modo de la partida
+                            string Modo = GetModo();
+                            //Obteninedo los movimientos xml
+                            string Movimientos = GetMovimientos();
+
+                            //Ingresando los datos de la partida
+                            SqlCon.Open();
+                            SqlCommand cmd1 = SqlCon.CreateCommand();
+                            cmd1.CommandType = CommandType.Text;
+                            cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos) " +
+                                "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "')";
+                            cmd1.ExecuteNonQuery();
+
+                            //Obteniendo el id de la ultima partida
+                            string idPartida = GetidPartida();
+
+                            //Obteninedo el id del usuario
+                            string idUsuario = GetidUsuario();
+
+                            //Colocando los resultados de la partida
+                            SqlCommand cmd3 = SqlCon.CreateCommand();
+                            cmd3.CommandType = CommandType.Text;
+                            cmd3.CommandText = "INSERT INTO UsuarioPartida (ColorFicha, Resultado, idUsuario, " +
+                                "idPartida) VALUES ('NEGRAS', 'GANADOR', '" + idUsuario +
+                                "', '" + idPartida + "')";
+                            cmd3.ExecuteNonQuery();
+                            SqlCon.Close();
+                        }
                     }
                     else if (Negras < Blancas)
                     {
                         Resultados = ((string)Session["Usuario"]).ToUpper() + " HAS PERDIDO LA PARTIDA... :( | "
                             + ((string)Session["Blancas"]).ToUpper() + ": " + Blancas + " fichas | "
                             + ((string)Session["Negras"]).ToUpper() + ": " + Negras + " fichas";
+
+                        using (SqlConnection SqlCon = new SqlConnection(connectionString))
+                        {
+
+                            //Obteniendo el modo de la partida
+                            string Modo = GetModo();
+                            //Obteninedo los movimientos xml
+                            string Movimientos = GetMovimientos();
+
+                            //Ingresando los datos de la partida
+                            SqlCon.Open();
+                            SqlCommand cmd1 = SqlCon.CreateCommand();
+                            cmd1.CommandType = CommandType.Text;
+                            cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos) " +
+                                "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "')";
+                            cmd1.ExecuteNonQuery();
+
+                            //Obteniendo el id de la ultima partida
+                            string idPartida = GetidPartida();
+
+                            //Obteninedo el id del usuario
+                            string idUsuario = GetidUsuario();
+
+                            //Colocando los resultados de la partida
+                            SqlCommand cmd3 = SqlCon.CreateCommand();
+                            cmd3.CommandType = CommandType.Text;
+                            cmd3.CommandText = "INSERT INTO UsuarioPartida (ColorFicha, Resultado, idUsuario, " +
+                                "idPartida) VALUES ('NEGRAS', 'PERDEDOR', '" + idUsuario +
+                                "', '" + idPartida + "')";
+                            cmd3.ExecuteNonQuery();
+                            SqlCon.Close();
+                        }
                     }
                     else if (Negras == Blancas)
                     {
                         Resultados = ((string)Session["Usuario"]).ToUpper() + " HAS EMPATADO LA PARTIDA :O | "
                             + ((string)Session["Blancas"]).ToUpper() + ": " + Blancas + " fichas | "
                             + ((string)Session["Negras"]).ToUpper() + ": " + Negras + " fichas";
+
+                        using (SqlConnection SqlCon = new SqlConnection(connectionString))
+                        {
+
+                            //Obteniendo el modo de la partida
+                            string Modo = GetModo();
+                            //Obteninedo los movimientos xml
+                            string Movimientos = GetMovimientos();
+
+                            //Ingresando los datos de la partida
+                            SqlCon.Open();
+                            SqlCommand cmd1 = SqlCon.CreateCommand();
+                            cmd1.CommandType = CommandType.Text;
+                            cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos) " +
+                                "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "')";
+                            cmd1.ExecuteNonQuery();
+
+                            //Obteniendo el id de la ultima partida
+                            string idPartida = GetidPartida();
+
+                            //Obteninedo el id del usuario
+                            string idUsuario = GetidUsuario();
+
+                            //Colocando los resultados de la partida
+                            SqlCommand cmd3 = SqlCon.CreateCommand();
+                            cmd3.CommandType = CommandType.Text;
+                            cmd3.CommandText = "INSERT INTO UsuarioPartida (ColorFicha, Resultado, idUsuario, " +
+                                "idPartida) VALUES ('NEGRAS', 'EMPATE', '" + idUsuario +
+                                "', '" + idPartida + "')";
+                            cmd3.ExecuteNonQuery();
+                            SqlCon.Close();
+                        }
                     }
                 }
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + Resultados + "');", true);
             }
 
+        }
+
+        public string GetidUsuario()
+        {
+            string connectionString = @"Data Source=DESKTOP-4LJMEBM;Initial Catalog=iGameOthelloDB;Integrated Security=True";
+            string idUsuario = "";
+            using (SqlConnection SqlCon = new SqlConnection(connectionString))
+            {
+                SqlCon.Open();
+                string query = "SELECT idUsuario As Valor FROM Usuarios WHERE NombreUsuario ='" + Session["Usuario"] + "'";
+                SqlCommand cmd = new SqlCommand(query, SqlCon);
+                idUsuario = Convert.ToString(cmd.ExecuteScalar());
+                SqlCon.Close();
+            }
+            return idUsuario;
+        }
+
+        public string GetidPartida()
+        {
+            string connectionString = @"Data Source=DESKTOP-4LJMEBM;Initial Catalog=iGameOthelloDB;Integrated Security=True";
+            string idPartida = "";
+            using (SqlConnection SqlCon = new SqlConnection(connectionString))
+            {
+                SqlCon.Open();
+                string query = "SELECT MAX(idPartida) As Valor FROM Partida";
+                SqlCommand cmd2 = new SqlCommand(query, SqlCon);
+                idPartida = Convert.ToString(cmd2.ExecuteScalar());
+                SqlCon.Close();
+            }
+            return idPartida;
+        }
+
+        public string GetModo()
+        {
+            string Modo = "";
+            if ((Boolean)Session["Modo"] == true)
+            {
+                Modo = "CPU";
+            }
+            else
+            {
+                Modo = "VS";
+            }
+            return Modo;
+        }
+
+        public string GetMovimientos()
+        {
+            GuardarPartida(true);
+            string Ruta = @"C:\Users\admin\Documents\GitHub\-IPC2-Proyecto\[IPC2]ProyectoOthello\WebApplication1\PartidasGuardadas\PartidaTemporal.xml";
+            string Movimientos = File.ReadAllText(Ruta);
+            return Movimientos;
         }
 
         protected void A1_Click(object sender, ImageClickEventArgs e){  ColocarFicha(A1);   }
@@ -1328,8 +1585,8 @@ namespace WebApplication1
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            GuardarPartida();
             Session["Partidas"] = (int)Session["Partidas"] + 1;
+            GuardarPartida(false);
             LblSucc.Visible = true;
         }
     }

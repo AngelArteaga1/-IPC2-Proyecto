@@ -43,7 +43,6 @@ namespace WebApplication1
                     LblError.Visible = false;
                     FileUpload1.SaveAs(Server.MapPath("~/FolderXML/" + FileUpload1.FileName));
                     Session["Archivo"] = Nombre;
-                    Session["Partidas"] = (int)Session["Partidas"] + 1;
                     if(RadioButtonList1.SelectedIndex == 0)
                     {
                         Session["Modo"] = true; //MODO CONTRA LA MAQUINA *TRUE*
