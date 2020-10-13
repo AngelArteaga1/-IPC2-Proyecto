@@ -41,6 +41,7 @@ CREATE TABLE Partida
 	Modo nvarchar(50),
 	Estado nvarchar(50),
 	Movimientos xml,
+	NoMovimientos int,
 	idRonda int FOREIGN KEY REFERENCES Ronda(idRonda) ON UPDATE CASCADE ON DELETE CASCADE
 	)
 

@@ -1243,8 +1243,8 @@ namespace WebApplication1
                             SqlCon.Open();
                             SqlCommand cmd1 = SqlCon.CreateCommand();
                             cmd1.CommandType = CommandType.Text;
-                            cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos) " +
-                                "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "')";
+                            cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos, NoMovimientos) " +
+                                "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "', " + Session["ContadorBlancas"] + ")";
                             cmd1.ExecuteNonQuery();
 
                             //Obteniendo el id de la ultima partida
@@ -1281,8 +1281,8 @@ namespace WebApplication1
                             SqlCon.Open();
                             SqlCommand cmd1 = SqlCon.CreateCommand();
                             cmd1.CommandType = CommandType.Text;
-                            cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos) " +
-                                "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "')";
+                            cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos, NoMovimientos) " +
+                                "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "', " + Session["ContadorBlancas"] + ")";
                             cmd1.ExecuteNonQuery();
 
                             //Obteniendo el id de la ultima partida
@@ -1319,8 +1319,8 @@ namespace WebApplication1
                             SqlCon.Open();
                             SqlCommand cmd1 = SqlCon.CreateCommand();
                             cmd1.CommandType = CommandType.Text;
-                            cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos) " +
-                                "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "')";
+                            cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos, NoMovimientos) " +
+                                "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "', " + Session["ContadorBlancas"] + ")";
                             cmd1.ExecuteNonQuery();
 
                             //Obteniendo el id de la ultima partida
@@ -1359,8 +1359,8 @@ namespace WebApplication1
                             SqlCon.Open();
                             SqlCommand cmd1 = SqlCon.CreateCommand();
                             cmd1.CommandType = CommandType.Text;
-                            cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos) " +
-                                "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "')";
+                            cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos, NoMovimientos) " +
+                                "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "', " + Session["ContadorBlancas"] + ")";
                             cmd1.ExecuteNonQuery();
 
                             //Obteniendo el id de la ultima partida
@@ -1397,8 +1397,8 @@ namespace WebApplication1
                             SqlCon.Open();
                             SqlCommand cmd1 = SqlCon.CreateCommand();
                             cmd1.CommandType = CommandType.Text;
-                            cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos) " +
-                                "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "')";
+                            cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos, NoMovimientos) " +
+                                "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "', " + Session["ContadorBlancas"] + ")";
                             cmd1.ExecuteNonQuery();
 
                             //Obteniendo el id de la ultima partida
@@ -1435,8 +1435,8 @@ namespace WebApplication1
                             SqlCon.Open();
                             SqlCommand cmd1 = SqlCon.CreateCommand();
                             cmd1.CommandType = CommandType.Text;
-                            cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos) " +
-                                "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "')";
+                            cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos, NoMovimientos) " +
+                                "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "', " + Session["ContadorBlancas"] + ")";
                             cmd1.ExecuteNonQuery();
 
                             //Obteniendo el id de la ultima partida
