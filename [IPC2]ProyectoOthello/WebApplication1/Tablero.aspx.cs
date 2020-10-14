@@ -981,10 +981,35 @@ namespace WebApplication1
                     LblMov1.Text = "MOVIMIENTOS DE " + (string)Session["Blancas"] + ": " + (int)Session["ContadorBlancas"];
                     LblMov2.Text = "MOVIMIENTOS DE " + (string)Session["Negras"] + ": " + (int)Session["ContadorNegras"];
                     Application["Turno"] = false;
-                    PartidaContinua();
-                    if ((Boolean)Session["Modo"] == true)
+                    Boolean Continua = PartidaContinua();
+                    if (Continua == false)
                     {
-                        TiroMaquina();
+                        Application["Turno"] = true;
+                        Boolean Continua2 = PartidaContinua();
+                        if (Continua2 == false)
+                        {
+                            Application["Turno"] = false;
+                            TerminarPartida();
+                        }
+                        else
+                        {
+                            Application["Turno"] = true;
+                            LblTurno.Text = (String)Session["Blancas"];
+                            LblEspera.Text = (String)Session["Negras"];
+                            LblInv1.Text = "¡REPITE TURNO!";
+                            LblInv2.Text = "El OTRO JUGADOR NO POSEE TIROS";
+                            ImgSad.ImageUrl = "img/star.png";
+                            LblInv2.Visible = true;
+                            LblInv1.Visible = true;
+                            ImgSad.Visible = true;
+                        }
+                    }
+                    else
+                    {
+                        if ((Boolean)Session["Modo"] == true)
+                        {
+                            TiroMaquina();
+                        }
                     }
                 }
                 else
@@ -1003,15 +1028,43 @@ namespace WebApplication1
                     LblMov1.Text = "MOVIMIENTOS DE " + (string)Session["Blancas"] + ": " + (int)Session["ContadorBlancas"];
                     LblMov2.Text = "MOVIMIENTOS DE " + (string)Session["Negras"] + ": " + (int)Session["ContadorNegras"];
                     Application["Turno"] = true;
-                    PartidaContinua();
-                    if ((Boolean)Session["Modo"] == true)
+                    Boolean Continua = PartidaContinua();
+                    if (Continua == false)
                     {
-                        TiroMaquina();
+                        Application["Turno"] = false;
+                        Boolean Continua2 = PartidaContinua();
+                        if (Continua2 == false)
+                        {
+                            Application["Turno"] = true;
+                            TerminarPartida();
+                        }
+                        else
+                        {
+                            Application["Turno"] = false;
+                            LblTurno.Text = (String)Session["Negras"];
+                            LblEspera.Text = (String)Session["Blancas"];
+                            LblInv1.Text = "¡REPITE TURNO!";
+                            LblInv2.Text = "El OTRO JUGADOR NO POSEE TIROS";
+                            ImgSad.ImageUrl = "img/star.png";
+                            LblInv2.Visible = true;
+                            LblInv1.Visible = true;
+                            ImgSad.Visible = true;
+                        }
+                    }
+                    else
+                    {
+                        if ((Boolean)Session["Modo"] == true)
+                        {
+                            TiroMaquina();
+                        }
                     }
                 }
             }
             else
             {
+                LblInv1.Text = "!TIRO INVALIDO!";
+                LblInv2.Text = "PORFAVOR REPITA SU JUGADA";
+                ImgSad.ImageUrl = "img/sad.png";
                 LblInv1.Visible = true;
                 LblInv2.Visible = true;
                 ImgSad.Visible = true;
@@ -1132,7 +1185,11 @@ namespace WebApplication1
                     LblMov1.Text = "MOVIMIENTOS DE " + (string)Session["Blancas"] + ": " + (int)Session["ContadorBlancas"];
                     LblMov2.Text = "MOVIMIENTOS DE " + (string)Session["Negras"] + ": " + (int)Session["ContadorNegras"];
                     Application["Turno"] = false;
-                    PartidaContinua();
+                    Boolean Continua = PartidaContinua();
+                    if (Continua == false)
+                    {
+                        TerminarPartida();
+                    }
                 }
                 else
                 {
@@ -1150,13 +1207,17 @@ namespace WebApplication1
                     LblMov1.Text = "MOVIMIENTOS DE " + (string)Session["Blancas"] + ": " + (int)Session["ContadorBlancas"];
                     LblMov2.Text = "MOVIMIENTOS DE " + (string)Session["Negras"] + ": " + (int)Session["ContadorNegras"];
                     Application["Turno"] = true;
-                    PartidaContinua();
+                    Boolean Continua = PartidaContinua();
+                    if (Continua == false)
+                    {
+                        TerminarPartida();
+                    }
                 }
             }
 
         }
 
-        public void PartidaContinua()
+        public Boolean PartidaContinua()
         {
             int[,] Tablero = (int[,])Session["Tablero"];
             Boolean Continua = false;
@@ -1205,260 +1266,270 @@ namespace WebApplication1
 
             if (Continua == false || Llena == true)
             {
-                int Blancas = 0;
-                int Negras = 0;
-                for (int i = 0; i < Tablero.GetLength(0); i++)
-                {
-                    for (int j = 0; j < Tablero.GetLength(1); j++)
-                    {
-                        if (Tablero[i,j] == 1)
-                        {
-                            Blancas++;
-                        }
-                        else if(Tablero[i,j] == 2)
-                        {
-                            Negras++;
-                        }
-                    }
-                }
-                String Resultados = "";
-                string connectionString = @"Data Source=DESKTOP-4LJMEBM;Initial Catalog=iGameOthelloDB;Integrated Security=True";
-                if ((string)Session["Usuario"] == (string)Session["Blancas"])
-                {
-                    if (Blancas > Negras)
-                    {
-                        Resultados = "¡" + ((string)Session["Usuario"]).ToUpper() + " HAS GANADO LA PARTIDA! :) | " 
-                            + ((string)Session["Blancas"]).ToUpper() + ": " + Blancas + " fichas | "
-                            + ((string)Session["Negras"]).ToUpper() + ": " + Negras + " fichas";
-
-                        using (SqlConnection SqlCon = new SqlConnection(connectionString))
-                        {
-
-                            //Obteniendo el modo de la partida
-                            string Modo = GetModo();
-                            //Obteninedo los movimientos xml
-                            string Movimientos = GetMovimientos();
-
-                            //Ingresando los datos de la partida
-                            SqlCon.Open();
-                            SqlCommand cmd1 = SqlCon.CreateCommand();
-                            cmd1.CommandType = CommandType.Text;
-                            cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos, NoMovimientos) " +
-                                "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "', " + Session["ContadorBlancas"] + ")";
-                            cmd1.ExecuteNonQuery();
-
-                            //Obteniendo el id de la ultima partida
-                            string idPartida = GetidPartida();
-
-                            //Obteninedo el id del usuario
-                            string idUsuario = GetidUsuario();
-
-                            //Colocando los resultados de la partida
-                            SqlCommand cmd3 = SqlCon.CreateCommand();
-                            cmd3.CommandType = CommandType.Text;
-                            cmd3.CommandText = "INSERT INTO UsuarioPartida (ColorFicha, Resultado, idUsuario, " +
-                                "idPartida) VALUES ('BLANCAS', 'GANADOR', '" + idUsuario +
-                                "', '" + idPartida + "')";
-                            cmd3.ExecuteNonQuery();
-                            SqlCon.Close();
-                        }
-                    }
-                    else if (Negras > Blancas)
-                    {
-                        Resultados = ((string)Session["Usuario"]).ToUpper() + " HAS PERDIDO LA PARTIDA... :( | "
-                            + ((string)Session["Blancas"]).ToUpper() + ": " + Blancas + " fichas | "
-                            + ((string)Session["Negras"]).ToUpper() + ": " + Negras + " fichas";
-
-                        using (SqlConnection SqlCon = new SqlConnection(connectionString))
-                        {
-
-                            //Obteniendo el modo de la partida
-                            string Modo = GetModo();
-                            //Obteninedo los movimientos xml
-                            string Movimientos = GetMovimientos();
-
-                            //Ingresando los datos de la partida
-                            SqlCon.Open();
-                            SqlCommand cmd1 = SqlCon.CreateCommand();
-                            cmd1.CommandType = CommandType.Text;
-                            cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos, NoMovimientos) " +
-                                "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "', " + Session["ContadorBlancas"] + ")";
-                            cmd1.ExecuteNonQuery();
-
-                            //Obteniendo el id de la ultima partida
-                            string idPartida = GetidPartida();
-
-                            //Obteninedo el id del usuario
-                            string idUsuario = GetidUsuario();
-
-                            //Colocando los resultados de la partida
-                            SqlCommand cmd3 = SqlCon.CreateCommand();
-                            cmd3.CommandType = CommandType.Text;
-                            cmd3.CommandText = "INSERT INTO UsuarioPartida (ColorFicha, Resultado, idUsuario, " +
-                                "idPartida) VALUES ('BLANCAS', 'PERDEDOR', '" + idUsuario +
-                                "', '" + idPartida + "')";
-                            cmd3.ExecuteNonQuery();
-                            SqlCon.Close();
-                        }
-                    }
-                    else if(Negras == Blancas)
-                    {
-                        Resultados = ((string)Session["Usuario"]).ToUpper() + " HAS EMPATADO LA PARTIDA :O | "
-                            + ((string)Session["Blancas"]).ToUpper() + ": " + Blancas + " fichas | "
-                            + ((string)Session["Negras"]).ToUpper() + ": " + Negras + " fichas";
-
-                        using (SqlConnection SqlCon = new SqlConnection(connectionString))
-                        {
-
-                            //Obteniendo el modo de la partida
-                            string Modo = GetModo();
-                            //Obteninedo los movimientos xml
-                            string Movimientos = GetMovimientos();
-
-                            //Ingresando los datos de la partida
-                            SqlCon.Open();
-                            SqlCommand cmd1 = SqlCon.CreateCommand();
-                            cmd1.CommandType = CommandType.Text;
-                            cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos, NoMovimientos) " +
-                                "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "', " + Session["ContadorBlancas"] + ")";
-                            cmd1.ExecuteNonQuery();
-
-                            //Obteniendo el id de la ultima partida
-                            string idPartida = GetidPartida();
-
-                            //Obteninedo el id del usuario
-                            string idUsuario = GetidUsuario();
-
-                            //Colocando los resultados de la partida
-                            SqlCommand cmd3 = SqlCon.CreateCommand();
-                            cmd3.CommandType = CommandType.Text;
-                            cmd3.CommandText = "INSERT INTO UsuarioPartida (ColorFicha, Resultado, idUsuario, " +
-                                "idPartida) VALUES ('BLANCAS', 'EMPATE', '" + idUsuario +
-                                "', '" + idPartida + "')";
-                            cmd3.ExecuteNonQuery();
-                            SqlCon.Close();
-                        }
-                    }
-                } else if ((string)Session["Usuario"] == (string)Session["Negras"])
-                {
-                    if (Blancas < Negras)
-                    {
-                        Resultados = "¡" + ((string)Session["Usuario"]).ToUpper() + " HAS GANADO LA PARTIDA! :) | "
-                            + ((string)Session["Blancas"]).ToUpper() + ": " + Blancas + " fichas | "
-                            + ((string)Session["Negras"]).ToUpper() + ": " + Negras + " fichas";
-
-                        using (SqlConnection SqlCon = new SqlConnection(connectionString))
-                        {
-
-                            //Obteniendo el modo de la partida
-                            string Modo = GetModo();
-                            //Obteninedo los movimientos xml
-                            string Movimientos = GetMovimientos();
-
-                            //Ingresando los datos de la partida
-                            SqlCon.Open();
-                            SqlCommand cmd1 = SqlCon.CreateCommand();
-                            cmd1.CommandType = CommandType.Text;
-                            cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos, NoMovimientos) " +
-                                "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "', " + Session["ContadorBlancas"] + ")";
-                            cmd1.ExecuteNonQuery();
-
-                            //Obteniendo el id de la ultima partida
-                            string idPartida = GetidPartida();
-
-                            //Obteninedo el id del usuario
-                            string idUsuario = GetidUsuario();
-
-                            //Colocando los resultados de la partida
-                            SqlCommand cmd3 = SqlCon.CreateCommand();
-                            cmd3.CommandType = CommandType.Text;
-                            cmd3.CommandText = "INSERT INTO UsuarioPartida (ColorFicha, Resultado, idUsuario, " +
-                                "idPartida) VALUES ('NEGRAS', 'GANADOR', '" + idUsuario +
-                                "', '" + idPartida + "')";
-                            cmd3.ExecuteNonQuery();
-                            SqlCon.Close();
-                        }
-                    }
-                    else if (Negras < Blancas)
-                    {
-                        Resultados = ((string)Session["Usuario"]).ToUpper() + " HAS PERDIDO LA PARTIDA... :( | "
-                            + ((string)Session["Blancas"]).ToUpper() + ": " + Blancas + " fichas | "
-                            + ((string)Session["Negras"]).ToUpper() + ": " + Negras + " fichas";
-
-                        using (SqlConnection SqlCon = new SqlConnection(connectionString))
-                        {
-
-                            //Obteniendo el modo de la partida
-                            string Modo = GetModo();
-                            //Obteninedo los movimientos xml
-                            string Movimientos = GetMovimientos();
-
-                            //Ingresando los datos de la partida
-                            SqlCon.Open();
-                            SqlCommand cmd1 = SqlCon.CreateCommand();
-                            cmd1.CommandType = CommandType.Text;
-                            cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos, NoMovimientos) " +
-                                "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "', " + Session["ContadorBlancas"] + ")";
-                            cmd1.ExecuteNonQuery();
-
-                            //Obteniendo el id de la ultima partida
-                            string idPartida = GetidPartida();
-
-                            //Obteninedo el id del usuario
-                            string idUsuario = GetidUsuario();
-
-                            //Colocando los resultados de la partida
-                            SqlCommand cmd3 = SqlCon.CreateCommand();
-                            cmd3.CommandType = CommandType.Text;
-                            cmd3.CommandText = "INSERT INTO UsuarioPartida (ColorFicha, Resultado, idUsuario, " +
-                                "idPartida) VALUES ('NEGRAS', 'PERDEDOR', '" + idUsuario +
-                                "', '" + idPartida + "')";
-                            cmd3.ExecuteNonQuery();
-                            SqlCon.Close();
-                        }
-                    }
-                    else if (Negras == Blancas)
-                    {
-                        Resultados = ((string)Session["Usuario"]).ToUpper() + " HAS EMPATADO LA PARTIDA :O | "
-                            + ((string)Session["Blancas"]).ToUpper() + ": " + Blancas + " fichas | "
-                            + ((string)Session["Negras"]).ToUpper() + ": " + Negras + " fichas";
-
-                        using (SqlConnection SqlCon = new SqlConnection(connectionString))
-                        {
-
-                            //Obteniendo el modo de la partida
-                            string Modo = GetModo();
-                            //Obteninedo los movimientos xml
-                            string Movimientos = GetMovimientos();
-
-                            //Ingresando los datos de la partida
-                            SqlCon.Open();
-                            SqlCommand cmd1 = SqlCon.CreateCommand();
-                            cmd1.CommandType = CommandType.Text;
-                            cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos, NoMovimientos) " +
-                                "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "', " + Session["ContadorBlancas"] + ")";
-                            cmd1.ExecuteNonQuery();
-
-                            //Obteniendo el id de la ultima partida
-                            string idPartida = GetidPartida();
-
-                            //Obteninedo el id del usuario
-                            string idUsuario = GetidUsuario();
-
-                            //Colocando los resultados de la partida
-                            SqlCommand cmd3 = SqlCon.CreateCommand();
-                            cmd3.CommandType = CommandType.Text;
-                            cmd3.CommandText = "INSERT INTO UsuarioPartida (ColorFicha, Resultado, idUsuario, " +
-                                "idPartida) VALUES ('NEGRAS', 'EMPATE', '" + idUsuario +
-                                "', '" + idPartida + "')";
-                            cmd3.ExecuteNonQuery();
-                            SqlCon.Close();
-                        }
-                    }
-                }
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + Resultados + "');", true);
+                return false;
             }
+            else
+            {
+                return true;
+            }
+        }
 
+        public void TerminarPartida()
+        {
+            int[,] Tablero = (int[,])Session["Tablero"];
+            int Blancas = 0;
+            int Negras = 0;
+            for (int i = 0; i < Tablero.GetLength(0); i++)
+            {
+                for (int j = 0; j < Tablero.GetLength(1); j++)
+                {
+                    if (Tablero[i, j] == 1)
+                    {
+                        Blancas++;
+                    }
+                    else if (Tablero[i, j] == 2)
+                    {
+                        Negras++;
+                    }
+                }
+            }
+            String Resultados = "";
+            string connectionString = @"Data Source=DESKTOP-4LJMEBM;Initial Catalog=iGameOthelloDB;Integrated Security=True";
+            if ((string)Session["Usuario"] == (string)Session["Blancas"])
+            {
+                if (Blancas > Negras)
+                {
+                    Resultados = "¡" + ((string)Session["Usuario"]).ToUpper() + " HAS GANADO LA PARTIDA! :) | "
+                        + ((string)Session["Blancas"]).ToUpper() + ": " + Blancas + " fichas | "
+                        + ((string)Session["Negras"]).ToUpper() + ": " + Negras + " fichas";
+
+                    using (SqlConnection SqlCon = new SqlConnection(connectionString))
+                    {
+
+                        //Obteniendo el modo de la partida
+                        string Modo = GetModo();
+                        //Obteninedo los movimientos xml
+                        string Movimientos = GetMovimientos();
+
+                        //Ingresando los datos de la partida
+                        SqlCon.Open();
+                        SqlCommand cmd1 = SqlCon.CreateCommand();
+                        cmd1.CommandType = CommandType.Text;
+                        cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos, NoMovimientos) " +
+                            "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "', " + Session["ContadorBlancas"] + ")";
+                        cmd1.ExecuteNonQuery();
+
+                        //Obteniendo el id de la ultima partida
+                        string idPartida = GetidPartida();
+
+                        //Obteninedo el id del usuario
+                        string idUsuario = GetidUsuario();
+
+                        //Colocando los resultados de la partida
+                        SqlCommand cmd3 = SqlCon.CreateCommand();
+                        cmd3.CommandType = CommandType.Text;
+                        cmd3.CommandText = "INSERT INTO UsuarioPartida (ColorFicha, Resultado, idUsuario, " +
+                            "idPartida) VALUES ('BLANCAS', 'GANADOR', '" + idUsuario +
+                            "', '" + idPartida + "')";
+                        cmd3.ExecuteNonQuery();
+                        SqlCon.Close();
+                    }
+                }
+                else if (Negras > Blancas)
+                {
+                    Resultados = ((string)Session["Usuario"]).ToUpper() + " HAS PERDIDO LA PARTIDA... :( | "
+                        + ((string)Session["Blancas"]).ToUpper() + ": " + Blancas + " fichas | "
+                        + ((string)Session["Negras"]).ToUpper() + ": " + Negras + " fichas";
+
+                    using (SqlConnection SqlCon = new SqlConnection(connectionString))
+                    {
+
+                        //Obteniendo el modo de la partida
+                        string Modo = GetModo();
+                        //Obteninedo los movimientos xml
+                        string Movimientos = GetMovimientos();
+
+                        //Ingresando los datos de la partida
+                        SqlCon.Open();
+                        SqlCommand cmd1 = SqlCon.CreateCommand();
+                        cmd1.CommandType = CommandType.Text;
+                        cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos, NoMovimientos) " +
+                            "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "', " + Session["ContadorBlancas"] + ")";
+                        cmd1.ExecuteNonQuery();
+
+                        //Obteniendo el id de la ultima partida
+                        string idPartida = GetidPartida();
+
+                        //Obteninedo el id del usuario
+                        string idUsuario = GetidUsuario();
+
+                        //Colocando los resultados de la partida
+                        SqlCommand cmd3 = SqlCon.CreateCommand();
+                        cmd3.CommandType = CommandType.Text;
+                        cmd3.CommandText = "INSERT INTO UsuarioPartida (ColorFicha, Resultado, idUsuario, " +
+                            "idPartida) VALUES ('BLANCAS', 'PERDEDOR', '" + idUsuario +
+                            "', '" + idPartida + "')";
+                        cmd3.ExecuteNonQuery();
+                        SqlCon.Close();
+                    }
+                }
+                else if (Negras == Blancas)
+                {
+                    Resultados = ((string)Session["Usuario"]).ToUpper() + " HAS EMPATADO LA PARTIDA :O | "
+                        + ((string)Session["Blancas"]).ToUpper() + ": " + Blancas + " fichas | "
+                        + ((string)Session["Negras"]).ToUpper() + ": " + Negras + " fichas";
+
+                    using (SqlConnection SqlCon = new SqlConnection(connectionString))
+                    {
+
+                        //Obteniendo el modo de la partida
+                        string Modo = GetModo();
+                        //Obteninedo los movimientos xml
+                        string Movimientos = GetMovimientos();
+
+                        //Ingresando los datos de la partida
+                        SqlCon.Open();
+                        SqlCommand cmd1 = SqlCon.CreateCommand();
+                        cmd1.CommandType = CommandType.Text;
+                        cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos, NoMovimientos) " +
+                            "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "', " + Session["ContadorBlancas"] + ")";
+                        cmd1.ExecuteNonQuery();
+
+                        //Obteniendo el id de la ultima partida
+                        string idPartida = GetidPartida();
+
+                        //Obteninedo el id del usuario
+                        string idUsuario = GetidUsuario();
+
+                        //Colocando los resultados de la partida
+                        SqlCommand cmd3 = SqlCon.CreateCommand();
+                        cmd3.CommandType = CommandType.Text;
+                        cmd3.CommandText = "INSERT INTO UsuarioPartida (ColorFicha, Resultado, idUsuario, " +
+                            "idPartida) VALUES ('BLANCAS', 'EMPATE', '" + idUsuario +
+                            "', '" + idPartida + "')";
+                        cmd3.ExecuteNonQuery();
+                        SqlCon.Close();
+                    }
+                }
+            }
+            else if ((string)Session["Usuario"] == (string)Session["Negras"])
+            {
+                if (Blancas < Negras)
+                {
+                    Resultados = "¡" + ((string)Session["Usuario"]).ToUpper() + " HAS GANADO LA PARTIDA! :) | "
+                        + ((string)Session["Blancas"]).ToUpper() + ": " + Blancas + " fichas | "
+                        + ((string)Session["Negras"]).ToUpper() + ": " + Negras + " fichas";
+
+                    using (SqlConnection SqlCon = new SqlConnection(connectionString))
+                    {
+
+                        //Obteniendo el modo de la partida
+                        string Modo = GetModo();
+                        //Obteninedo los movimientos xml
+                        string Movimientos = GetMovimientos();
+
+                        //Ingresando los datos de la partida
+                        SqlCon.Open();
+                        SqlCommand cmd1 = SqlCon.CreateCommand();
+                        cmd1.CommandType = CommandType.Text;
+                        cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos, NoMovimientos) " +
+                            "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "', " + Session["ContadorBlancas"] + ")";
+                        cmd1.ExecuteNonQuery();
+
+                        //Obteniendo el id de la ultima partida
+                        string idPartida = GetidPartida();
+
+                        //Obteninedo el id del usuario
+                        string idUsuario = GetidUsuario();
+
+                        //Colocando los resultados de la partida
+                        SqlCommand cmd3 = SqlCon.CreateCommand();
+                        cmd3.CommandType = CommandType.Text;
+                        cmd3.CommandText = "INSERT INTO UsuarioPartida (ColorFicha, Resultado, idUsuario, " +
+                            "idPartida) VALUES ('NEGRAS', 'GANADOR', '" + idUsuario +
+                            "', '" + idPartida + "')";
+                        cmd3.ExecuteNonQuery();
+                        SqlCon.Close();
+                    }
+                }
+                else if (Negras < Blancas)
+                {
+                    Resultados = ((string)Session["Usuario"]).ToUpper() + " HAS PERDIDO LA PARTIDA... :( | "
+                        + ((string)Session["Blancas"]).ToUpper() + ": " + Blancas + " fichas | "
+                        + ((string)Session["Negras"]).ToUpper() + ": " + Negras + " fichas";
+
+                    using (SqlConnection SqlCon = new SqlConnection(connectionString))
+                    {
+
+                        //Obteniendo el modo de la partida
+                        string Modo = GetModo();
+                        //Obteninedo los movimientos xml
+                        string Movimientos = GetMovimientos();
+
+                        //Ingresando los datos de la partida
+                        SqlCon.Open();
+                        SqlCommand cmd1 = SqlCon.CreateCommand();
+                        cmd1.CommandType = CommandType.Text;
+                        cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos, NoMovimientos) " +
+                            "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "', " + Session["ContadorBlancas"] + ")";
+                        cmd1.ExecuteNonQuery();
+
+                        //Obteniendo el id de la ultima partida
+                        string idPartida = GetidPartida();
+
+                        //Obteninedo el id del usuario
+                        string idUsuario = GetidUsuario();
+
+                        //Colocando los resultados de la partida
+                        SqlCommand cmd3 = SqlCon.CreateCommand();
+                        cmd3.CommandType = CommandType.Text;
+                        cmd3.CommandText = "INSERT INTO UsuarioPartida (ColorFicha, Resultado, idUsuario, " +
+                            "idPartida) VALUES ('NEGRAS', 'PERDEDOR', '" + idUsuario +
+                            "', '" + idPartida + "')";
+                        cmd3.ExecuteNonQuery();
+                        SqlCon.Close();
+                    }
+                }
+                else if (Negras == Blancas)
+                {
+                    Resultados = ((string)Session["Usuario"]).ToUpper() + " HAS EMPATADO LA PARTIDA :O | "
+                        + ((string)Session["Blancas"]).ToUpper() + ": " + Blancas + " fichas | "
+                        + ((string)Session["Negras"]).ToUpper() + ": " + Negras + " fichas";
+
+                    using (SqlConnection SqlCon = new SqlConnection(connectionString))
+                    {
+
+                        //Obteniendo el modo de la partida
+                        string Modo = GetModo();
+                        //Obteninedo los movimientos xml
+                        string Movimientos = GetMovimientos();
+
+                        //Ingresando los datos de la partida
+                        SqlCon.Open();
+                        SqlCommand cmd1 = SqlCon.CreateCommand();
+                        cmd1.CommandType = CommandType.Text;
+                        cmd1.CommandText = "INSERT INTO Partida (Modo, Estado, Movimientos, NoMovimientos) " +
+                            "VALUES ('" + Modo + "', 'FINALIZADA', '" + Movimientos + "', " + Session["ContadorBlancas"] + ")";
+                        cmd1.ExecuteNonQuery();
+
+                        //Obteniendo el id de la ultima partida
+                        string idPartida = GetidPartida();
+
+                        //Obteninedo el id del usuario
+                        string idUsuario = GetidUsuario();
+
+                        //Colocando los resultados de la partida
+                        SqlCommand cmd3 = SqlCon.CreateCommand();
+                        cmd3.CommandType = CommandType.Text;
+                        cmd3.CommandText = "INSERT INTO UsuarioPartida (ColorFicha, Resultado, idUsuario, " +
+                            "idPartida) VALUES ('NEGRAS', 'EMPATE', '" + idUsuario +
+                            "', '" + idPartida + "')";
+                        cmd3.ExecuteNonQuery();
+                        SqlCon.Close();
+                    }
+                }
+            }
+            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + Resultados + "');", true);
         }
 
         public string GetidUsuario()
