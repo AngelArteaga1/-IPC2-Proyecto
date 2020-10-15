@@ -31,6 +31,15 @@ namespace WebApplication1 {
         protected global::System.Web.UI.WebControls.Label Label1;
         
         /// <summary>
+        /// Control BtnPerfil.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton BtnPerfil;
+        
+        /// <summary>
         /// Control BtnJugar.
         /// </summary>
         /// <remarks>
@@ -49,12 +58,12 @@ namespace WebApplication1 {
         protected global::System.Web.UI.WebControls.Button BtnTorneos;
         
         /// <summary>
-        /// Control BtnEstadisticas.
+        /// Control BtnXtreme.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BtnEstadisticas;
+        protected global::System.Web.UI.WebControls.Button BtnXtreme;
     }
 }

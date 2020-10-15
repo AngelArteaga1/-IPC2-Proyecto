@@ -20,9 +20,14 @@
                 <img src="img/pngwing.com.png" class="col-4" id="img1"/>
                 <div id="logo" class="col-8">iGameGT</div>
             </div>
-            <div class="col-7"></div>
+            <div class="col-6"></div>
             <div class="col-2">
-                <asp:Label ID="Label1" runat="server" Text="Usuario" CssClass="usuario"></asp:Label>
+                <div class="usuario">
+                    <asp:Label ID="Label1" runat="server" Text="Usuario" CssClass="usuario1"></asp:Label>
+                </div>
+            </div>
+            <div class="col-1">
+                <asp:ImageButton ID="BtnPerfil" runat="server" ImageUrl="img/Usuario.png" CssClass="imgUsuario"/>
             </div>
         </header>
 
@@ -82,7 +87,11 @@
                     <br />
                     <h2>Juega y aprende othello en el sitio web número 1</h2>
                     <br />
-                    <asp:Button ID="BtnEstadisticas" runat="server" Text="ESTADÍSTICAS" CssClass="btn est" OnClick="BtnEstadisticas_Click"/>
+                    <h1 id="Xtream">Othello Xtream</h1>
+                    <br />
+                    <p>Disfruta de nuestro modo de juego personalizado de Othello</p>
+                    <br />
+                    <asp:Button ID="BtnXtreme" runat="server" Text="JUGAR XTREAM" CssClass="btn" OnClick="BtnXtreme_Click"/>
                 </div>
             </div>
         </section>

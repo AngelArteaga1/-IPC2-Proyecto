@@ -13,7 +13,7 @@ header {
     margin: 0px;
     height: 100px;
     width: 100px;
-    line-height: 500px;
+    line-height: 100px;
 }
 
 #logo {
@@ -26,10 +26,20 @@ header {
 }
 
 .usuario {
-    font-family: 'Press Start 2P', cursive;
     color:white;
-    font-size: 20px;
-    text-align:center;
+    text-align:right;
+    line-height: 100px;
+}
+
+.usuario1 {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 25px;
+}
+
+.imgUsuario{
+    height:100px;
+    width:100px;
+    background: red;
     line-height: 100px;
 }
 
@@ -104,6 +114,9 @@ div div h1 {
     height: 70px;
 }
 
+#Xtream{
+    color:darkmagenta;
+}
 
 footer {
     background: #107E74;

@@ -19,7 +19,7 @@ namespace WebApplication1
             Response.Redirect("ModoDeJuego.aspx");
         }
 
-        protected void BtnEstadisticas_Click(object sender, EventArgs e)
+        protected void BtnXtreme_Click(object sender, EventArgs e)
         {
 
         }
