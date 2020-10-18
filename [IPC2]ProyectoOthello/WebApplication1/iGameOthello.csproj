@@ -114,6 +114,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="css\StyleJuegos.css" />
+    <Content Include="css\StyleModoXtream.css" />
     <Content Include="css\StylePrincipal.css" />
     <Content Include="css\StyleRegister.css" />
     <Content Include="css\StyleTablero.css" />
@@ -132,6 +133,7 @@
     <None Include="Scripts\jquery-3.3.1-vsdoc.js" />
     <Content Include="Login.aspx" />
     <Content Include="ModoDeJuego.aspx" />
+    <Content Include="ModosXtream.aspx" />
     <Content Include="Principal.aspx" />
     <Content Include="Register.aspx" />
     <Content Include="Scripts\bootstrap.js" />
@@ -211,6 +213,13 @@
     </Compile>
     <Compile Include="ModoDeJuego.aspx.designer.cs">
       <DependentUpon>ModoDeJuego.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ModosXtream.aspx.cs">
+      <DependentUpon>ModosXtream.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ModosXtream.aspx.designer.cs">
+      <DependentUpon>ModosXtream.aspx</DependentUpon>
     </Compile>
     <Compile Include="Nodo.cs" />
     <Compile Include="Principal.aspx.cs">

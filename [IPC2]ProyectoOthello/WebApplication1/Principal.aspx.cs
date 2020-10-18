@@ -21,7 +21,7 @@ namespace WebApplication1
 
         protected void BtnXtreme_Click(object sender, EventArgs e)
         {
-
+            Response.Redirect("ModosXtream.aspx");
         }
     }
 }
