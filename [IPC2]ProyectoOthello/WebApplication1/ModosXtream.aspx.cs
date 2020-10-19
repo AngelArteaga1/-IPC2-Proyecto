@@ -337,14 +337,272 @@ namespace WebApplication1
                 Temporal.Checked = false;
             }
         }
-            protected void NuevaPartida1_Click1(object sender, EventArgs e)
-        {
 
+        protected void NuevaPartida1_Click1(object sender, EventArgs e)
+        {
+            if (RadioButtonList1.SelectedIndex == 0) //MODO CONTRA LA MAQUINA
+            {
+                Boolean Cargada = false;
+                Session["Modo"] = true; //MODO CONTRA LA MAQUINA *TRUE*
+                if (RadioButtonList2.SelectedIndex == 0)
+                {
+                    Session["Reto"] = "Normal";
+                }
+                else
+                {
+                    Session["Reto"] = "Inverso";
+                }
+                Validaciones(Cargada, "CPU");
+            }
+            else //MODO CONTRA EL JUGADOR
+            {
+                Session["Modo"] = false; //MODO CONTRA EL JUGADOR *FALSE*
+                if (TxtInvitado.Text == "")
+                {
+                    LblError.Text = "Porfavor ingrese el nombre del invitado";
+                    LblError.Visible = true;
+                }
+                else
+                {
+                    Boolean Cargada = false;
+                    if (RadioButtonList2.SelectedIndex == 0)
+                    {
+                        Session["Reto"] = "Normal";
+                    }
+                    else
+                    {
+                        Session["Reto"] = "Inverso";
+                    }
+                    Validaciones(Cargada, TxtInvitado.Text);
+                }
+            }
         }
 
         protected void BtnCargarPartida_Click(object sender, EventArgs e)
         {
+            Boolean Cargada = true;
+            if (FileUpload1.HasFile)
+            {
+                string Nombre = FileUpload1.FileName;
+                string extension = System.IO.Path.GetExtension(FileUpload1.FileName);
+                if (extension == ".xml" || extension == ".Xml" || extension == ".XML")
+                {
+                    LblError.Visible = false;
+                    FileUpload1.SaveAs(Server.MapPath("~/FolderXML/" + FileUpload1.FileName));
+                    Session["Archivo"] = Nombre;
+                    if (RadioButtonList1.SelectedIndex == 0)
+                    {
+                        Session["Modo"] = true; //MODO CONTRA LA MAQUINA *TRUE*
+                        if (RadioButtonList2.SelectedIndex == 0)
+                        {
+                            Session["Reto"] = "Normal";
+                        }
+                        else
+                        {
+                            Session["Reto"] = "Inverso";
+                        }
+                        Validaciones(Cargada, "CPU");
+                    }
+                    else
+                    {
+                        Session["Modo"] = false; //MODO CONTRA EL JUGADOR *FALSE*
+                        if (TxtInvitado.Text == "")
+                        {
+                            LblError.Text = "Porfavor ingrese el nombre del invitado";
+                            LblError.Visible = true;
+                        }
+                        else
+                        {
+                            if (RadioButtonList2.SelectedIndex == 0)
+                            {
+                                Session["Reto"] = "Normal";
+                            }
+                            else
+                            {
+                                Session["Reto"] = "Inverso";
+                            }
+                            Validaciones(Cargada, TxtInvitado.Text);
+                        }
+                    }
+                    if (RadioButtonList2.SelectedIndex == 0)
+                    {
+                        Session["Reto"] = "Normal";
+                    }
+                    else
+                    {
+                        Session["Reto"] = "Inverso";
+                    }
+                    Validaciones(Cargada, TxtInvitado.Text);
+                }
+                else
+                {
+                    LblError.Text = "El archivo no es Xml";
+                    LblError.Visible = true;
+                }
+            }
+            else
+            {
+                LblError.Text = "No ha seleccionado ningun archivo";
+                LblError.Visible = true;
+            }
+        }
 
+        public void Validaciones(Boolean Cargada, String Invitado)
+        {
+            if (DropDownList1.SelectedIndex == 0)
+            {
+                Random aletario = new Random();
+                int jugador;
+                //Generando al numero aleatorio
+                jugador = aletario.Next(0, 2);
+                if (jugador == 0)
+                {
+                    Session["Primero"] = (string)Session["Usuario"]; //PRIMERO ALEATORIA
+                    Session["Segundo"] = Invitado; //SEGUNDO ALEATORIA
+                    Application["Turno"] = true;
+                }
+                else if (jugador == 1)
+                {
+                    Session["Segundo"] = Invitado; //PRIMERO ALEATORIA
+                    Session["Primero"] = (string)Session["Usuario"]; //NEGRAS ALEATORIA
+                    Application["Turno"] = false;
+                }
+            }
+            else if (DropDownList1.SelectedIndex == 1)
+            {
+                Session["Primero"] = (string)Session["Usuario"]; //PRIMERO USUARIO
+                Session["Segundo"] = Invitado; //SEGUNDO INVITADO
+                Application["Turno"] = true;
+            }
+            else if (DropDownList1.SelectedIndex == 2)
+            {
+                Session["Segundo"] = Invitado; //PRIMERO INVITADO
+                Session["Primero"] = (string)Session["Usuario"]; //SEGUNDO USUARIO
+                Application["Turno"] = false;
+            }
+            Session["Cargada"] = Cargada;
+            Boolean valido = IngresarColoresUsuario();
+            Boolean valido2 = IngresarColoresRival();
+            if(valido == true && valido2 == true)
+            {
+                Response.Redirect("TableroXtream.aspx");
+            }
+        }
+
+        public Boolean IngresarColoresUsuario()
+        {
+            Boolean resultado;
+            Lista Usuario = new Lista();
+            if (Rojo.Checked)
+            {
+                Usuario.Add("img/Rojo.png");
+            }
+            if (Amarillo.Checked)
+            {
+                Usuario.Add("img/Amarillo.png");
+            }
+            if (Azul.Checked)
+            {
+                Usuario.Add("img/Azul.png");
+            }
+            if (Anaranjado.Checked)
+            {
+                Usuario.Add("img/Anaranjado.png");
+            }
+            if (Verde.Checked)
+            {
+                Usuario.Add("img/Verde.png");
+            }
+            if (Violeta.Checked)
+            {
+                Usuario.Add("img/Violeta.png");
+            }
+            if (Blanco.Checked)
+            {
+                Usuario.Add("img/Blanco.png");
+            }
+            if (Negro.Checked)
+            {
+                Usuario.Add("img/Negro.png");
+            }
+            if (Celeste.Checked)
+            {
+                Usuario.Add("img/Celeste.png");
+            }
+            if (Gris.Checked)
+            {
+                Usuario.Add("img/Gris.png");
+            }
+            if ((int)Session["NoColores"] == 0)
+            {
+                resultado = false;
+                LblError.Text = "Porfavor ingrese mínimo un color para el usuario";
+                LblError.Visible = true;
+            }
+            else
+            {
+                Session["ColoresUsuario"] = Usuario;
+                resultado = true;
+            }
+            return resultado;
+        }
+
+        public Boolean IngresarColoresRival()
+        {
+            Boolean resultado;
+            Lista Rival = new Lista();
+            if (RojoVS.Checked)
+            {
+                Rival.Add("img/Rojo.png");
+            }
+            if (AmarilloVS.Checked)
+            {
+                Rival.Add("img/Amarillo.png");
+            }
+            if (AzulVS.Checked)
+            {
+                Rival.Add("img/Azul.png");
+            }
+            if (AnaranjadoVS.Checked)
+            {
+                Rival.Add("img/Anaranjado.png");
+            }
+            if (VerdeVS.Checked)
+            {
+                Rival.Add("img/Verde.png");
+            }
+            if (VioletaVS.Checked)
+            {
+                Rival.Add("img/Violeta.png");
+            }
+            if (BlancoVS.Checked)
+            {
+                Rival.Add("img/Blanco.png");
+            }
+            if (NegroVS.Checked)
+            {
+                Rival.Add("img/Negro.png");
+            }
+            if (CelesteVS.Checked)
+            {
+                Rival.Add("img/Celeste.png");
+            }
+            if (GrisVS.Checked)
+            {
+                Rival.Add("img/Gris.png");
+            }
+            if ((int)Session["NoColoresVS"] == 0)
+            {
+                resultado = false;
+                LblError.Text = "Porfavor ingrese mínimo un color para el rival";
+                LblError.Visible = true;
+            }
+            else
+            {
+                Session["ColoresRival"] = Rival;
+                resultado = true;
+            }
+            return resultado;
         }
 
         protected void ImageButton1_Click(object sender, ImageClickEventArgs e)

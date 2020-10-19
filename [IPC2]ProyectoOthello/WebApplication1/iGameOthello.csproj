@@ -168,6 +168,7 @@
     <Content Include="css\StyleLogin.css" />
     <Content Include="Tablero.aspx" />
     <Content Include="TableroBoostrap.css" />
+    <Content Include="TableroXtream.aspx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
@@ -200,6 +201,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Lista.cs" />
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -258,6 +260,13 @@
     </Compile>
     <Compile Include="Tablero.aspx.designer.cs">
       <DependentUpon>Tablero.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TableroXtream.aspx.cs">
+      <DependentUpon>TableroXtream.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TableroXtream.aspx.designer.cs">
+      <DependentUpon>TableroXtream.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>

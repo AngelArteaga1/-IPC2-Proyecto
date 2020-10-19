@@ -34,7 +34,7 @@
             <div class="col-6">
                 <div id="centro" class="fila">
                     <h1 class="col-12">Modos de Juego</h1>
-                    <p class="col-12 c1">Seleccione su modo de Juego:</p> 
+                    <p class="col-12 c1">Seleccione su Modo de Juego:</p> 
                     <div = "fila imagenes">
                         <div class="col-6">
                             <img src="img/CPU2.png" class="icono1"/>
@@ -55,6 +55,7 @@
                             <asp:ListItem>Invitado/Máquina</asp:ListItem>
                         </asp:DropDownList>
                     </div>
+                    <p class="col-12 c1">Seleccione los Colores de las Fichas:</p> 
                     <div class="col-12">
                         <div class="invitado">
                             <asp:Label ID="LblInvitado" runat="server" Text="Invitado: " Visible="false"></asp:Label>
@@ -96,6 +97,11 @@
                         <br />
                         <asp:Label ID="LabelError2" runat="server" Text="Solo se pueden escoger 5 colores :c" CssClass="error" Visible="false"></asp:Label>
                     </div>
+                    <p class="col-12 c1">Seleccione el Reto:</p> 
+                    <asp:RadioButtonList ID="RadioButtonList2" runat="server" TextAlign="Left" RepeatDirection="Horizontal" RepeatLayout="Flow">
+                        <asp:ListItem class="col-6" Selected>Normal</asp:ListItem>
+                        <asp:ListItem class="col-6">Reto Inverso</asp:ListItem>
+                    </asp:RadioButtonList>
                     <div class="col-12">
                         <div>
                             <asp:Button ID="NuevaPartida1" runat="server" Text="NUEVA PARTIDA" class="btn" OnClick="NuevaPartida1_Click1"/>
