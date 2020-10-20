@@ -21,6 +21,14 @@ namespace WebApplication1
             LblSucc.Visible = false;
             if (!IsPostBack)
             {
+                //RELOJES
+                LblPrimero.Text = (string)Session["Blancas"] + ":";
+                Session["Minuto1"] = 0;
+                Session["Segundo1"] = 0;
+                LblSegundo.Text = (string)Session["Negras"] + ":";
+                Session["Minuto2"] = 0;
+                Session["Segundo2"] = 0;
+                //RELOJES
                 int ContadorBlancas = 0;
                 int ContadorNegras = 0;
                 Session["ContadorBlancas"] = ContadorBlancas;
@@ -35,11 +43,15 @@ namespace WebApplication1
                     {
                         LblTurno.Text = (string)Session["Blancas"];
                         LblEspera.Text = (string)Session["Negras"];
+                        LblReloj1.Text = "0:0";
+                        Reloj1.Enabled = true;
                     }
                     else if ((Boolean)Application["Turno"] == false)
                     {
                         LblTurno.Text = (string)Session["Negras"];
                         LblEspera.Text = (string)Session["Blancas"];
+                        LblRejoj2.Text = "0:0";
+                        Reloj2.Enabled = true;
                     }
                     D4.ImageUrl = "img/FichaB.png";
                     D4.Enabled = false;
@@ -978,6 +990,10 @@ namespace WebApplication1
                     LblTurno.Text = (String)Session["Negras"];
                     LblEspera.Text = (String)Session["Blancas"];
                     Session["ContadorBlancas"] = (int)Session["ContadorBlancas"] + 1;
+
+                    Reloj1.Enabled = false;
+                    Reloj2.Enabled = true;
+
                     LblMov1.Text = "MOVIMIENTOS DE " + (string)Session["Blancas"] + ": " + (int)Session["ContadorBlancas"];
                     LblMov2.Text = "MOVIMIENTOS DE " + (string)Session["Negras"] + ": " + (int)Session["ContadorNegras"];
                     Application["Turno"] = false;
@@ -993,6 +1009,9 @@ namespace WebApplication1
                         }
                         else
                         {
+                            Reloj2.Enabled = false;
+                            Reloj1.Enabled = true;
+
                             Application["Turno"] = true;
                             LblTurno.Text = (String)Session["Blancas"];
                             LblEspera.Text = (String)Session["Negras"];
@@ -1025,6 +1044,10 @@ namespace WebApplication1
                     LblTurno.Text = (String)Session["Blancas"];
                     LblEspera.Text = (String)Session["Negras"];
                     Session["ContadorNegras"] = (int)Session["ContadorNegras"] + 1;
+
+                    Reloj2.Enabled = false;
+                    Reloj1.Enabled = true;
+
                     LblMov1.Text = "MOVIMIENTOS DE " + (string)Session["Blancas"] + ": " + (int)Session["ContadorBlancas"];
                     LblMov2.Text = "MOVIMIENTOS DE " + (string)Session["Negras"] + ": " + (int)Session["ContadorNegras"];
                     Application["Turno"] = true;
@@ -1040,6 +1063,9 @@ namespace WebApplication1
                         }
                         else
                         {
+                            Reloj1.Enabled = false;
+                            Reloj2.Enabled = true;
+
                             Application["Turno"] = false;
                             LblTurno.Text = (String)Session["Negras"];
                             LblEspera.Text = (String)Session["Blancas"];
@@ -1182,6 +1208,10 @@ namespace WebApplication1
                     LblTurno.Text = (String)Session["Negras"];
                     LblEspera.Text = (String)Session["Blancas"];
                     Session["ContadorBlancas"] = (int)Session["ContadorBlancas"] + 1;
+
+                    Reloj1.Enabled = false;
+                    Reloj2.Enabled = true;
+
                     LblMov1.Text = "MOVIMIENTOS DE " + (string)Session["Blancas"] + ": " + (int)Session["ContadorBlancas"];
                     LblMov2.Text = "MOVIMIENTOS DE " + (string)Session["Negras"] + ": " + (int)Session["ContadorNegras"];
                     Application["Turno"] = false;
@@ -1204,6 +1234,10 @@ namespace WebApplication1
                     LblTurno.Text = (String)Session["Blancas"];
                     LblEspera.Text = (String)Session["Negras"];
                     Session["ContadorNegras"] = (int)Session["ContadorNegras"] + 1;
+
+                    Reloj2.Enabled = false;
+                    Reloj1.Enabled = true;
+
                     LblMov1.Text = "MOVIMIENTOS DE " + (string)Session["Blancas"] + ": " + (int)Session["ContadorBlancas"];
                     LblMov2.Text = "MOVIMIENTOS DE " + (string)Session["Negras"] + ": " + (int)Session["ContadorNegras"];
                     Application["Turno"] = true;
@@ -1659,6 +1693,36 @@ namespace WebApplication1
             Session["Partidas"] = (int)Session["Partidas"] + 1;
             GuardarPartida(false);
             LblSucc.Visible = true;
+        }
+
+        protected void Reloj2_Tick(object sender, EventArgs e)
+        {
+            int minutos = (int)Session["Minuto2"];
+            int segundos = (int)Session["Segundo2"];
+            segundos++;
+            if (segundos == 61)
+            {
+                minutos++;
+                segundos = 0;
+            }
+            LblRejoj2.Text = minutos.ToString() + ":" + segundos.ToString();
+            Session["Minuto2"] = minutos;
+            Session["Segundo2"] = segundos;
+        }
+
+        protected void Reloj1_Tick(object sender, EventArgs e)
+        {
+            int minutos = (int)Session["Minuto1"];
+            int segundos = (int)Session["Segundo1"];
+            segundos++;
+            if(segundos == 61)
+            {
+                minutos++;
+                segundos = 0;
+            }
+            LblReloj1.Text = minutos.ToString() + ":" + segundos.ToString();
+            Session["Minuto1"] = minutos;
+            Session["Segundo1"] = segundos;
         }
     }
 }
