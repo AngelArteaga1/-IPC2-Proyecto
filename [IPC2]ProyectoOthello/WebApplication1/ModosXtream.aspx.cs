@@ -483,8 +483,13 @@ namespace WebApplication1
                 Application["Turno"] = false;
             }
             Session["Cargada"] = Cargada;
-            Boolean valido = IngresarColoresUsuario();
-            Boolean valido2 = IngresarColoresRival();
+            Boolean valido = true;
+            Boolean valido2 = true;
+            if(Cargada == false)
+            {
+                valido = IngresarColoresUsuario();
+                valido2 = IngresarColoresRival();
+            }
             if(valido == true && valido2 == true)
             {
                 //Obtener columnas y filas

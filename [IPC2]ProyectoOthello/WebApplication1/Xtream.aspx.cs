@@ -184,13 +184,14 @@ namespace WebApplication1
                     //Estados
                     Boolean Jugador1 = false;
                     Boolean Jugador2 = false;
+                    Boolean Tiro = false;
+                    //Listas
                     Lista Colores1 = new Lista();
                     Lista Colores2 = new Lista();
                     //TAMANIOS
                     int Filas = 8;
                     int Columnas = 8;
                     //SIGUIENTE TIRO
-                    String Tiro;
                     while (reader.Read())
                     {
                         if (reader.IsStartElement())
@@ -208,6 +209,7 @@ namespace WebApplication1
                                     Tablero = new int[Filas, Columnas];
                                     Botones = new ImageButton[Filas, Columnas];
                                     ColorCasilla = false;
+                                    PnlTablero.Controls.Clear();
                                     for (int i = 0; i < Botones.GetLength(0); i++)
                                     {
                                         for (int j = 0; j < Botones.GetLength(1); j++)
@@ -265,13 +267,22 @@ namespace WebApplication1
                                     nFicha++;
                                     break;
                                 case "color":
-                                    color = reader.ReadString() + ".png";
+                                    if (Tiro == false)
+                                    {
+                                        color = "img/" + reader.ReadString() + ".png";
+                                    }
                                     if (Jugador1 == true)
                                     {
-                                        Colores1.Add(color + ".png");
-                                    }else if (Jugador2 == true)
+                                        Colores1.Add(color);
+                                    }
+                                    else if (Jugador2 == true)
                                     {
-                                        Colores2.Add(color + ".png");
+                                        Colores2.Add(color);
+                                    }
+                                    else if (Tiro == true)
+                                    {
+                                        SiguienteTiro(Colores1, Colores2, "img/" + reader.ReadString() + ".png");
+                                        Tiro = false;
                                     }
                                     break;
                                 case "columna":
@@ -281,7 +292,7 @@ namespace WebApplication1
                                     fila = reader.ReadString();
                                     break;
                                 case "siguienteTiro":
-                                    Tiro = reader.ReadString() + ".png";
+                                    Tiro = true;
                                     break;
                                 case "Modalidad":
                                     if (reader.ReadString() == "Normal" || reader.ReadString() == "normal")
@@ -320,7 +331,7 @@ namespace WebApplication1
                 LblMov1.Text = "MOVIMIENTOS DE " + (string)Session["Primero"] + ": " + (int)Session["ContadorPrimero"];
                 LblMov2.Text = "MOVIMIENTOS DE " + (string)Session["Segundo"] + ": " + (int)Session["ContadorSegundo"];
                 //TIRO DE LA MAQUINA
-                if ((Boolean)Application["Turno"] == false && (string)Session["Primero"] == "CPU")
+                if ((Boolean)Application["Turno"] == false && ((string)Session["Primero"] == "CPU" || (string)Session["Segundo"] == "CPU"))
                 {
                     Session["ContadorPila"] = 0;
                     TiroMaquina();
@@ -344,9 +355,20 @@ namespace WebApplication1
             }
         }
 
-        public void SiguienteTiro(string color)
+        public void SiguienteTiro(Lista Colores1, Lista Colores2, string color)
         {
-            //AQUI TE QUEDASTE BRO, RECORDATE DEL INDEX, 1 -- USUARIO, 2 -- RIVAL
+            if (Colores1.Find(color) == true)
+            {
+                Application["Turno"] = true;
+                Colores1.SetIndex(color);
+            }
+            else if (Colores2.Find(color) == true)
+            {
+                Application["Turno"] = false;
+                Colores2.SetIndex(color);
+            }
+            Session["ColoresUsuario"] = Colores1;
+            Session["ColoresRival"] = Colores2;
         }
 
         public void ColocarPartida(String color, String columna, String fila)
@@ -357,11 +379,11 @@ namespace WebApplication1
             Lista Colores2 = (Lista)Session["Colores2"];
             String position = columna + fila;
             int col = EncontrarColumna(position);
-            int fil = EncontrarFila(position);
+            int fil = EncontrarFila(position);;
             ImageButton Casilla = null;
             try
             {
-                Casilla = FindControl(position) as ImageButton;
+                Casilla = Botones[fil, col];
             }
             catch { }
             if (Casilla != null)

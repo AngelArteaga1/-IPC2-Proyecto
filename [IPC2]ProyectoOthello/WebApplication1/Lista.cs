@@ -18,6 +18,7 @@ namespace WebApplication1
             ultimo = null;
             index = null;
         }
+
         public void Add(string e)
         {
             Nodo nuevo = new Nodo();
@@ -37,6 +38,7 @@ namespace WebApplication1
                 index = primero;
             }
         }
+
         public Boolean Find(string e)
         {
             Boolean resultado = false;
@@ -47,10 +49,7 @@ namespace WebApplication1
                 {
                     resultado = true;
                 }
-                else
-                {
-                    temporal = temporal.Siguiente;
-                }
+                temporal = temporal.Siguiente;
             }
             if (ultimo.Dato == e)
             {
@@ -58,10 +57,29 @@ namespace WebApplication1
             }
             return resultado;
         }
+
+        public void SetIndex(string e)
+        {
+            Nodo temporal = primero;
+            while (temporal != ultimo)
+            {
+                if (temporal.Dato == e)
+                {
+                    index = temporal;
+                }
+                temporal = temporal.Siguiente;
+            }
+            if (ultimo.Dato == e)
+            {
+                index = ultimo;
+            }
+        }
+
         public void Next()
         {
             index = index.Siguiente;
         }
+
         public String GetIndex()
         {
             return index.Dato;
