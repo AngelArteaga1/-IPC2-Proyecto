@@ -181,21 +181,98 @@ namespace WebApplication1
                     String fila = "";
                     string ruta = @"C:\Users\admin\Documents\GitHub\-IPC2-Proyecto\[IPC2]ProyectoOthello\WebApplication1\FolderXML\" + (String)Session["Archivo"];
                     XmlReader reader = XmlReader.Create(ruta);
+                    //Estados
+                    Boolean Jugador1 = false;
+                    Boolean Jugador2 = false;
+                    Lista Colores1 = new Lista();
+                    Lista Colores2 = new Lista();
+                    //TAMANIOS
+                    int Filas = 8;
+                    int Columnas = 8;
+                    //SIGUIENTE TIRO
+                    String Tiro;
                     while (reader.Read())
                     {
                         if (reader.IsStartElement())
                         {
                             switch (reader.Name.ToString())
                             {
+                                case "filas":
+                                    Filas = Int32.Parse(reader.ReadString());
+                                    break;
+                                case "columnas":
+                                    Columnas = Int32.Parse(reader.ReadString());
+                                    break;
+                                case "tablero":
+                                    //CREAR TABLERO
+                                    Tablero = new int[Filas, Columnas];
+                                    Botones = new ImageButton[Filas, Columnas];
+                                    ColorCasilla = false;
+                                    for (int i = 0; i < Botones.GetLength(0); i++)
+                                    {
+                                        for (int j = 0; j < Botones.GetLength(1); j++)
+                                        {
+                                            string col = ConvertirColumna(j);
+                                            string fil = ConvertirFila(i);
+                                            Botones[i, j] = new ImageButton();
+                                            Botones[i, j].Click += new ImageClickEventHandler(ColocarFicha);
+                                            Botones[i, j].ID = col + fil;
+                                            Botones[i, j].ImageUrl = "img/dot.png";
+                                            if (ColorCasilla == true)
+                                            {
+                                                Botones[i, j].CssClass = "btn1";
+                                            }
+                                            else
+                                            {
+                                                Botones[i, j].CssClass = "btn2";
+                                            }
+                                            if (columnas == 20)
+                                            {
+                                                Botones[i, j].Width = 90;
+                                                Botones[i, j].Height = 90;
+                                            }
+                                            else
+                                            {
+                                                Botones[i, j].Width = 100;
+                                                Botones[i, j].Height = 100;
+                                            }
+                                            PnlTablero.Controls.Add(Botones[i, j]);
+                                            ColorCasilla = !ColorCasilla;
+                                        }
+                                        Label salto = new Label();
+                                        salto.Text = "<br/>";
+                                        PnlTablero.Controls.Add(salto);
+                                        ColorCasilla = !ColorCasilla;
+                                    }
+                                    Session["Colores1"] = Colores1;
+                                    Session["Colores2"] = Colores2;
+                                    break;
+                                case "Jugador1":
+                                    Jugador1 = true;
+                                    Jugador2 = false;
+                                    break;
+                                case "Jugador2":
+                                    Jugador2 = true;
+                                    Jugador1 = false;
+                                    break;
                                 case "ficha":
                                     if (nFicha != 0)
                                     {
+                                        Jugador1 = false;
+                                        Jugador2 = false;
                                         ColocarPartida(color, columna, fila);
                                     }
                                     nFicha++;
                                     break;
                                 case "color":
-                                    color = reader.ReadString();
+                                    color = reader.ReadString() + ".png";
+                                    if (Jugador1 == true)
+                                    {
+                                        Colores1.Add(color + ".png");
+                                    }else if (Jugador2 == true)
+                                    {
+                                        Colores2.Add(color + ".png");
+                                    }
                                     break;
                                 case "columna":
                                     columna = reader.ReadString();
@@ -204,17 +281,22 @@ namespace WebApplication1
                                     fila = reader.ReadString();
                                     break;
                                 case "siguienteTiro":
-                                    if (reader.ReadString() == "blanco")
+                                    Tiro = reader.ReadString() + ".png";
+                                    break;
+                                case "Modalidad":
+                                    if (reader.ReadString() == "Normal" || reader.ReadString() == "normal")
                                     {
-                                        Application["Turno"] = true;
+                                        Session["Reto"] = "Normal";
                                     }
-                                    if (reader.ReadString() == "negro")
+                                    else
                                     {
-                                        Application["Turno"] = false;
+                                        Session["Reto"] = "Inverso";
                                     }
                                     break;
                             }
                         }
+                        Session["Tablero"] = Tablero;
+                        Session["Botones"] = Botones;
                     }
                     ColocarPartida(color, columna, fila);
                     if (Application["Turno"] == null)
@@ -262,9 +344,17 @@ namespace WebApplication1
             }
         }
 
+        public void SiguienteTiro(string color)
+        {
+            //AQUI TE QUEDASTE BRO, RECORDATE DEL INDEX, 1 -- USUARIO, 2 -- RIVAL
+        }
+
         public void ColocarPartida(String color, String columna, String fila)
         {
             int[,] Tablero = (int[,])Session["Tablero"];
+            ImageButton[,] Botones = (ImageButton[,])Session["Botones"];
+            Lista Colores1 = (Lista)Session["Colores1"];
+            Lista Colores2 = (Lista)Session["Colores2"];
             String position = columna + fila;
             int col = EncontrarColumna(position);
             int fil = EncontrarFila(position);
@@ -278,21 +368,22 @@ namespace WebApplication1
             {
                 if (Casilla.Enabled == true)
                 {
-                    if (color == "blanco")
+                    if (Colores1.Find(color) == true)
                     {
                         Tablero[fil, col] = 1;
-                        Casilla.ImageUrl = "img/FichaB.png";
+                        Casilla.ImageUrl = color;
                         Casilla.Enabled = false;
                     }
-                    if (color == "negro")
+                    else if (Colores2.Find(color) == true)
                     {
                         Tablero[fil, col] = 2;
-                        Casilla.ImageUrl = "img/FichaN.png";
+                        Casilla.ImageUrl = color;
                         Casilla.Enabled = false;
                     }
                 }
             }
             Session["Tablero"] = Tablero;
+            Session["Botones"] = Botones;
         }
 
         public int EncontrarColumna(String StrCasilla)

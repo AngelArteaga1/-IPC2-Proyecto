@@ -37,6 +37,27 @@ namespace WebApplication1
                 index = primero;
             }
         }
+        public Boolean Find(string e)
+        {
+            Boolean resultado = false;
+            Nodo temporal = primero;
+            while (temporal != ultimo)
+            {
+                if (temporal.Dato == e)
+                {
+                    resultado = true;
+                }
+                else
+                {
+                    temporal = temporal.Siguiente;
+                }
+            }
+            if (ultimo.Dato == e)
+            {
+                resultado = true;
+            }
+            return resultado;
+        }
         public void Next()
         {
             index = index.Siguiente;

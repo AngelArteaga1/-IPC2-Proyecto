@@ -400,6 +400,7 @@ namespace WebApplication1
             Boolean Cargada = true;
             if (FileUpload1.HasFile)
             {
+                //NOMBRE DEL ARCHIVO
                 string Nombre = FileUpload1.FileName;
                 string extension = System.IO.Path.GetExtension(FileUpload1.FileName);
                 if (extension == ".xml" || extension == ".Xml" || extension == ".XML")
@@ -410,14 +411,6 @@ namespace WebApplication1
                     if (RadioButtonList1.SelectedIndex == 0)
                     {
                         Session["Modo"] = true; //MODO CONTRA LA MAQUINA *TRUE*
-                        if (RadioButtonList2.SelectedIndex == 0)
-                        {
-                            Session["Reto"] = "Normal";
-                        }
-                        else
-                        {
-                            Session["Reto"] = "Inverso";
-                        }
                         Validaciones(Cargada, "CPU");
                     }
                     else
@@ -430,14 +423,6 @@ namespace WebApplication1
                         }
                         else
                         {
-                            if (RadioButtonList2.SelectedIndex == 0)
-                            {
-                                Session["Reto"] = "Normal";
-                            }
-                            else
-                            {
-                                Session["Reto"] = "Inverso";
-                            }
                             Validaciones(Cargada, TxtInvitado.Text);
                         }
                     }
