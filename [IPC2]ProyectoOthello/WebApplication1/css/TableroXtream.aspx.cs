@@ -1174,7 +1174,7 @@ namespace WebApplication1
             int ContadorPila = 0;
             if ((int)Session["ContadorMovimientos"] < 4)
             {
-                if (D4.Enabled == true)
+                /*if (D4.Enabled == true)
                 {
                     LblInv1.Visible = false;
                     LblInv2.Visible = false;
@@ -1269,7 +1269,7 @@ namespace WebApplication1
                     Session["ContadorSegundo"] = (int)Session["ContadorSegundo"] + 1;
                     LblMov1.Text = "MOVIMIENTOS DE " + (string)Session["Primero"] + ": " + (int)Session["ContadorPrimero"];
                     LblMov2.Text = "MOVIMIENTOS DE " + (string)Session["Segundo"] + ": " + (int)Session["ContadorSegundo"];
-                }
+                }*/
             }
             else
             {
@@ -1762,70 +1762,7 @@ namespace WebApplication1
             return Movimientos;
         }
 
-        protected void A1_Click(object sender, ImageClickEventArgs e) { ColocarFicha(A1); }
-        protected void B1_Click(object sender, ImageClickEventArgs e) { ColocarFicha(B1); }
-        protected void C1_Click(object sender, ImageClickEventArgs e) { ColocarFicha(C1); }
-        protected void D1_Click(object sender, ImageClickEventArgs e) { ColocarFicha(D1); }
-        protected void E1_Click(object sender, ImageClickEventArgs e) { ColocarFicha(E1); }
-        protected void F1_Click(object sender, ImageClickEventArgs e) { ColocarFicha(F1); }
-        protected void G1_Click(object sender, ImageClickEventArgs e) { ColocarFicha(G1); }
-        protected void H1_Click(object sender, ImageClickEventArgs e) { ColocarFicha(H1); }
-        protected void A2_Click(object sender, ImageClickEventArgs e) { ColocarFicha(A2); }
-        protected void B2_Click(object sender, ImageClickEventArgs e) { ColocarFicha(B2); }
-        protected void C2_Click(object sender, ImageClickEventArgs e) { ColocarFicha(C2); }
-        protected void D2_Click(object sender, ImageClickEventArgs e) { ColocarFicha(D2); }
-        protected void E2_Click(object sender, ImageClickEventArgs e) { ColocarFicha(E2); }
-        protected void F2_Click(object sender, ImageClickEventArgs e) { ColocarFicha(F2); }
-        protected void G2_Click(object sender, ImageClickEventArgs e) { ColocarFicha(G2); }
-        protected void H2_Click(object sender, ImageClickEventArgs e) { ColocarFicha(H2); }
-        protected void A3_Click(object sender, ImageClickEventArgs e) { ColocarFicha(A3); }
-        protected void B3_Click(object sender, ImageClickEventArgs e) { ColocarFicha(B3); }
-        protected void C3_Click(object sender, ImageClickEventArgs e) { ColocarFicha(C3); }
-        protected void D3_Click(object sender, ImageClickEventArgs e) { ColocarFicha(D3); }
-        protected void E3_Click(object sender, ImageClickEventArgs e) { ColocarFicha(E3); }
-        protected void F3_Click(object sender, ImageClickEventArgs e) { ColocarFicha(F3); }
-        protected void G3_Click(object sender, ImageClickEventArgs e) { ColocarFicha(G3); }
-        protected void H3_Click(object sender, ImageClickEventArgs e) { ColocarFicha(H3); }
-        protected void A4_Click(object sender, ImageClickEventArgs e) { ColocarFicha(A4); }
-        protected void B4_Click(object sender, ImageClickEventArgs e) { ColocarFicha(B4); }
-        protected void C4_Click(object sender, ImageClickEventArgs e) { ColocarFicha(C4); }
-        protected void D4_Click(object sender, ImageClickEventArgs e) { ColocarFicha(D4); }
-        protected void E4_Click(object sender, ImageClickEventArgs e) { ColocarFicha(E4); }
-        protected void F4_Click(object sender, ImageClickEventArgs e) { ColocarFicha(F4); }
-        protected void G4_Click(object sender, ImageClickEventArgs e) { ColocarFicha(G4); }
-        protected void H4_Click(object sender, ImageClickEventArgs e) { ColocarFicha(H4); }
-        protected void A5_Click(object sender, ImageClickEventArgs e) { ColocarFicha(A5); }
-        protected void B5_Click(object sender, ImageClickEventArgs e) { ColocarFicha(B5); }
-        protected void C5_Click(object sender, ImageClickEventArgs e) { ColocarFicha(C5); }
-        protected void D5_Click(object sender, ImageClickEventArgs e) { ColocarFicha(D5); }
-        protected void E5_Click(object sender, ImageClickEventArgs e) { ColocarFicha(E5); }
-        protected void F5_Click(object sender, ImageClickEventArgs e) { ColocarFicha(F5); }
-        protected void G5_Click(object sender, ImageClickEventArgs e) { ColocarFicha(G5); }
-        protected void H5_Click(object sender, ImageClickEventArgs e) { ColocarFicha(H5); }
-        protected void A6_Click(object sender, ImageClickEventArgs e) { ColocarFicha(A6); }
-        protected void B6_Click(object sender, ImageClickEventArgs e) { ColocarFicha(B6); }
-        protected void C6_Click(object sender, ImageClickEventArgs e) { ColocarFicha(C6); }
-        protected void D6_Click(object sender, ImageClickEventArgs e) { ColocarFicha(D6); }
-        protected void E6_Click(object sender, ImageClickEventArgs e) { ColocarFicha(E6); }
-        protected void F6_Click(object sender, ImageClickEventArgs e) { ColocarFicha(F6); }
-        protected void G6_Click(object sender, ImageClickEventArgs e) { ColocarFicha(G6); }
-        protected void H6_Click(object sender, ImageClickEventArgs e) { ColocarFicha(H6); }
-        protected void A7_Click(object sender, ImageClickEventArgs e) { ColocarFicha(A7); }
-        protected void B7_Click(object sender, ImageClickEventArgs e) { ColocarFicha(B7); }
-        protected void C7_Click(object sender, ImageClickEventArgs e) { ColocarFicha(C7); }
-        protected void D7_Click(object sender, ImageClickEventArgs e) { ColocarFicha(D7); }
-        protected void E7_Click(object sender, ImageClickEventArgs e) { ColocarFicha(E7); }
-        protected void F7_Click(object sender, ImageClickEventArgs e) { ColocarFicha(F7); }
-        protected void G7_Click(object sender, ImageClickEventArgs e) { ColocarFicha(G7); }
-        protected void H7_Click(object sender, ImageClickEventArgs e) { ColocarFicha(H7); }
-        protected void A8_Click(object sender, ImageClickEventArgs e) { ColocarFicha(A8); }
-        protected void B8_Click(object sender, ImageClickEventArgs e) { ColocarFicha(B8); }
-        protected void C8_Click(object sender, ImageClickEventArgs e) { ColocarFicha(C8); }
-        protected void D8_Click(object sender, ImageClickEventArgs e) { ColocarFicha(D8); }
-        protected void E8_Click(object sender, ImageClickEventArgs e) { ColocarFicha(E8); }
-        protected void F8_Click(object sender, ImageClickEventArgs e) { ColocarFicha(F8); }
-        protected void G8_Click(object sender, ImageClickEventArgs e) { ColocarFicha(G8); }
-        protected void H8_Click(object sender, ImageClickEventArgs e) { ColocarFicha(H8); }
+        //protected void A1_Click(object sender, ImageClickEventArgs e) { ColocarFicha(A1); }
 
         protected void Button2_Click(object sender, EventArgs e)
         {

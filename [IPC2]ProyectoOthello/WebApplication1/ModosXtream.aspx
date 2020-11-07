@@ -34,6 +34,34 @@
             <div class="col-6">
                 <div id="centro" class="fila">
                     <h1 class="col-12">Modos de Juego</h1>
+                    <div class="col-6">
+                        <p class="c1">Ingrese el número de filas:</p>
+                        <br />
+                        <asp:DropDownList ID="DpFilas" runat="server" CssClass="txtbox">
+                            <asp:ListItem>6</asp:ListItem>
+                            <asp:ListItem>8</asp:ListItem>
+                            <asp:ListItem>10</asp:ListItem>
+                            <asp:ListItem>12</asp:ListItem>
+                            <asp:ListItem>14</asp:ListItem>
+                            <asp:ListItem>16</asp:ListItem>
+                            <asp:ListItem>18</asp:ListItem>
+                            <asp:ListItem>20</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
+                    <div class="col-6">
+                        <p class="c1">Ingrese el número de columnas:</p>
+                        <br />
+                        <asp:DropDownList ID="DpColumnas" runat="server" CssClass="txtbox">
+                            <asp:ListItem>6</asp:ListItem>
+                            <asp:ListItem>8</asp:ListItem>
+                            <asp:ListItem>10</asp:ListItem>
+                            <asp:ListItem>12</asp:ListItem>
+                            <asp:ListItem>14</asp:ListItem>
+                            <asp:ListItem>16</asp:ListItem>
+                            <asp:ListItem>18</asp:ListItem>
+                            <asp:ListItem>20</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
                     <p class="col-12 c1">Seleccione su Modo de Juego:</p> 
                     <div = "fila imagenes">
                         <div class="col-6">
@@ -102,9 +130,14 @@
                         <asp:ListItem class="col-6" Selected>Normal</asp:ListItem>
                         <asp:ListItem class="col-6">Reto Inverso</asp:ListItem>
                     </asp:RadioButtonList>
+                    <p class="col-12 c1">Seleccione la apertura:</p> 
+                    <asp:RadioButtonList ID="RadioButtonList3" runat="server" TextAlign="Left" RepeatDirection="Horizontal" RepeatLayout="Flow">
+                        <asp:ListItem class="col-6">Personalizada</asp:ListItem>
+                        <asp:ListItem class="col-6" Selected>Normal</asp:ListItem>
+                    </asp:RadioButtonList>
                     <div class="col-12">
                         <div>
-                            <asp:Button ID="NuevaPartida1" runat="server" Text="NUEVA PARTIDA" class="btn" OnClick="NuevaPartida1_Click1"/>
+                            <asp:Button ID="BtnJugar" runat="server" Text="NUEVA PARTIDA" CssClass="btn" OnClick="NuevaPartida1_Click2"/>
                         </div>
                     </div>
                     <div class="col-12"><hr /></div>

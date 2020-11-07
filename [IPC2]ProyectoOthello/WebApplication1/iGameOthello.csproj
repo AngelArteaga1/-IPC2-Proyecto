@@ -130,6 +130,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Xtream.aspx" />
     <None Include="Scripts\jquery-3.3.1-vsdoc.js" />
     <Content Include="Login.aspx" />
     <Content Include="ModoDeJuego.aspx" />
@@ -168,7 +169,7 @@
     <Content Include="css\StyleLogin.css" />
     <Content Include="Tablero.aspx" />
     <Content Include="TableroBoostrap.css" />
-    <Content Include="TableroXtream.aspx" />
+    <Content Include="css\TableroXtream.aspx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
@@ -261,11 +262,11 @@
     <Compile Include="Tablero.aspx.designer.cs">
       <DependentUpon>Tablero.aspx</DependentUpon>
     </Compile>
-    <Compile Include="TableroXtream.aspx.cs">
+    <Compile Include="css\TableroXtream.aspx.cs">
       <DependentUpon>TableroXtream.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="TableroXtream.aspx.designer.cs">
+    <Compile Include="css\TableroXtream.aspx.designer.cs">
       <DependentUpon>TableroXtream.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
@@ -274,6 +275,13 @@
     </Compile>
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Xtream.aspx.cs">
+      <DependentUpon>Xtream.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Xtream.aspx.designer.cs">
+      <DependentUpon>Xtream.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

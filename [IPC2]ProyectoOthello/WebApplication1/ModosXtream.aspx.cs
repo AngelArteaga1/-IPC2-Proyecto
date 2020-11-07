@@ -338,7 +338,7 @@ namespace WebApplication1
             }
         }
 
-        protected void NuevaPartida1_Click1(object sender, EventArgs e)
+        protected void NuevaPartida1_Click2(object sender, EventArgs e)
         {
             if (RadioButtonList1.SelectedIndex == 0) //MODO CONTRA LA MAQUINA
             {
@@ -352,6 +352,14 @@ namespace WebApplication1
                 {
                     Session["Reto"] = "Inverso";
                 }
+                if(RadioButtonList3.SelectedIndex == 0)
+                {
+                    Session["Apertura"] = "personalizada";
+                }
+                else
+                {
+                    Session["Apertura"] = "normal";
+                }
                 Validaciones(Cargada, "CPU");
             }
             else //MODO CONTRA EL JUGADOR
@@ -359,11 +367,12 @@ namespace WebApplication1
                 Session["Modo"] = false; //MODO CONTRA EL JUGADOR *FALSE*
                 if (TxtInvitado.Text == "")
                 {
-                    LblError.Text = "Porfavor ingrese el nombre del invitado";
+                    LblError.Text = "Porfavor ingrese todos los datos";
                     LblError.Visible = true;
                 }
                 else
                 {
+                    //Validar el Reto
                     Boolean Cargada = false;
                     if (RadioButtonList2.SelectedIndex == 0)
                     {
@@ -372,6 +381,14 @@ namespace WebApplication1
                     else
                     {
                         Session["Reto"] = "Inverso";
+                    }
+                    if (RadioButtonList3.SelectedIndex == 0)
+                    {
+                        Session["Apertura"] = "personalizada";
+                    }
+                    else
+                    {
+                        Session["Apertura"] = "normal";
                     }
                     Validaciones(Cargada, TxtInvitado.Text);
                 }
@@ -485,7 +502,13 @@ namespace WebApplication1
             Boolean valido2 = IngresarColoresRival();
             if(valido == true && valido2 == true)
             {
-                Response.Redirect("TableroXtream.aspx");
+                //Obtener columnas y filas
+                int columnas = Int32.Parse(DpColumnas.SelectedValue);
+                Session["Columnas"] = columnas;
+                int filas = Int32.Parse(DpFilas.SelectedValue);
+                Session["Filas"] = filas;
+                //Redirect
+                Response.Redirect("Xtream.aspx");
             }
         }
 
@@ -609,5 +632,6 @@ namespace WebApplication1
         {
             Response.Redirect("Principal.aspx");
         }
+
     }
 }

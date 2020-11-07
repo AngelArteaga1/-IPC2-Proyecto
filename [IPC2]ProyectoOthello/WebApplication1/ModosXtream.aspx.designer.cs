@@ -31,6 +31,24 @@ namespace WebApplication1 {
         protected global::System.Web.UI.WebControls.ImageButton ImageButton1;
         
         /// <summary>
+        /// Control DpFilas.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DpFilas;
+        
+        /// <summary>
+        /// Control DpColumnas.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DpColumnas;
+        
+        /// <summary>
         /// Control RadioButtonList1.
         /// </summary>
         /// <remarks>
@@ -292,13 +310,22 @@ namespace WebApplication1 {
         protected global::System.Web.UI.WebControls.RadioButtonList RadioButtonList2;
         
         /// <summary>
-        /// Control NuevaPartida1.
+        /// Control RadioButtonList3.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button NuevaPartida1;
+        protected global::System.Web.UI.WebControls.RadioButtonList RadioButtonList3;
+        
+        /// <summary>
+        /// Control BtnJugar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BtnJugar;
         
         /// <summary>
         /// Control FileUpload1.
