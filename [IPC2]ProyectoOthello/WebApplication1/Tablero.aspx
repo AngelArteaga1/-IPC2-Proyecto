@@ -42,19 +42,19 @@
                                 <br />
                                 <div class="Reloj">
                                     <asp:Label ID="LblPrimero" runat="server" Text="Label"></asp:Label>
-                                    <asp:Label ID="LblReloj1" runat="server" Text="0:0"></asp:Label>
+                                    <asp:Label ID="LblReloj1" runat="server" Text="00:00"></asp:Label>
                                 </div>
                                 <br />
                                 <asp:Label ID="LblMov2" runat="server" Text="MOVIMIENTOS DE JUGADOR2: 0" class="movimientos"></asp:Label>
                                 <br />
                                 <div class="Reloj">
                                     <asp:Label ID="LblSegundo" runat="server" Text="Label"></asp:Label>
-                                    <asp:Label ID="LblRejoj2" runat="server" Text="0:0"></asp:Label>
+                                    <asp:Label ID="LblRejoj2" runat="server" Text="00:00"></asp:Label>
                                 </div> 
                             </ContentTemplate>
                         </asp:UpdatePanel>
-                        <asp:Timer ID="Reloj1" runat="server" Enabled="False" Interval="1000" OnTick="Reloj1_Tick"></asp:Timer>
-                        <asp:Timer ID="Reloj2" runat="server" Enabled="False" Interval="1000" OnTick="Reloj2_Tick"></asp:Timer>
+                        <asp:Timer ID="Reloj1" runat="server" Enabled="False" Interval="1000" OnTick="Cronometro1_Tick"></asp:Timer>
+                        <asp:Timer ID="Reloj2" runat="server" Enabled="False" Interval="1000" OnTick="Cronometro2_Tick"></asp:Timer>
                         <br />
                         <!--RELOJES-->
                         <asp:Image ID="ImgSad" runat="server" ImageUrl="img/sad.png" cssClass="sadimg" Visible="False"/>

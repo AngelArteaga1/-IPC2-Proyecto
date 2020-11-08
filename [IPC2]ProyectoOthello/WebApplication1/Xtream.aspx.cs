@@ -2079,6 +2079,9 @@ namespace WebApplication1
             Response.Redirect("Principal.aspx");
         }
 
+        //Algoritmo para la creacion del reloj
+        //https://pseudocodigoejemplos.com/algoritmo-de-un-cronometro-pseint/
+
         protected void Cronometro2_Tick(object sender, EventArgs e)
         {
             int minutos = (int)Session["Minuto2"];
@@ -2089,7 +2092,29 @@ namespace WebApplication1
                 minutos++;
                 segundos = 0;
             }
-            LblRejoj2.Text = minutos.ToString() + ":" + segundos.ToString();
+
+            string min = "";
+            string seg = "";
+
+            if (minutos < 10)
+            {
+                min = "0" + minutos.ToString();
+            }
+            else
+            {
+                min = minutos.ToString();
+            }
+
+            if (segundos < 10)
+            {
+                seg = "0" + segundos.ToString();
+            }
+            else
+            {
+                seg = segundos.ToString();
+            }
+
+            LblRejoj2.Text = min + ":" + seg;
             Session["Minuto2"] = minutos;
             Session["Segundo2"] = segundos;
         }
@@ -2104,7 +2129,29 @@ namespace WebApplication1
                 minutos++;
                 segundos = 0;
             }
-            LblReloj1.Text = minutos.ToString() + ":" + segundos.ToString();
+
+            string min = "";
+            string seg = "";
+
+            if (minutos < 10)
+            {
+                min = "0" + minutos.ToString();
+            }
+            else
+            {
+                min = minutos.ToString();
+            }
+
+            if (segundos < 10)
+            {
+                seg = "0" + segundos.ToString();
+            }
+            else
+            {
+                seg = segundos.ToString();
+            }
+
+            LblReloj1.Text = min + ":" + seg;
             Session["Minuto1"] = minutos;
             Session["Segundo1"] = segundos;
         }

@@ -48,14 +48,14 @@
                                 <br />
                                 <div class="Reloj">
                                     <asp:Label ID="LblPrimero" runat="server" Text="Label"></asp:Label>
-                                    <asp:Label ID="LblReloj1" runat="server" Text="0:0"></asp:Label>
+                                    <asp:Label ID="LblReloj1" runat="server" Text="00:00"></asp:Label>
                                 </div>
                                 <br />
                                 <asp:Label ID="LblMov2" runat="server" Text="MOVIMIENTOS DE JUGADOR2: 0" class="movimientos"></asp:Label>
                                 <br />
                                 <div class="Reloj">
                                     <asp:Label ID="LblSegundo" runat="server" Text="Label"></asp:Label>
-                                    <asp:Label ID="LblRejoj2" runat="server" Text="0:0"></asp:Label>
+                                    <asp:Label ID="LblRejoj2" runat="server" Text="00:00"></asp:Label>
                                 </div> 
                             </ContentTemplate>
                         </asp:UpdatePanel>
