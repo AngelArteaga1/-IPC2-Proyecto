@@ -1,0 +1,109 @@
+﻿* {
+    font-family: 'Press Start 2P', cursive;
+}
+
+header {
+    height: 500px;
+    background: #1e5f74;
+}
+
+#img1 {
+    position: relative;
+    padding: 0px;
+    margin: 0px;
+    height: 100px;
+    width: 100px;
+    line-height: 100px;
+}
+
+#logo {
+    padding: 0px;
+    margin: 0px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 35px;
+    height: 100px;
+    line-height: 100px;
+}
+
+.usuario {
+    color: white;
+    text-align: right;
+    line-height: 100px;
+}
+
+.usuario1 {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 25px;
+}
+
+.imgUsuario {
+    height: 100px;
+    width: 100px;
+    line-height: 100px;
+}
+
+nav {
+    background: #107E74;
+}
+
+#a1 {
+    height: 15px;
+}
+
+#a2 {
+    background: #3B4244;
+}
+
+section {
+    background: #38373E;
+}
+
+
+#imagenOthello {
+    width: 60%;
+    display: block;
+    margin: auto;
+}
+
+.datos {
+    background: #FCFC20;
+}
+
+.extra{
+    height: 100px;
+}
+
+.estadisticas {
+    background: #7A20FC;
+    border-radius: 30px;
+    padding-left: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.elemento {
+    height: 70px;
+    border: 2px solid black;
+}
+
+.email{
+    font-size: 10px;
+}
+
+.label{
+    margin-bottom: 10px;
+}
+
+hr{
+    text-align:center;
+}
+
+footer {
+    background: #107E74;
+}
+
+#m1 {
+    text-align: center;
+    line-height: 50px;
+    height: 50px;
+}

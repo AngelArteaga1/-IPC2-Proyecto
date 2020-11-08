@@ -59,8 +59,8 @@
                                 </div> 
                             </ContentTemplate>
                         </asp:UpdatePanel>
-                        <asp:Timer ID="Reloj1" runat="server" Enabled="False" Interval="1000" OnTick="Reloj1_Tick"></asp:Timer>
-                        <asp:Timer ID="Reloj2" runat="server" Enabled="False" Interval="1000" OnTick="Reloj2_Tick"></asp:Timer>
+                        <asp:Timer ID="Reloj1" runat="server" Enabled="False" Interval="1000" OnTick="Cronometro1_Tick"></asp:Timer>
+                        <asp:Timer ID="Reloj2" runat="server" Enabled="False" Interval="1000" OnTick="Cronometro2_Tick"></asp:Timer>
                         <br />
                         <!--RELOJES-->
                         <asp:Image ID="ImgSad" runat="server" ImageUrl="img/sad.png" cssClass="sadimg" Visible="False"/>

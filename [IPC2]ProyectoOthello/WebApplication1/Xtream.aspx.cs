@@ -2079,7 +2079,7 @@ namespace WebApplication1
             Response.Redirect("Principal.aspx");
         }
 
-        protected void Reloj2_Tick(object sender, EventArgs e)
+        protected void Cronometro2_Tick(object sender, EventArgs e)
         {
             int minutos = (int)Session["Minuto2"];
             int segundos = (int)Session["Segundo2"];
@@ -2094,7 +2094,7 @@ namespace WebApplication1
             Session["Segundo2"] = segundos;
         }
 
-        protected void Reloj1_Tick(object sender, EventArgs e)
+        protected void Cronometro1_Tick(object sender, EventArgs e)
         {
             int minutos = (int)Session["Minuto1"];
             int segundos = (int)Session["Segundo1"];

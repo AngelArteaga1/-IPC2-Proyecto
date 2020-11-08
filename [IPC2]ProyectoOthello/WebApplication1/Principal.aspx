@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="col-1">
-                <asp:ImageButton ID="BtnPerfil" runat="server" ImageUrl="img/Usuario.png" CssClass="imgUsuario"/>
+                <asp:ImageButton ID="BtnPerfil" runat="server" ImageUrl="img/Usuario.png" CssClass="imgUsuario" OnClick="BtnPerfil_Click"/>
             </div>
         </header>
 

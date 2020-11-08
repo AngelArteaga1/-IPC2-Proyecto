@@ -23,5 +23,10 @@ namespace WebApplication1
         {
             Response.Redirect("ModosXtream.aspx");
         }
+
+        protected void BtnPerfil_Click(object sender, ImageClickEventArgs e)
+        {
+            Response.Redirect("Perfil.aspx");
+        }
     }
 }
