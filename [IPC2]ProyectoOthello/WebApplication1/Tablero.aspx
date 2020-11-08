@@ -30,6 +30,8 @@
                     <p class="col-12" id="espera">ESPERA:</p>
                     <asp:Label ID="LblEspera" runat="server" Text="JUGADOR2" CssClass="col-12 jugador2"></asp:Label>
                     <div id="relleno" class="col-12">
+                        <!--https://docs.microsoft.com/en-us/dotnet/api/system.web.ui.timer.ontick?view=netframework-4.8->
+                        <!--https://sites.google.com/site/lagaterainformatica/home/-net/-net-c-/-generico/-control-time-net-que-se-ejecute-una-funcion-cada-x-tiempo-->
                         <!--RELOJES-->
                         <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
                         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
